@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Hamburger from '../../atoms/Hamburger/Hamburger';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { ReactSVG } from 'react-svg';
@@ -22,12 +23,13 @@ const StyledHeader = styled.header`
 const StyledSpan = styled.span`
   color: transparent;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #fff;
+  -webkit-text-stroke-color: ${({ colorTheme }) => (colorTheme === 'light' ? '#000' : '#fff')};
 `;
 
 const StyledParagraph = styled(Paragraph)`
   font-weight: lighter;
   font-size: 24px;
+  color: ${({ colorTheme }) => (colorTheme === 'light' ? '#000' : '#fff')};
 `;
 
 const StyledCartButton = styled.button`
@@ -41,6 +43,7 @@ const StyledCartButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
+  z-index: ${({ isOpen }) => (isOpen ? 901 : 1)};
 
   &:focus {
     outline: none;
@@ -48,35 +51,46 @@ const StyledCartButton = styled.button`
 `;
 
 const StyledIcon = styled(ReactSVG)`
-  fill: #fff;
+  fill: ${({ iconTheme }) => (iconTheme === 'dark' ? '#000' : '#fff')};
 `;
 
 const StyledSearchButton = styled(StyledCartButton)`
   right: 50px;
+  z-index: ${({ isOpen }) => (isOpen ? 901 : 1)};
 
   ${({ theme }) => theme.mq.standard} {
     right: 70px;
   }
 `;
 
-const Header = () => {
+const Header = ({ backgroundTheme }) => {
   const { isMenuOpen, toggleMenu } = useContext(MenuContext);
   const { isSearchOpen, toggleSearch } = useContext(SearchContext);
   const { isCartOpen, toggleCart } = useContext(CartContext);
+
+  const isSearchOrCartOpen = isSearchOpen || isCartOpen || backgroundTheme === 'light';
   return (
     <StyledHeader>
-      <Hamburger isOpen={isMenuOpen} toggleMenu={toggleMenu} />
-      <StyledParagraph>
-        buy<StyledSpan>IT</StyledSpan>
+      <Hamburger
+        isOpen={isMenuOpen}
+        toggleMenu={toggleMenu}
+        hamburgerTheme={isSearchOrCartOpen ? 'dark' : 'light'}
+      />
+      <StyledParagraph colorTheme={backgroundTheme}>
+        buy<StyledSpan colorTheme={backgroundTheme}>IT</StyledSpan>
       </StyledParagraph>
-      <StyledCartButton onClick={toggleCart}>
-        <StyledIcon src={cartIcon} />
+      <StyledCartButton onClick={toggleCart} isOpen={isCartOpen}>
+        <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
       </StyledCartButton>
-      <StyledSearchButton onClick={toggleSearch}>
-        <StyledIcon src={searchIcon} />
+      <StyledSearchButton onClick={toggleSearch} isOpen={isSearchOpen}>
+        <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
       </StyledSearchButton>
     </StyledHeader>
   );
+};
+
+Header.propTypes = {
+  backgroundTheme: PropTypes.oneOf(['light', 'dark'])
 };
 
 export default Header;

@@ -8,7 +8,7 @@ const StyledHamburger = styled.button`
   height: 50px;
   background: transparent;
   border: none;
-  z-index: 901;
+  z-index: 899;
   position: absolute;
   top: 50%;
   left: 2rem;
@@ -22,25 +22,32 @@ const StyledHamburger = styled.button`
 
 const InnerHamburger = styled.div`
   position: relative;
-  background: #fff;
+  background: ${({ hamburgerTheme }) => (hamburgerTheme === 'dark' ? '#000' : '#fff')};
   width: 32px;
   height: 1px;
+  transition: all 0.5s ease;
 
   ${({ isOpen }) =>
     isOpen &&
     css`
       background: transparent;
-      transition: all 0.5s ease;
     `}
+
   &::before,
   &::after {
     content: '';
     width: 32px;
     height: 1px;
     position: absolute;
-    background: #fff;
+    background: ${({ hamburgerTheme }) => (hamburgerTheme === 'dark' ? '#000' : '#fff')};
     left: 0;
     transition: all 0.5s ease;
+
+    ${({ isOpen }) =>
+      isOpen &&
+      css`
+        background: #fff;
+      `}
   }
   ::before {
     top: ${({ isOpen }) => (isOpen ? '0' : '-4px')};
@@ -62,17 +69,18 @@ const InnerHamburger = styled.div`
   }
 `;
 
-const Hamburger = ({ isOpen, toggleMenu }) => {
+const Hamburger = ({ isOpen, toggleMenu, hamburgerTheme }) => {
   return (
     <StyledHamburger isOpen={isOpen} onClick={() => toggleMenu()}>
-      <InnerHamburger isOpen={isOpen} />
+      <InnerHamburger isOpen={isOpen} hamburgerTheme={hamburgerTheme} />
     </StyledHamburger>
   );
 };
 
 Hamburger.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggleMenu: PropTypes.func
+  toggleMenu: PropTypes.func,
+  hamburgerTheme: PropTypes.oneOf(['dark', 'light'])
 };
 
 export default Hamburger;

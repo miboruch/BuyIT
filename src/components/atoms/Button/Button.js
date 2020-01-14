@@ -3,17 +3,18 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const StyledButton = styled.button`
-  width: 160px;
-  height: 45px;
+  width: 200px;
+  height: 35px;
   background: transparent;
-  border: 1px solid #fff;
-  color: #fff;
+  border: ${({ buttonTheme }) => (buttonTheme === 'dark' ? '1px solid #000' : '1px solid #fff')};
+  color: ${({ buttonTheme }) => (buttonTheme === 'dark' ? '#000' : '#fff')};
   letter-spacing: 2px;
   font-size: 12px;
   text-transform: uppercase;
   position: relative;
   z-index: 1;
   cursor: pointer;
+  font-family: ${({ theme }) => theme.font.family.avanti};
 
   &:hover {
     color: #000;
@@ -42,12 +43,18 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ text, onClick }) => {
-  return <StyledButton onClick={() => onClick}>{text}</StyledButton>;
+const Button = ({ text, onClick, buttonTheme }) => {
+  return (
+    <StyledButton onClick={() => onClick} buttonTheme={buttonTheme}>
+      {text}
+    </StyledButton>
+  );
 };
 
 Button.propTypes = {
-  onClick: PropTypes.func
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  buttonTheme: PropTypes.oneOf(['light, dark'])
 };
 
 export default Button;

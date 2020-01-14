@@ -2,11 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
-
-const StyledWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 
 const StyledBackgroundImage = styled.div`
   width: 100%;
@@ -37,11 +33,11 @@ const StyledBackgroundImage = styled.div`
 
 const LandingPage = () => {
   return (
-    <StyledWrapper>
+    <MainTemplate>
       <StyledBackgroundImage />
       <p>hello</p>
       <Button text='Log in' />
-    </StyledWrapper>
+    </MainTemplate>
   );
 };
 
