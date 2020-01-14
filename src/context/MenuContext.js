@@ -2,22 +2,38 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const MenuContext = React.createContext({
-  isOpen: false
+  isMenuOpen: false,
+  isCartOpen: false,
+  isSearchOpen: false
 });
 
 const MenuContextProvider = ({ children }) => {
-  const [isOpen, setOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
 
   const toggleMenu = () => {
-    setOpen(!isOpen);
+    setMenuOpen(!isMenuOpen);
+  };
+
+  const toggleCart = () => {
+    setCartOpen(!isCartOpen);
+  };
+
+  const toggleSearch = () => {
+    setSearchOpen(!isSearchOpen);
   };
 
   return (
     <MenuContext.Provider
       value={{
-        isOpen: isOpen,
+        isMenuOpen: isMenuOpen,
         toggleMenu: toggleMenu,
-        setMenuState: setOpen
+        setMenuState: setMenuOpen,
+        isCartOpen: isCartOpen,
+        toggleCart: toggleCart,
+        isSearchOpen: isSearchOpen,
+        toggleSearch: toggleSearch
       }}
     >
       {children}

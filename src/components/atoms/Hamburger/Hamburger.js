@@ -11,9 +11,9 @@ const StyledHamburger = styled.button`
   z-index: 901;
   position: absolute;
   top: 50%;
-  left: 1rem;
+  left: 2rem;
   transform: translateY(-50%);
-  margin-left: 1rem;
+  padding: 0;
 
   :focus {
     outline: none;

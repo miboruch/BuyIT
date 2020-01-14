@@ -5,7 +5,7 @@ import SEO from '../SEO';
 import { theme } from '../../style/theme';
 import GlobalStyle from '../../style/GlobalStyle';
 import Header from '../molecules/Header/Header';
-import MenuContextProvider from '../../context/MenuContext';
+import MainContext from '../../context/MainContext';
 import Menu from '../molecules/Menu/Menu';
 
 const StyledWrapper = styled.div`
@@ -13,9 +13,7 @@ const StyledWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
   background: ${({ backgroundTheme, theme }) =>
-    backgroundTheme === 'dark'
-      ? theme.color.backgroundDarkGradient
-      : theme.color.backgroundLight};
+    backgroundTheme === 'dark' ? theme.color.backgroundDarkGradient : theme.color.backgroundLight};
 `;
 
 const Layout = ({ children, backgroundTheme }) => {
@@ -24,13 +22,13 @@ const Layout = ({ children, backgroundTheme }) => {
       <SEO />
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <MenuContextProvider>
+        <MainContext>
           <StyledWrapper backgroundTheme={backgroundTheme}>
             <Menu />
             <Header />
             {children}
           </StyledWrapper>
-        </MenuContextProvider>
+        </MainContext>
       </ThemeProvider>
     </>
   );

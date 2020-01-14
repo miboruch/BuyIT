@@ -17,10 +17,9 @@ const StyledWrapper = styled.div`
 `;
 
 const Menu = () => {
-  const { isOpen } = useContext(MenuContext);
-  console.log(isOpen);
+  const { isMenuOpen } = useContext(MenuContext);
   return (
-    <StyledWrapper isOpen={isOpen}>
+    <StyledWrapper isOpen={isMenuOpen}>
       <h1>hello</h1>
     </StyledWrapper>
   );

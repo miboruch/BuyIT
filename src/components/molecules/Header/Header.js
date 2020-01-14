@@ -4,7 +4,10 @@ import Hamburger from '../../atoms/Hamburger/Hamburger';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { ReactSVG } from 'react-svg';
 import cartIcon from '../../../assets/icons/cart-icon.svg';
+import searchIcon from '../../../assets/icons/search.svg';
 import { MenuContext } from '../../../context/MenuContext';
+import { SearchContext } from '../../../context/SearchContext';
+import { CartContext } from '../../../context/CartContext';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -38,22 +41,40 @@ const StyledCartButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `;
+
 const StyledIcon = styled(ReactSVG)`
   fill: #fff;
 `;
 
+const StyledSearchButton = styled(StyledCartButton)`
+  right: 50px;
+
+  ${({ theme }) => theme.mq.standard} {
+    right: 70px;
+  }
+`;
+
 const Header = () => {
-  const { isOpen, toggleMenu } = useContext(MenuContext);
+  const { isMenuOpen, toggleMenu } = useContext(MenuContext);
+  const { isSearchOpen, toggleSearch } = useContext(SearchContext);
+  const { isCartOpen, toggleCart } = useContext(CartContext);
   return (
     <StyledHeader>
-      <Hamburger isOpen={isOpen} toggleMenu={toggleMenu} />
+      <Hamburger isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <StyledParagraph>
         buy<StyledSpan>IT</StyledSpan>
       </StyledParagraph>
-      <StyledCartButton>
+      <StyledCartButton onClick={toggleCart}>
         <StyledIcon src={cartIcon} />
       </StyledCartButton>
+      <StyledSearchButton onClick={toggleSearch}>
+        <StyledIcon src={searchIcon} />
+      </StyledSearchButton>
     </StyledHeader>
   );
 };
