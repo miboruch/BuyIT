@@ -7,6 +7,7 @@ import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
 import { userLogin } from './actions/authenticationAction';
+import AuthPage from './pages/AuthPage';
 
 const App = ({ category, getProducts, userLogin }) => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = ({ category, getProducts, userLogin }) => {
         <>
           <Switch>
             <Route path={'/'} exact component={LandingPage} />
+            <Route path={'/my-account'} component={AuthPage} />
           </Switch>
         </>
       </Layout>
