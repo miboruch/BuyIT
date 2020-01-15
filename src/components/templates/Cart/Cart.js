@@ -33,7 +33,6 @@ const Cart = () => {
   return (
     <StyledCartWrapper isOpen={isCartOpen}>
       <StyledHeading>Your cart</StyledHeading>
-      <p>hello</p>
       <ButtonWrapper>
         <Button text='Check all products' buttonTheme='dark' />
       </ButtonWrapper>

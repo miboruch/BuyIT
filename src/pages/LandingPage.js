@@ -6,12 +6,12 @@ import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 
 const StyledBackgroundImage = styled.div`
   width: 100%;
-  height: 300px;
+  height: 200px;
   background-image: url(${background});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-top: 50px;
+  margin-top: 15px;
   position: relative;
   -webkit-box-shadow: 4px 21px 14px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 4px 21px 14px 0px rgba(0, 0, 0, 0.75);
@@ -29,14 +29,70 @@ const StyledBackgroundImage = styled.div`
     font-weight: lighter;
     letter-spacing: 5px;
   }
+
+  ${({ theme }) => theme.mq.mobileL} {
+    height: 300px;
+    margin-top: 20px;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+
+  ${({ theme }) => theme.mq.mobileL} {
+    margin-top: 4rem;
+  }
+`;
+
+const StyledList = styled.ul`
+  margin: 2rem auto;
+  list-style-type: none;
+  width: 80%;
+  padding: 0;
+`;
+
+const StyledListItem = styled.li`
+  letter-spacing: 2px;
+  font-size: 13px;
+  padding-top: 1rem;
+  color: #878787;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+  }
 `;
 
 const LandingPage = () => {
   return (
     <MainTemplate>
       <StyledBackgroundImage />
-      <p>hello</p>
-      <Button text='Log in' />
+      <ButtonWrapper>
+        <Button text='See all products' />
+      </ButtonWrapper>
+      <StyledList>
+        <StyledListItem>
+          Look for any product you want, you can order without an account.
+        </StyledListItem>
+        <StyledListItem>
+          You must have an account to add a new product to my database.
+        </StyledListItem>
+        <StyledListItem>
+          If you click reserve, product will be reserved for you for 15 minutes.
+        </StyledListItem>
+      </StyledList>
+      <ButtonWrapper>
+        <Button text='Log in' />
+      </ButtonWrapper>
     </MainTemplate>
   );
 };

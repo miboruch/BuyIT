@@ -17,7 +17,7 @@ const StyledButton = styled.button`
   font-family: ${({ theme }) => theme.font.family.avanti};
 
   &:hover {
-    color: #000;
+    color: ${({ buttonTheme }) => (buttonTheme === 'dark' ? '#fff' : '#000')};
     transition: color 0.14s ease;
   }
 
@@ -32,7 +32,7 @@ const StyledButton = styled.button`
     left: 0;
     width: 100%;
     height: 0;
-    background: #fff;
+    background: ${({ buttonTheme }) => (buttonTheme === 'dark' ? '#000' : '#fff')};
     transition: all 0.25s ease;
     z-index: -1;
   }

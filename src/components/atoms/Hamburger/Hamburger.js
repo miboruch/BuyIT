@@ -23,7 +23,7 @@ const StyledHamburger = styled.button`
 const InnerHamburger = styled.div`
   position: relative;
   background: ${({ hamburgerTheme }) => (hamburgerTheme === 'dark' ? '#000' : '#fff')};
-  width: 32px;
+  width: 26px;
   height: 1px;
   transition: all 0.5s ease;
 
@@ -33,10 +33,14 @@ const InnerHamburger = styled.div`
       background: transparent;
     `}
 
+  ${({ theme }) => theme.mq.mobileL} {
+    width: 32px;
+  }
+
   &::before,
   &::after {
     content: '';
-    width: 32px;
+    width: 26px;
     height: 1px;
     position: absolute;
     background: ${({ hamburgerTheme }) => (hamburgerTheme === 'dark' ? '#000' : '#fff')};
@@ -48,6 +52,10 @@ const InnerHamburger = styled.div`
       css`
         background: #fff;
       `}
+
+    ${({ theme }) => theme.mq.mobileL} {
+      width: 32px;
+    }
   }
   ::before {
     top: ${({ isOpen }) => (isOpen ? '0' : '-4px')};
