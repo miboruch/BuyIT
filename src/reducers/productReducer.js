@@ -1,11 +1,13 @@
 export const FETCH_START = 'FETCH_START';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
+export const CATEGORY_UPDATE = 'CATEGORY_UPDATE';
 
 const initialState = {
   products: [],
   loading: true,
-  error: null
+  error: null,
+  category: 'all'
 };
 
 export const productReducer = (state = initialState, action) => {
@@ -27,6 +29,11 @@ export const productReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload.error
+      };
+    case CATEGORY_UPDATE:
+      return {
+        ...state,
+        category: action.payload
       };
     default:
       return state;
