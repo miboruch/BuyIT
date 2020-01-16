@@ -6,13 +6,14 @@ import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
+import ProductResult from './pages/ProductResult';
 import { authenticationCheck, authLogout } from './actions/authenticationAction';
 
 const App = ({ category, getProducts, authenticationCheck, authLogout }) => {
   useEffect(() => {
     getProducts(category);
     authenticationCheck();
-    authLogout()
+    authLogout();
   }, []);
 
   return (
@@ -22,6 +23,7 @@ const App = ({ category, getProducts, authenticationCheck, authLogout }) => {
           <Switch>
             <Route path={'/'} exact component={LandingPage} />
             <Route path={'/my-account'} component={AuthPage} />
+            <Route path={'/products/:category'} component={ProductResult} />
           </Switch>
         </>
       </Layout>

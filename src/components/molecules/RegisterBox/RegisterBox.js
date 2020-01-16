@@ -37,10 +37,6 @@ const StyledErrorParagraph = styled(Paragraph)`
   transition: 0.5s ease all;
 `;
 
-const StyledMiddleParagraph = styled(Paragraph)`
-  margin: 2rem 0;
-`;
-
 const StyledForm = styled(Form)`
   width: 90%;
 `;
