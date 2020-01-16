@@ -85,11 +85,12 @@ export const userRegister = (
       city,
       address
     });
+    console.log(result);
 
-    dispatch(authSuccess(result.data.token, result.data.id));
-    history.push('/');
+    dispatch(authSuccess(result.data.token, result.data._doc._id));
     localStorage.setItem('token', result.data.token);
-    localStorage.setItem('userID', result.data.id);
+    localStorage.setItem('userID', result.data._doc._id);
+    history.push('/');
   } catch (error) {
     dispatch(authRegisterFailure(error));
   }

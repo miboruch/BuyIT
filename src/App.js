@@ -6,12 +6,13 @@ import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
-import { authenticationCheck } from './actions/authenticationAction';
+import { authenticationCheck, authLogout } from './actions/authenticationAction';
 
-const App = ({ category, getProducts, authenticationCheck }) => {
+const App = ({ category, getProducts, authenticationCheck, authLogout }) => {
   useEffect(() => {
     getProducts(category);
     authenticationCheck();
+    authLogout()
   }, []);
 
   return (
@@ -35,7 +36,8 @@ const mapStateToProps = ({ productReducer: { category } }) => {
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: category => dispatch(fetchAllProducts(category)),
-    authenticationCheck: () => dispatch(authenticationCheck())
+    authenticationCheck: () => dispatch(authenticationCheck()),
+    authLogout: () => dispatch(authLogout())
   };
 };
 

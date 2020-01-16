@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
+import { landingPageContent } from '../utils/contentArrays';
 
 const StyledBackgroundImage = styled.div`
   width: 100%;
@@ -81,15 +82,9 @@ const LandingPage = () => {
         <Button text='See all products' />
       </ButtonWrapper>
       <StyledList>
-        <StyledListItem>
-          Look for any product you want, you can order without an account.
-        </StyledListItem>
-        <StyledListItem>
-          You must have an account to add a new product to my database.
-        </StyledListItem>
-        <StyledListItem>
-          If you click reserve, product will be reserved for you for 15 minutes.
-        </StyledListItem>
+        {landingPageContent.map((item, index) => (
+          <StyledListItem key={index}>{item}</StyledListItem>
+        ))}
       </StyledList>
       <ButtonWrapper>
         <Link to='/my-account'>

@@ -9,6 +9,7 @@ import FormLine from '../FormLine/FormLine';
 import Button from '../../atoms/Button/Button';
 import { RegisterSchema } from '../../../utils/schemaValidation';
 import { userRegister } from '../../../actions/authenticationAction';
+import { registerInputArray } from '../../../utils/contentArrays';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -64,59 +65,20 @@ const RegisterBox = ({ registerError, userRegister, history }) => {
       >
         {({ handleChange, handleBlur, errors }) => {
           /* Fix this - DRY */
+          const registerInputData = registerInputArray(errors);
           return (
             <StyledForm>
               <StyledParagraph>OR REGISTER</StyledParagraph>
-              <FormLine
-                labelText={errors.login ? errors.login : 'login'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='login'
-              />
-              <FormLine
-                labelText={errors.email ? errors.email : 'email'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='email'
-                name='email'
-              />
-              <FormLine
-                labelText={errors.password ? errors.password : 'password'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='password'
-                name='password'
-              />
-              <StyledMiddleParagraph>Enter your personal data:</StyledMiddleParagraph>
-              <FormLine
-                labelText={errors.name ? errors.name : 'name'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='name'
-              />
-              <FormLine
-                labelText={errors.lastName ? errors.lastName : 'last name'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='lastName'
-              />
-              <FormLine
-                labelText={errors.address ? errors.address : 'address'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='address'
-              />
-              <FormLine
-                labelText={errors.city ? errors.city : 'city'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='city'
-              />
+              {registerInputData.map(item => (
+                <FormLine
+                  labelText={item.labelText}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  inputType={item.inputType}
+                  name={item.name}
+                  key={item.name}
+                />
+              ))}
               <Button buttonTheme='light' text='Register' type='submit' />
               <StyledErrorParagraph>
                 {registerError ? 'Some data are invalid' : null}
