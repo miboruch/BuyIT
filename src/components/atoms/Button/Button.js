@@ -43,9 +43,9 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ text, onClick, buttonTheme }) => {
+const Button = ({ text, onClick, buttonTheme, type = 'button' }) => {
   return (
-    <StyledButton onClick={() => onClick} buttonTheme={buttonTheme}>
+    <StyledButton onClick={() => onClick} type={type} buttonTheme={buttonTheme}>
       {text}
     </StyledButton>
   );
@@ -54,7 +54,8 @@ const Button = ({ text, onClick, buttonTheme }) => {
 Button.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
-  buttonTheme: PropTypes.oneOf(['light, dark'])
+  buttonTheme: PropTypes.oneOf(['light, dark']),
+  type: PropTypes.string
 };
 
 export default Button;

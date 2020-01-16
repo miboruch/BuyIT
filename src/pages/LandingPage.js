@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
@@ -91,7 +92,9 @@ const LandingPage = () => {
         </StyledListItem>
       </StyledList>
       <ButtonWrapper>
-        <Button text='Log in' />
+        <Link to='/my-account'>
+          <Button text='Log in' />
+        </Link>
       </ButtonWrapper>
     </MainTemplate>
   );

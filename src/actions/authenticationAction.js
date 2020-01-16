@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
   AUTH_START,
   AUTH_SUCCESS,
-  AUTH_FAILURE,
+  AUTH_LOGIN_FAILURE,
+  AUTH_REGISTER_FAILURE,
   AUTH_LOGOUT
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
@@ -23,9 +24,18 @@ const authSuccess = (token, userID) => {
   };
 };
 
-const authFailure = error => {
+const authLoginFailure = error => {
   return {
-    type: AUTH_FAILURE,
+    type: AUTH_LOGIN_FAILURE,
+    payload: {
+      error: error
+    }
+  };
+};
+
+const authRegisterFailure = error => {
+  return {
+    type: AUTH_REGISTER_FAILURE,
     payload: {
       error: error
     }
@@ -38,14 +48,60 @@ export const authLogout = () => {
   };
 };
 
-export const userLogin = (email, password) => async dispatch => {
+export const userLogin = (email, password, history) => async dispatch => {
   dispatch(authStart());
 
   try {
     const result = await axios.post(`${API_URL}/user/login`, { email, password });
 
     dispatch(authSuccess(result.data.token, result.data.id));
+    history.push('/');
+    localStorage.setItem('token', result.data.token);
+    localStorage.setItem('userID', result.data.id);
   } catch (error) {
-    dispatch(authFailure(error));
+    dispatch(authLoginFailure(error));
+  }
+};
+
+export const userRegister = (
+  login,
+  email,
+  password,
+  name,
+  lastName,
+  city,
+  address,
+  history
+) => async dispatch => {
+  dispatch(authStart());
+
+  try {
+    const result = await axios.post(`${API_URL}/user/register`, {
+      login,
+      email,
+      password,
+      name,
+      lastName,
+      city,
+      address
+    });
+
+    dispatch(authSuccess(result.data.token, result.data.id));
+    history.push('/');
+    localStorage.setItem('token', result.data.token);
+    localStorage.setItem('userID', result.data.id);
+  } catch (error) {
+    dispatch(authRegisterFailure(error));
+  }
+};
+
+export const authenticationCheck = () => async dispatch => {
+  const token = localStorage.getItem('token');
+  const userID = localStorage.getItem('userID');
+
+  if (token && userID) {
+    dispatch(authSuccess(token, userID));
+  } else {
+    dispatch(authLogout());
   }
 };

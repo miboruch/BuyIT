@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import LoginBox from '../../molecules/LoginBox/LoginBox';
+import RegisterBox from '../../molecules/RegisterBox/RegisterBox';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -9,7 +11,8 @@ const StyledWrapper = styled.div`
 const AuthContent = () => {
   return (
     <StyledWrapper>
-      <p>asd</p>
+      <LoginBox />
+      <RegisterBox />
     </StyledWrapper>
   );
 };

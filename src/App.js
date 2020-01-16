@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
-import { socket } from './utils/constants';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { fetchAllProducts } from './actions/productAction';
 import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
-import { userLogin } from './actions/authenticationAction';
 import AuthPage from './pages/AuthPage';
+import { authenticationCheck } from './actions/authenticationAction';
 
-const App = ({ category, getProducts, userLogin }) => {
+const App = ({ category, getProducts, authenticationCheck }) => {
   useEffect(() => {
-    userLogin('asdw123@gmail.com', 'ffeqqdsawd');
     getProducts(category);
+    authenticationCheck();
   }, []);
 
   return (
@@ -36,7 +35,7 @@ const mapStateToProps = ({ productReducer: { category } }) => {
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: category => dispatch(fetchAllProducts(category)),
-    userLogin: (email, password) => dispatch(userLogin(email, password))
+    authenticationCheck: () => dispatch(authenticationCheck())
   };
 };
 
