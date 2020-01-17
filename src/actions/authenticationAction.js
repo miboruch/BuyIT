@@ -59,6 +59,7 @@ export const userLogin = (email, password, history) => async dispatch => {
     localStorage.setItem('token', result.data.token);
     localStorage.setItem('userID', result.data.id);
   } catch (error) {
+    console.log(error.message);
     dispatch(authLoginFailure(error));
   }
 };

@@ -9,6 +9,7 @@ import FormLine from '../FormLine/FormLine';
 import Button from '../../atoms/Button/Button';
 import { userLogin } from '../../../actions/authenticationAction';
 import { LoginSchema } from '../../../utils/schemaValidation';
+import Spinner from '../../atoms/Spinner/Spinner';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -39,46 +40,50 @@ const StyledForm = styled(Form)`
   width: 90%;
 `;
 
-const LoginBox = ({ userLogin, loginError, history }) => {
+const LoginBox = ({ userLogin, loginError, history, loading }) => {
   return (
     <StyledWrapper>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={({ email, password }) => userLogin(email, password, history)}
-        validationSchema={LoginSchema}
-      >
-        {({ handleChange, handleBlur, errors }) => (
-          <StyledForm>
-            <StyledParagraph>LOG IN</StyledParagraph>
-            <FormLine
-              labelText={errors.email ? errors.email : 'email'}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              inputType='text'
-              name='email'
-              colorTheme='light'
-            />
-            <FormLine
-              labelText={errors.password ? errors.password : 'password'}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              inputType='password'
-              name='password'
-              colorTheme='light'
-            />
-            <Button buttonTheme='dark' text='Log in' type='submit' />
-            <StyledErrorParagraph>
-              {loginError ? 'Invalid email or password' : null}
-            </StyledErrorParagraph>
-          </StyledForm>
-        )}
-      </Formik>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={({ email, password }) => userLogin(email, password, history)}
+          validationSchema={LoginSchema}
+        >
+          {({ handleChange, handleBlur, errors }) => (
+            <StyledForm>
+              <StyledParagraph>LOG IN</StyledParagraph>
+              <FormLine
+                labelText={errors.email ? errors.email : 'email'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputType='text'
+                name='email'
+                colorTheme='light'
+              />
+              <FormLine
+                labelText={errors.password ? errors.password : 'password'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputType='password'
+                name='password'
+                colorTheme='light'
+              />
+              <Button buttonTheme='dark' text='Log in' type='submit' />
+              <StyledErrorParagraph>
+                {loginError ? 'Invalid email or password' : null}
+              </StyledErrorParagraph>
+            </StyledForm>
+          )}
+        </Formik>
+      )}
     </StyledWrapper>
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { loginError } }) => {
-  return { loginError };
+const mapStateToProps = ({ authenticationReducer: { loginError, loading } }) => {
+  return { loginError, loading };
 };
 
 const mapDispatchToProps = dispatch => {

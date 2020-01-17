@@ -7,7 +7,9 @@ import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 const ProductResult = () => {
   return (
     <MainTemplate>
-      <ProductResultTemplate></ProductResultTemplate>
+      <ProductResultTemplate>
+        <p>hello</p>
+      </ProductResultTemplate>
     </MainTemplate>
   );
 };

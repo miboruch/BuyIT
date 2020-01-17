@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { updateCategory } from '../../../actions/productAction';
+import Spinner from '../../atoms/Spinner/Spinner';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -22,12 +23,7 @@ const ProductResultTemplate = ({ children, category, products, match, updateCate
   }, [match]);
   return (
     <StyledWrapper>
-      {products.length !== 0 ? (
-        <StyledParagraph>shop/{category}</StyledParagraph>
-      ) : (
-        <StyledParagraph>loading...</StyledParagraph>
-      )}
-
+      {products.length !== 0 ? <StyledParagraph>shop/{category}</StyledParagraph> : <Spinner />}
       {children}
     </StyledWrapper>
   );
@@ -45,7 +41,10 @@ const mapDispatchToProps = dispatch => {
 
 ProductResultTemplate.propTypes = {
   children: PropTypes.node.isRequired,
-  category: PropTypes.string
+  category: PropTypes.string,
+  products: PropTypes.array,
+  match: PropTypes.object,
+  updateCategory: PropTypes.func
 };
 
 const ProductResultTemplateWithRouter = withRouter(ProductResultTemplate);

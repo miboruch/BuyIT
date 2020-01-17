@@ -10,6 +10,7 @@ import Button from '../../atoms/Button/Button';
 import { RegisterSchema } from '../../../utils/schemaValidation';
 import { userRegister } from '../../../actions/authenticationAction';
 import { registerInputArray } from '../../../utils/contentArrays';
+import Spinner from '../../atoms/Spinner/Spinner';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -39,56 +40,60 @@ const StyledErrorParagraph = styled(Paragraph)`
 
 const StyledForm = styled(Form)`
   width: 90%;
+  position: relative;
 `;
 
-const RegisterBox = ({ registerError, userRegister, history }) => {
+const RegisterBox = ({ registerError, userRegister, history, loading }) => {
   return (
     <StyledWrapper>
-      <Formik
-        initialValues={{
-          login: '',
-          email: '',
-          password: '',
-          name: '',
-          lastName: '',
-          address: '',
-          city: ''
-        }}
-        onSubmit={({ login, email, password, name, lastName, city, address }) =>
-          userRegister(login, email, password, name, lastName, city, address, history)
-        }
-        validationSchema={RegisterSchema}
-      >
-        {({ handleChange, handleBlur, errors }) => {
-          /* Fix this - DRY */
-          const registerInputData = registerInputArray(errors);
-          return (
-            <StyledForm>
-              <StyledParagraph>OR REGISTER</StyledParagraph>
-              {registerInputData.map(item => (
-                <FormLine
-                  labelText={item.labelText}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  inputType={item.inputType}
-                  name={item.name}
-                  key={item.name}
-                />
-              ))}
-              <Button buttonTheme='light' text='Register' type='submit' />
-              <StyledErrorParagraph>
-                {registerError ? 'Some data are invalid' : null}
-              </StyledErrorParagraph>
-            </StyledForm>
-          );
-        }}
-      </Formik>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Formik
+          initialValues={{
+            login: '',
+            email: '',
+            password: '',
+            name: '',
+            lastName: '',
+            address: '',
+            city: ''
+          }}
+          onSubmit={({ login, email, password, name, lastName, city, address }) =>
+            userRegister(login, email, password, name, lastName, city, address, history)
+          }
+          validationSchema={RegisterSchema}
+        >
+          {({ handleChange, handleBlur, errors }) => {
+            const registerInputData = registerInputArray(errors);
+            return (
+              <StyledForm>
+                <StyledParagraph>OR REGISTER</StyledParagraph>
+                {registerInputData.map(item => (
+                  <FormLine
+                    labelText={item.labelText}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    inputType={item.inputType}
+                    name={item.name}
+                    key={item.name}
+                  />
+                ))}
+                <Button buttonTheme='light' text='Register' type='submit' />
+                <StyledErrorParagraph>
+                  {registerError ? 'Some data are invalid' : null}
+                </StyledErrorParagraph>
+              </StyledForm>
+            );
+          }}
+        </Formik>
+      )}
     </StyledWrapper>
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { registerError } }) => {
-  return { registerError };
+const mapStateToProps = ({ authenticationReducer: { registerError, loading } }) => {
+  return { registerError, loading };
 };
 
 const mapDispatchToProps = dispatch => {
