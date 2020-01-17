@@ -45,7 +45,7 @@ const StyledButton = styled.button`
 
 const Button = ({ text, onClick, buttonTheme, type = 'button' }) => {
   return (
-    <StyledButton onClick={() => onClick} type={type} buttonTheme={buttonTheme}>
+    <StyledButton onClick={onClick} type={type} buttonTheme={buttonTheme}>
       {text}
     </StyledButton>
   );

@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import { landingPageContent } from '../utils/contentArrays';
+import { updateCategory } from '../actions/productAction';
 
 const StyledBackgroundImage = styled.div`
   width: 100%;
@@ -74,12 +76,12 @@ const StyledListItem = styled.li`
   }
 `;
 
-const LandingPage = () => {
+const LandingPage = ({ updateCategory, category }) => {
   return (
     <MainTemplate>
       <StyledBackgroundImage />
       <ButtonWrapper>
-        <Button text='See all products' />
+        <Button text='See all products' onClick={() => updateCategory('fashion')} />
       </ButtonWrapper>
       <StyledList>
         {landingPageContent.map((item, index) => (
@@ -95,4 +97,14 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+const mapStateToProps = ({ productReducer: { category, products } }) => {
+  return { category, products };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateCategory: category => dispatch(updateCategory(category))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

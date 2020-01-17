@@ -35,7 +35,6 @@ const ProductResultTemplate = ({
   updateCategory,
   isLoggedIn
 }) => {
-  console.log(products);
   useEffect(() => {
     updateCategory(match.params.category);
   }, [match]);
@@ -52,9 +51,9 @@ const ProductResultTemplate = ({
 
 const mapStateToProps = ({
   productReducer: { category, products },
-  authenticationReducer: { isLoggedIn }
+  authenticationReducer: { isLoggedIn, token }
 }) => {
-  return { category, products, isLoggedIn };
+  return { category, products, isLoggedIn, token };
 };
 
 const mapDispatchToProps = dispatch => {
