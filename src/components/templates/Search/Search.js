@@ -48,13 +48,16 @@ const StyledForm = styled(Form)`
 `;
 
 const Search = ({ searchProductByQuery }) => {
-  const { isSearchOpen } = useContext(SearchContext);
+  const { isSearchOpen, toggleSearch } = useContext(SearchContext);
+
   return (
     <StyledSearchWrapper isOpen={isSearchOpen}>
       <StyledContentWrapper>
         <Formik
           initialValues={{ query: '' }}
-          onSubmit={({ query }) => searchProductByQuery(query.trim())}
+          onSubmit={({ query }) => {
+            searchProductByQuery(query.trim());
+          }}
           validationSchema={SearchSchema}
         >
           {({ handleChange, handleBlur, errors }) => (
@@ -69,7 +72,12 @@ const Search = ({ searchProductByQuery }) => {
                 colorTheme='light'
               />
               <ButtonWrapper>
-                <Button buttonTheme='dark' text='Search' type='submit' />
+                <Button
+                  buttonTheme='dark'
+                  text='Search'
+                  type='submit'
+                  onClick={() => toggleSearch()}
+                />
               </ButtonWrapper>
             </StyledForm>
           )}

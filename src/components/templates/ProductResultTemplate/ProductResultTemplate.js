@@ -10,6 +10,7 @@ import Button from '../../atoms/Button/Button';
 
 const StyledWrapper = styled.div`
   width: 90%;
+  min-height: 100vh;
   margin: auto;
   overflow: hidden;
   padding-bottom: 4rem;
@@ -27,6 +28,20 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const StyledHeading = styled.h1`
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  font-family: ${({ theme }) => theme.font.family.futura};
+  letter-spacing: 2px;
+  font-weight: lighter;
+  font-size: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const ProductResultTemplate = ({
   children,
   category,
@@ -35,16 +50,22 @@ const ProductResultTemplate = ({
   updateCategory,
   isLoggedIn
 }) => {
-  useEffect(() => {
-    updateCategory(match.params.category);
-  }, [match]);
+  // useEffect(() => {
+  //   updateCategory(match.params.category);
+  // }, [match]);
   return (
     <StyledWrapper>
       <ButtonWrapper>
         <Button text={isLoggedIn ? 'add new product' : 'log in'} />
       </ButtonWrapper>
-      {products.length !== 0 ? <StyledParagraph>shop/{category}</StyledParagraph> : <Spinner />}
-      {children}
+      {products.length !== 0 ? (
+        <>
+          <StyledParagraph>shop/{category}</StyledParagraph>
+          {children}
+        </>
+      ) : (
+        <StyledHeading>Products not found</StyledHeading>
+      )}
     </StyledWrapper>
   );
 };

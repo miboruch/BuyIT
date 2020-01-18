@@ -13,14 +13,16 @@ const ProductWrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   overflow: hidden;
+  position: relative;
 `;
 
-const ProductResult = ({ products }) => {
+const ProductResult = ({ products, loading }) => {
   return (
     <MainTemplate>
-      {products ? (
+      {loading ? (
+        <Spinner />
+      ) : (
         <ProductResultTemplate>
-          <p>hello</p>
           <ProductWrapper>
             {products.map(item => (
               <SingleProductCart
@@ -34,15 +36,13 @@ const ProductResult = ({ products }) => {
             ))}
           </ProductWrapper>
         </ProductResultTemplate>
-      ) : (
-        <Spinner />
       )}
     </MainTemplate>
   );
 };
 
-const mapStateToProps = ({ productReducer: { products } }) => {
-  return { products };
+const mapStateToProps = ({ productReducer: { products, loading } }) => {
+  return { products, loading };
 };
 
 ProductResult.propTypes = {

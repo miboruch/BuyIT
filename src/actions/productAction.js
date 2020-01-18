@@ -89,6 +89,7 @@ export const fetchAllProducts = category => async dispatch => {
 };
 
 export const searchProductByQuery = query => async dispatch => {
+  console.log(query);
   dispatch(fetchStart());
   try {
     const queryResult = query.split(' ').join('_');
