@@ -81,7 +81,9 @@ const LandingPage = ({ updateCategory, category }) => {
     <MainTemplate>
       <StyledBackgroundImage />
       <ButtonWrapper>
-        <Button text='See all products' onClick={() => updateCategory('fashion')} />
+        <Link to='/products/all'>
+          <Button text='See all products' onClick={() => updateCategory('all')} />
+        </Link>
       </ButtonWrapper>
       <StyledList>
         {landingPageContent.map((item, index) => (

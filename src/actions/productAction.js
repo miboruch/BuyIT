@@ -88,6 +88,18 @@ export const fetchAllProducts = category => async dispatch => {
   }
 };
 
+export const searchProductByQuery = query => async dispatch => {
+  dispatch(fetchStart());
+  try {
+    const queryResult = query.split(' ').join('_');
+
+    const result = await axios.get(`${API_URL}/product/search/${queryResult}`);
+    dispatch(fetchSuccess(result.data));
+  } catch (error) {
+    dispatch(fetchFailure(error));
+  }
+};
+
 export const removeProduct = (token, productID) => async dispatch => {
   try {
     const result = await axios.post(

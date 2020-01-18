@@ -1,7 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Button from '../../atoms/Button/Button';
 import { SearchContext } from '../../../context/SearchContext';
+import { searchProductByQuery } from '../../../actions/productAction';
+import FormLine from '../../molecules/FormLine/FormLine';
+import { SearchSchema } from '../../../utils/schemaValidation';
+import { Form, Formik } from 'formik';
 
 const StyledSearchWrapper = styled.div`
   width: 100%;
@@ -33,36 +39,54 @@ const StyledHeading = styled.h1`
   margin-bottom: 1rem;
 `;
 
-const StyledInput = styled.input`
-  width: 250px;
-  height: 40px;
-  background: transparent;
-  border: 1px solid #1d1d1d;
-  font-size: 18px;
-  font-family: ${({ theme }) => theme.font.family.futura};
-
-  &:focus {
-    outline: none;
-  }
-`;
-
 const ButtonWrapper = styled.div`
   margin-top: 4rem;
 `;
 
-const Search = () => {
+const StyledForm = styled(Form)`
+  width: 90%;
+`;
+
+const Search = ({ searchProductByQuery }) => {
   const { isSearchOpen } = useContext(SearchContext);
   return (
     <StyledSearchWrapper isOpen={isSearchOpen}>
       <StyledContentWrapper>
-        <StyledHeading>search</StyledHeading>
-        <StyledInput />
-        <ButtonWrapper>
-          <Button text='Search' buttonTheme='dark' />
-        </ButtonWrapper>
+        <Formik
+          initialValues={{ query: '' }}
+          onSubmit={({ query }) => searchProductByQuery(query.trim())}
+          validationSchema={SearchSchema}
+        >
+          {({ handleChange, handleBlur, errors }) => (
+            <StyledForm>
+              <StyledHeading>SEARCH</StyledHeading>
+              <FormLine
+                labelText={errors.query ? errors.query : 'name'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputType='text'
+                name='query'
+                colorTheme='light'
+              />
+              <ButtonWrapper>
+                <Button buttonTheme='dark' text='Search' type='submit' />
+              </ButtonWrapper>
+            </StyledForm>
+          )}
+        </Formik>
       </StyledContentWrapper>
     </StyledSearchWrapper>
   );
 };
 
-export default Search;
+const mapDispatchToProps = dispatch => {
+  return {
+    searchProductByQuery: query => dispatch(searchProductByQuery(query))
+  };
+};
+
+Search.propTypes = {
+  searchProductByQuery: PropTypes.func.isRequired
+};
+
+export default connect(null, mapDispatchToProps)(Search);

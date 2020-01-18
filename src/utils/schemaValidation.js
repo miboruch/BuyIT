@@ -36,3 +36,9 @@ export const RegisterSchema = Yup.object().shape({
     .min(2, 'City name too short - 2 chars minimum')
     .required('City is required')
 });
+
+export const SearchSchema = Yup.object().shape({
+  query: Yup.string()
+    .required('This field is required')
+    .min(2, 'Enter at least 2 chars')
+});
