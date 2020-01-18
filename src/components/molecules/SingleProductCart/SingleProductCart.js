@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
+import {animated} from "react-spring";
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(animated(Link))`
   width: 48%;
   margin-bottom: 2rem;
 `;
@@ -33,9 +34,9 @@ const StyledUserName = styled(Paragraph)`
   font-size: 10px;
 `;
 
-const SingleProductCart = ({ image, name, price, id, userLogin }) => {
+const SingleProductCart = ({ image, name, price, id, userLogin, style }) => {
   return (
-    <StyledLink to={`/product/${id}`}>
+    <StyledLink to={`/product/${id}`} style={style}>
       <StyledWrapper>
         {image ? <StyledImage src={image} /> : <p>no image</p>}
         <StyledNameParagraph medium>{name}</StyledNameParagraph>

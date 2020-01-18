@@ -43,3 +43,24 @@ export const registerInputArray = errors => {
     }
   ];
 };
+
+export const menuItems = isLogged => {
+  return [
+    {
+      name: 'HOME',
+      link: '/'
+    },
+    {
+      name: 'PRODUCTS',
+      link: '/products/all'
+    },
+    {
+      name: 'ADD PRODUCT',
+      link: '/'
+    },
+    {
+      name: isLogged ? 'ACCOUNT' : 'SIGN IN',
+      link: '/my-account'
+    }
+  ];
+};
