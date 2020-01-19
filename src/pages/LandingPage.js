@@ -76,7 +76,7 @@ const StyledListItem = styled.li`
   }
 `;
 
-const LandingPage = ({ updateCategory, category }) => {
+const LandingPage = ({ updateCategory, category, isLoggedIn }) => {
   return (
     <MainTemplate>
       <StyledBackgroundImage />
@@ -92,15 +92,18 @@ const LandingPage = ({ updateCategory, category }) => {
       </StyledList>
       <ButtonWrapper>
         <Link to='/my-account'>
-          <Button text='Log in' />
+          {isLoggedIn ? <Button text='Account' /> : <Button text='Log in' />}
         </Link>
       </ButtonWrapper>
     </MainTemplate>
   );
 };
 
-const mapStateToProps = ({ productReducer: { category, products } }) => {
-  return { category, products };
+const mapStateToProps = ({
+  productReducer: { category, products },
+  authenticationReducer: { isLoggedIn }
+}) => {
+  return { category, products, isLoggedIn };
 };
 
 const mapDispatchToProps = dispatch => {

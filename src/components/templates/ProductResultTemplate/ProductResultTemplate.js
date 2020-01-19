@@ -12,13 +12,15 @@ const StyledWrapper = styled.div`
   width: 90%;
   min-height: 100vh;
   margin: auto;
-  overflow: hidden;
+  overflow: visible;
   padding-bottom: 4rem;
 `;
 
 const StyledParagraph = styled(Paragraph)`
   font-weight: lighter;
   font-size: 40px;
+  width: 200px;
+  margin: 0;
 `;
 
 const ButtonWrapper = styled.div`

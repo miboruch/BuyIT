@@ -11,10 +11,10 @@ const StyledWrapper = styled.div`
     backgroundTheme === 'light' ? theme.color.backgroundLight : theme.color.backgroundDarkGradient};
 `;
 
-const MainTemplate = ({ children, backgroundTheme }) => {
+const MainTemplate = ({ children, backgroundTheme, search }) => {
   return (
     <StyledWrapper backgroundTheme={backgroundTheme}>
-      <Header backgroundTheme={backgroundTheme} />
+      <Header backgroundTheme={backgroundTheme} search={search} />
       {children}
     </StyledWrapper>
   );
@@ -22,7 +22,8 @@ const MainTemplate = ({ children, backgroundTheme }) => {
 
 MainTemplate.propTypes = {
   children: PropTypes.node.isRequired,
-  backgroundTheme: PropTypes.oneOfType(['light, dark'])
+  backgroundTheme: PropTypes.oneOfType(['light, dark']),
+  search: PropTypes.bool
 };
 
 export default MainTemplate;

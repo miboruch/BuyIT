@@ -68,7 +68,7 @@ const StyledSearchButton = styled(StyledCartButton)`
   }
 `;
 
-const Header = ({ backgroundTheme }) => {
+const Header = ({ backgroundTheme, search }) => {
   const { isMenuOpen, toggleMenu } = useContext(MenuContext);
   const { isSearchOpen, toggleSearch } = useContext(SearchContext);
   const { isCartOpen, toggleCart } = useContext(CartContext);
@@ -87,15 +87,18 @@ const Header = ({ backgroundTheme }) => {
       <StyledCartButton onClick={toggleCart} isOpen={isCartOpen}>
         <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
       </StyledCartButton>
-      <StyledSearchButton onClick={toggleSearch} isOpen={isSearchOpen}>
-        <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
-      </StyledSearchButton>
+      {search ? (
+        <StyledSearchButton onClick={toggleSearch} isOpen={isSearchOpen}>
+          <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
+        </StyledSearchButton>
+      ) : null}
     </StyledHeader>
   );
 };
 
 Header.propTypes = {
-  backgroundTheme: PropTypes.oneOf(['light', 'dark'])
+  backgroundTheme: PropTypes.oneOf(['light', 'dark']),
+  search: PropTypes.bool
 };
 
 export default Header;

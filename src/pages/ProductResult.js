@@ -13,7 +13,7 @@ const ProductWrapper = styled.div`
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 `;
 
@@ -26,7 +26,7 @@ const ProductResult = ({ products, loading }) => {
   });
 
   return (
-    <MainTemplate>
+    <MainTemplate search>
       {loading ? (
         <Spinner />
       ) : (
@@ -40,6 +40,7 @@ const ProductResult = ({ products, loading }) => {
                 id={products[index]._id}
                 price={products[index].price}
                 userLogin={products[index].userLogin}
+                productUserID={products[index].userID}
                 key={products[index]._id}
               />
             ))}
