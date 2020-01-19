@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -30,33 +30,35 @@ const ProductResult = ({ products, loading }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <ProductResultTemplate>
-          <ProductWrapper>
-            {productsTrail.map((props, index) => (
-              <SingleProductCart
-                style={props}
-                name={products[index].name}
-                image={products[index].image}
-                id={products[index]._id}
-                price={products[index].price}
-                userLogin={products[index].userLogin}
-                productUserID={products[index].userID}
-                key={products[index]._id}
-              />
-            ))}
+        <>
+          <ProductResultTemplate>
+            <ProductWrapper>
+              {productsTrail.map((props, index) => (
+                <SingleProductCart
+                  style={props}
+                  name={products[index].name}
+                  image={products[index].image}
+                  id={products[index]._id}
+                  price={products[index].price}
+                  userLogin={products[index].userLogin}
+                  productUserID={products[index].userID}
+                  key={products[index]._id}
+                />
+              ))}
 
-            {/*{products.map(item => (*/}
-            {/*  <SingleProductCart*/}
-            {/*    name={item.name}*/}
-            {/*    image={item.image}*/}
-            {/*    id={item._id}*/}
-            {/*    price={item.price}*/}
-            {/*    userLogin={item.userLogin}*/}
-            {/*    key={item._id}*/}
-            {/*  />*/}
-            {/*))}*/}
-          </ProductWrapper>
-        </ProductResultTemplate>
+              {/*{products.map(item => (*/}
+              {/*  <SingleProductCart*/}
+              {/*    name={item.name}*/}
+              {/*    image={item.image}*/}
+              {/*    id={item._id}*/}
+              {/*    price={item.price}*/}
+              {/*    userLogin={item.userLogin}*/}
+              {/*    key={item._id}*/}
+              {/*  />*/}
+              {/*))}*/}
+            </ProductWrapper>
+          </ProductResultTemplate>
+        </>
       )}
     </MainTemplate>
   );

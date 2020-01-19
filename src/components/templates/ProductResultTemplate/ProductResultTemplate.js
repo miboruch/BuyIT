@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { updateCategory } from '../../../actions/productAction';
-import Spinner from '../../atoms/Spinner/Spinner';
 import Button from '../../atoms/Button/Button';
+import DeleteAcceptBox from '../../molecules/DeleteAcceptBox/DeleteAcceptBox';
+import DeleteAcceptContextProvider from '../../../context/DeleteAcceptContext';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -20,7 +21,7 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: lighter;
   font-size: 40px;
   width: 200px;
-  margin: 0;
+  margin-bottom: 2rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -52,23 +53,26 @@ const ProductResultTemplate = ({
   updateCategory,
   isLoggedIn
 }) => {
-  // useEffect(() => {
-  //   updateCategory(match.params.category);
-  // }, [match]);
+  useEffect(() => {
+    updateCategory(match.params.category);
+  }, [match]);
   return (
-    <StyledWrapper>
-      <ButtonWrapper>
-        <Button text={isLoggedIn ? 'add new product' : 'log in'} />
-      </ButtonWrapper>
-      {products.length !== 0 ? (
-        <>
-          <StyledParagraph>shop/{category}</StyledParagraph>
-          {children}
-        </>
-      ) : (
-        <StyledHeading>Products not found</StyledHeading>
-      )}
-    </StyledWrapper>
+    <DeleteAcceptContextProvider>
+      <StyledWrapper>
+        <ButtonWrapper>
+          <Button text={isLoggedIn ? 'add new product' : 'log in'} />
+        </ButtonWrapper>
+        {products.length !== 0 ? (
+          <>
+            <StyledParagraph>shop/{category}</StyledParagraph>
+            {children}
+          </>
+        ) : (
+          <StyledHeading>Products not found</StyledHeading>
+        )}
+      </StyledWrapper>
+      <DeleteAcceptBox />
+    </DeleteAcceptContextProvider>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
@@ -7,16 +7,7 @@ import { animated } from 'react-spring';
 import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import { removeProduct } from '../../../actions/productAction';
-
-// const StyledLinkWrapper = styled(Link)`
-//   width: 48%;
-//   margin-bottom: 2rem;
-//   overflow: visible;
-//
-//   ${({ theme }) => theme.mq.tablet} {
-//     display: none;
-//   }
-// `;
+import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -35,6 +26,7 @@ const StyledImage = styled.img`
   width: 100%;
   height: 200px;
   object-fit: cover;
+  border: 3px solid #000;
 `;
 
 const StyledCover = styled.div`
@@ -86,7 +78,15 @@ const StyledLink = styled(Link)`
   width: 150px;
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+`;
+
 const OpenProduct = styled(Paragraph)`
+  width: 150px;
   position: relative;
   padding: 1rem 0;
   font-weight: bold;
@@ -98,7 +98,7 @@ const OpenProduct = styled(Paragraph)`
   &::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 4px;
     left: 0;
     width: 0;
     height: 2px;
@@ -113,32 +113,32 @@ const OpenProduct = styled(Paragraph)`
   // }
 `;
 
-const SingleProductCart = ({
-  image,
-  name,
-  price,
-  id,
-  userLogin,
-  style,
-  userID,
-  productUserID,
-  token,
-  removeProduct
-}) => {
+const SingleProductCart = ({ image, name, price, id, userLogin, style, userID, productUserID }) => {
+  const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
   return (
-    <StyledWrapper>
-      {userID === productUserID ? (
-        <StyledIcon src={deleteIcon} onClick={() => removeProduct(token, id)} />
-      ) : null}
-      {/*<StyledCover>Details</StyledCover>*/}
-      {image ? <StyledImage src={image} /> : <p>no image</p>}
-      <StyledNameParagraph medium>{name}</StyledNameParagraph>
-      <StyledPrice>{price}$</StyledPrice>
-      <StyledUserName>User: {userLogin}</StyledUserName>
-      <Link to={`/product/${id}`} style={style}>
-        <OpenProduct small>Open product</OpenProduct>
-      </Link>
-    </StyledWrapper>
+    <>
+      <StyledWrapper>
+        {userID === productUserID ? (
+          <StyledIcon
+            src={deleteIcon}
+            onClick={() => {
+              setBoxState(true);
+              setProductId(id);
+              setProductName(name);
+            }}
+          />
+        ) : null}
+        {image ? <StyledImage src={image} /> : <p>no image</p>}
+        <ContentWrapper>
+          <StyledNameParagraph medium>{name}</StyledNameParagraph>
+          <StyledPrice>{price}$</StyledPrice>
+          <StyledUserName>User: {userLogin}</StyledUserName>
+          <StyledLink to={`/product/${id}`} style={style}>
+            <OpenProduct small>Open product</OpenProduct>
+          </StyledLink>
+        </ContentWrapper>
+      </StyledWrapper>
+    </>
   );
 };
 

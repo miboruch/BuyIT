@@ -27,13 +27,15 @@ const App = ({
     // authLogout();
 
     socket.on('productAdded', ({ addedProduct }) => {
-      addToProducts(addedProduct);
+      if (addedProduct.category === category || category === 'all') {
+        addToProducts(addedProduct);
+      }
     });
 
     socket.on('productRemoved', ({ productId }) => {
       removeFromProducts(productId);
     });
-  }, []);
+  }, [category]);
 
   return (
     <Router>
