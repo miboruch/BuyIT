@@ -6,7 +6,7 @@ import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import { landingPageContent } from '../utils/contentArrays';
-import { updateCategory } from '../actions/productAction';
+import { updateCategory, fetchAllProducts } from '../actions/productAction';
 
 const StyledBackgroundImage = styled.div`
   width: 100%;
@@ -76,13 +76,13 @@ const StyledListItem = styled.li`
   }
 `;
 
-const LandingPage = ({ updateCategory, category, isLoggedIn }) => {
+const LandingPage = ({ updateCategory, category, isLoggedIn, getAllProducts }) => {
   return (
     <MainTemplate>
       <StyledBackgroundImage />
       <ButtonWrapper>
         <Link to='/products/all'>
-          <Button text='See all products' onClick={() => updateCategory('all')} />
+          <Button text='See all products' onClick={() => getAllProducts('all')} />
         </Link>
       </ButtonWrapper>
       <StyledList>
@@ -108,7 +108,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateCategory: category => dispatch(updateCategory(category))
+    updateCategory: category => dispatch(updateCategory(category)),
+    getAllProducts: category => dispatch(fetchAllProducts(category))
   };
 };
 

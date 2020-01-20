@@ -14,11 +14,15 @@ const StyledSearchWrapper = styled.div`
   height: 100vh;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   background: ${({ theme }) => theme.color.backgroundLight};
   transform: translateY(${({ isOpen }) => (isOpen ? '0' : '-100%')});
-  transition: transform 0.5s ease-in-out;
+  transition: transform 1s ease;
   z-index: 900;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 35%;
+  }
 `;
 
 const StyledContentWrapper = styled.div`

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -8,6 +8,9 @@ import { updateCategory } from '../../../actions/productAction';
 import Button from '../../atoms/Button/Button';
 import DeleteAcceptBox from '../../molecules/DeleteAcceptBox/DeleteAcceptBox';
 import DeleteAcceptContextProvider from '../../../context/DeleteAcceptContext';
+import FilterContextProvider from '../../../context/FilterContext';
+import Filter from '../../molecules/Filter/Filter';
+import { FilterContext } from '../../../context/FilterContext';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -26,9 +29,11 @@ const StyledParagraph = styled(Paragraph)`
 
 const ButtonWrapper = styled.div`
   width: 100%;
-  margin: 3rem 0;
+  margin: 1rem 0;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
 `;
 
 const StyledHeading = styled.h1`
@@ -53,12 +58,16 @@ const ProductResultTemplate = ({
   updateCategory,
   isLoggedIn
 }) => {
+  const { toggleFilter } = useContext(FilterContext);
   useEffect(() => {
     updateCategory(match.params.category);
   }, [match]);
   return (
-    <DeleteAcceptContextProvider>
+    <>
       <StyledWrapper>
+        <ButtonWrapper>
+          <Button text='Filter' onClick={() => toggleFilter()} />
+        </ButtonWrapper>
         <ButtonWrapper>
           <Button text={isLoggedIn ? 'add new product' : 'log in'} />
         </ButtonWrapper>
@@ -72,7 +81,8 @@ const ProductResultTemplate = ({
         )}
       </StyledWrapper>
       <DeleteAcceptBox />
-    </DeleteAcceptContextProvider>
+      <Filter />
+    </>
   );
 };
 
