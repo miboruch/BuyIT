@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FilterContext } from '../../../context/FilterContext';
+import { connect } from 'react-redux';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
+import { categories } from '../../../utils/constants';
+import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -51,9 +54,35 @@ const StyledParagraphTitle = styled(Paragraph)`
   color: #1d1d1d;
   font-family: ${({ theme }) => theme.font.family.avanti};
   letter-spacing: 2px;
+  margin-bottom: 2rem;
 `;
 
-const Filter = () => {
+const StyledParagraph = styled(Paragraph)`
+  color: #1d1d1d;
+  cursor: pointer;
+  padding: 0.5rem 0 0.5rem 2rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #1d1d1d;
+    background-color: transparent;
+    transform: translateY(-50%);
+    transition: all 0.5s ease;
+  }
+
+  &:hover::before {
+    background-color: #1d1d1d;
+  }
+`;
+
+const Filter = ({ getAllProducts, category, categoryUpdate }) => {
   const { isFilterOpen, setFilterState } = useContext(FilterContext);
 
   return (
@@ -63,10 +92,36 @@ const Filter = () => {
       </CloseButtonWrapper>
       <ContentWrapper>
         <StyledHeading>Filter</StyledHeading>
-        <StyledParagraphTitle medium>Category:</StyledParagraphTitle>
+        <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
+        {categories.map(item => {
+          return (
+            <StyledParagraph
+              key={item}
+              onClick={() => {
+                categoryUpdate(item);
+                if (category !== item) {
+                  getAllProducts(item);
+                }
+              }}
+            >
+              {item}
+            </StyledParagraph>
+          );
+        })}
       </ContentWrapper>
     </StyledWrapper>
   );
 };
 
-export default Filter;
+const mapStateToProps = ({ productReducer: { category } }) => {
+  return { category };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllProducts: category => dispatch(fetchAllProducts(category)),
+    categoryUpdate: category => dispatch(updateCategory(category))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

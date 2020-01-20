@@ -59,9 +59,9 @@ const ProductResultTemplate = ({
   isLoggedIn
 }) => {
   const { toggleFilter } = useContext(FilterContext);
-  useEffect(() => {
-    updateCategory(match.params.category);
-  }, [match]);
+  // useEffect(() => {
+  //   updateCategory(match.params.category);
+  // }, [match]);
   return (
     <>
       <StyledWrapper>

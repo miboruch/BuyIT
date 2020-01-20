@@ -20,12 +20,10 @@ const App = ({
 }) => {
   useEffect(() => {
     getProducts(category);
-  }, [category]);
+    authenticationCheck();
+  }, []);
 
   useEffect(() => {
-    authenticationCheck();
-    // authLogout();
-
     socket.on('productAdded', ({ addedProduct }) => {
       if (addedProduct.category === category || category === 'all') {
         addToProducts(addedProduct);
