@@ -7,8 +7,6 @@ import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { updateCategory } from '../../../actions/productAction';
 import Button from '../../atoms/Button/Button';
 import DeleteAcceptBox from '../../molecules/DeleteAcceptBox/DeleteAcceptBox';
-import DeleteAcceptContextProvider from '../../../context/DeleteAcceptContext';
-import FilterContextProvider from '../../../context/FilterContext';
 import Filter from '../../molecules/Filter/Filter';
 import { FilterContext } from '../../../context/FilterContext';
 
@@ -59,9 +57,7 @@ const ProductResultTemplate = ({
   isLoggedIn
 }) => {
   const { toggleFilter } = useContext(FilterContext);
-  // useEffect(() => {
-  //   updateCategory(match.params.category);
-  // }, [match]);
+
   return (
     <>
       <StyledWrapper>

@@ -19,13 +19,17 @@ const App = ({
   removeFromProducts
 }) => {
   useEffect(() => {
-    getProducts(category);
+    // getProducts('all');
     authenticationCheck();
   }, []);
 
   useEffect(() => {
+    console.log(category);
+  }, [category]);
+
+  useEffect(() => {
     socket.on('productAdded', ({ addedProduct }) => {
-      if (addedProduct.category === category || category === 'all') {
+      if ((category !== null && addedProduct.category === category) || category === 'all') {
         addToProducts(addedProduct);
       }
     });
@@ -33,7 +37,7 @@ const App = ({
     socket.on('productRemoved', ({ productId }) => {
       removeFromProducts(productId);
     });
-  }, [category]);
+  });
 
   return (
     <Router>

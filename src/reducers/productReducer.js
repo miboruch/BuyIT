@@ -11,7 +11,7 @@ const initialState = {
   loading: true,
   error: null,
   removeError: null,
-  category: 'all'
+  category: null
 };
 
 export const productReducer = (state = initialState, action) => {

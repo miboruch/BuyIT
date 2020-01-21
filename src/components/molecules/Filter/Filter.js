@@ -6,6 +6,7 @@ import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { categories } from '../../../utils/constants';
 import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
+import { Link } from 'react-router-dom';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -95,17 +96,19 @@ const Filter = ({ getAllProducts, category, categoryUpdate }) => {
         <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
         {categories.map(item => {
           return (
-            <StyledParagraph
-              key={item}
-              onClick={() => {
-                categoryUpdate(item);
-                if (category !== item) {
-                  getAllProducts(item);
-                }
-              }}
-            >
-              {item}
-            </StyledParagraph>
+            <Link to={`/products/${item}`}>
+              <StyledParagraph
+                key={item}
+                onClick={() => {
+                  categoryUpdate(item);
+                  if (category !== item) {
+                    getAllProducts(item);
+                  }
+                }}
+              >
+                {item}
+              </StyledParagraph>
+            </Link>
           );
         })}
       </ContentWrapper>

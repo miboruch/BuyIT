@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductResultTemplate from '../components/templates/ProductResultTemplate/ProductResultTemplate';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
@@ -9,8 +10,13 @@ import Spinner from '../components/atoms/Spinner/Spinner';
 import { useTrail } from 'react-spring';
 import FilterContextProvider from '../context/FilterContext';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
-import DeleteAcceptBox from '../components/molecules/DeleteAcceptBox/DeleteAcceptBox';
-import Filter from '../components/molecules/Filter/Filter';
+import {
+  addToProducts,
+  fetchAllProducts,
+  removeFromProducts,
+  updateCategory
+} from '../actions/productAction';
+import { socket } from '../utils/constants';
 
 const ProductWrapper = styled.div`
   display: flex;
@@ -21,7 +27,20 @@ const ProductWrapper = styled.div`
   position: relative;
 `;
 
-const ProductResult = ({ products, loading }) => {
+const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, category }) => {
+  useEffect(() => {
+    categoryUpdate(match.params.category);
+  }, []);
+
+  useEffect(() => {
+    console.log(category);
+    getAllProducts(category);
+  }, []);
+
+  // useEffect(() => {
+  //   getAllProducts(category);
+  // }, []);
+
   const productsTrail = useTrail(products.length, {
     opacity: 1,
     from: { opacity: 0 },
@@ -72,13 +91,25 @@ const ProductResult = ({ products, loading }) => {
   );
 };
 
-const mapStateToProps = ({ productReducer: { products, loading } }) => {
-  return { products, loading };
+const mapStateToProps = ({ productReducer: { products, loading, category } }) => {
+  return { products, loading, category };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    categoryUpdate: category => dispatch(updateCategory(category)),
+    getAllProducts: category => dispatch(fetchAllProducts(category)),
+    addToProducts: product => dispatch(addToProducts(product)),
+    removeFromProducts: productId => dispatch(removeFromProducts(productId))
+  };
 };
 
 ProductResult.propTypes = {
   products: PropTypes.array,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  match: PropTypes.object
 };
 
-export default connect(mapStateToProps)(ProductResult);
+const ProductResultWithRouter = withRouter(ProductResult);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductResultWithRouter);
