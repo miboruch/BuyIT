@@ -8,6 +8,7 @@ import { searchProductByQuery } from '../../../actions/productAction';
 import FormLine from '../../molecules/FormLine/FormLine';
 import { SearchSchema } from '../../../utils/schemaValidation';
 import { Form, Formik } from 'formik';
+import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 
 const StyledSearchWrapper = styled.div`
   width: 100%;
@@ -55,39 +56,42 @@ const Search = ({ searchProductByQuery }) => {
   const { isSearchOpen, toggleSearch } = useContext(SearchContext);
 
   return (
-    <StyledSearchWrapper isOpen={isSearchOpen}>
-      <StyledContentWrapper>
-        <Formik
-          initialValues={{ query: '' }}
-          onSubmit={({ query }) => {
-            searchProductByQuery(query.trim());
-          }}
-          validationSchema={SearchSchema}
-        >
-          {({ handleChange, handleBlur, errors }) => (
-            <StyledForm>
-              <StyledHeading>SEARCH</StyledHeading>
-              <FormLine
-                labelText={errors.query ? errors.query : 'name'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                inputType='text'
-                name='query'
-                colorTheme='light'
-              />
-              <ButtonWrapper>
-                <Button
-                  buttonTheme='dark'
-                  text='Search'
-                  type='submit'
-                  onClick={() => toggleSearch()}
+    <>
+      <BackgroundWrapper isOpen={isSearchOpen} />
+      <StyledSearchWrapper isOpen={isSearchOpen}>
+        <StyledContentWrapper>
+          <Formik
+            initialValues={{ query: '' }}
+            onSubmit={({ query }) => {
+              searchProductByQuery(query.trim());
+            }}
+            validationSchema={SearchSchema}
+          >
+            {({ handleChange, handleBlur, errors }) => (
+              <StyledForm>
+                <StyledHeading>SEARCH</StyledHeading>
+                <FormLine
+                  labelText={errors.query ? errors.query : 'name'}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  inputType='text'
+                  name='query'
+                  colorTheme='light'
                 />
-              </ButtonWrapper>
-            </StyledForm>
-          )}
-        </Formik>
-      </StyledContentWrapper>
-    </StyledSearchWrapper>
+                <ButtonWrapper>
+                  <Button
+                    buttonTheme='dark'
+                    text='Search'
+                    type='submit'
+                    onClick={() => toggleSearch()}
+                  />
+                </ButtonWrapper>
+              </StyledForm>
+            )}
+          </Formik>
+        </StyledContentWrapper>
+      </StyledSearchWrapper>
+    </>
   );
 };
 

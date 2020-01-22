@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductResultTemplate from '../components/templates/ProductResultTemplate/ProductResultTemplate';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
@@ -16,7 +16,6 @@ import {
   removeFromProducts,
   updateCategory
 } from '../actions/productAction';
-import { socket } from '../utils/constants';
 
 const ProductWrapper = styled.div`
   display: flex;
@@ -30,16 +29,9 @@ const ProductWrapper = styled.div`
 const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, category }) => {
   useEffect(() => {
     categoryUpdate(match.params.category);
-  }, []);
-
-  useEffect(() => {
     console.log(category);
-    getAllProducts(category);
+    getAllProducts(match.params.category);
   }, []);
-
-  // useEffect(() => {
-  //   getAllProducts(category);
-  // }, []);
 
   const productsTrail = useTrail(products.length, {
     opacity: 1,

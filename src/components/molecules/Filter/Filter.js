@@ -7,6 +7,7 @@ import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { categories } from '../../../utils/constants';
 import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
 import { Link } from 'react-router-dom';
+import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -87,32 +88,35 @@ const Filter = ({ getAllProducts, category, categoryUpdate }) => {
   const { isFilterOpen, setFilterState } = useContext(FilterContext);
 
   return (
-    <StyledWrapper isOpen={isFilterOpen}>
-      <CloseButtonWrapper>
-        <CloseButton setBoxState={setFilterState} />
-      </CloseButtonWrapper>
-      <ContentWrapper>
-        <StyledHeading>Filter</StyledHeading>
-        <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
-        {categories.map(item => {
-          return (
-            <Link to={`/products/${item}`}>
-              <StyledParagraph
-                key={item}
-                onClick={() => {
-                  categoryUpdate(item);
-                  if (category !== item) {
-                    getAllProducts(item);
-                  }
-                }}
-              >
-                {item}
-              </StyledParagraph>
-            </Link>
-          );
-        })}
-      </ContentWrapper>
-    </StyledWrapper>
+    <>
+      <BackgroundWrapper isOpen={isFilterOpen} />
+      <StyledWrapper isOpen={isFilterOpen}>
+        <CloseButtonWrapper>
+          <CloseButton setBoxState={setFilterState} />
+        </CloseButtonWrapper>
+        <ContentWrapper>
+          <StyledHeading>Filter</StyledHeading>
+          <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
+          {categories.map(item => {
+            return (
+              <Link to={`/products/${item}`}>
+                <StyledParagraph
+                  key={item}
+                  onClick={() => {
+                    categoryUpdate(item);
+                    if (category !== item) {
+                      getAllProducts(item);
+                    }
+                  }}
+                >
+                  {item}
+                </StyledParagraph>
+              </Link>
+            );
+          })}
+        </ContentWrapper>
+      </StyledWrapper>
+    </>
   );
 };
 

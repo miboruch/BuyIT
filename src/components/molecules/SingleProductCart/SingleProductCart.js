@@ -8,6 +8,7 @@ import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import { removeProduct } from '../../../actions/productAction';
 import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
+import Button from '../../atoms/Button/Button';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -136,6 +137,7 @@ const SingleProductCart = ({ image, name, price, id, userLogin, style, userID, p
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>
+          <Button text='add to cart' />
         </ContentWrapper>
       </StyledWrapper>
     </>

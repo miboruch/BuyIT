@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { CartContext } from '../../../context/CartContext';
 import Button from '../../atoms/Button/Button';
+import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -11,8 +12,14 @@ const StyledCartWrapper = styled.div`
   left: 0;
   background: ${({ theme }) => theme.color.backgroundLight};
   transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
-  transition: transform 0.5s ease-in-out;
+  transition: transform 1s ease;
   z-index: 900;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 45%;
+    right: 0;
+    left: auto;
+  }
 `;
 
 const StyledHeading = styled.h1`
@@ -31,12 +38,15 @@ const ButtonWrapper = styled.div`
 const Cart = () => {
   const { isCartOpen } = useContext(CartContext);
   return (
-    <StyledCartWrapper isOpen={isCartOpen}>
-      <StyledHeading>Your cart</StyledHeading>
-      <ButtonWrapper>
-        <Button text='Check all products' buttonTheme='dark' />
-      </ButtonWrapper>
-    </StyledCartWrapper>
+    <>
+      <BackgroundWrapper isOpen={isCartOpen} />
+      <StyledCartWrapper isOpen={isCartOpen}>
+        <StyledHeading>Your cart</StyledHeading>
+        <ButtonWrapper>
+          <Button text='Check all products' buttonTheme='dark' />
+        </ButtonWrapper>
+      </StyledCartWrapper>
+    </>
   );
 };
 

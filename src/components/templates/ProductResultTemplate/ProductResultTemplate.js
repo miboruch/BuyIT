@@ -52,8 +52,6 @@ const ProductResultTemplate = ({
   children,
   category,
   products,
-  match,
-  updateCategory,
   isLoggedIn
 }) => {
   const { toggleFilter } = useContext(FilterContext);

@@ -34,8 +34,8 @@ const App = ({
       }
     });
 
-    socket.on('productRemoved', ({ productId }) => {
-      removeFromProducts(productId);
+    socket.on('productRemoved', ({ removedProductId }) => {
+      removeFromProducts(removedProductId);
     });
   });
 
