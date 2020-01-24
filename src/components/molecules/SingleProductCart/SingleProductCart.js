@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
 import { animated } from 'react-spring';
+import { socket } from '../../../utils/constants';
 import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import { removeProduct } from '../../../actions/productAction';
@@ -126,7 +127,7 @@ const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>
-          <Button text='add to cart' onClick={() => addProductToCart(product)} />
+          <Button text='add to cart' onClick={() => addProductToCart(socket, product)} />
         </ContentWrapper>
       </StyledWrapper>
     </>
@@ -140,7 +141,7 @@ const mapStateToProps = ({ authenticationReducer: { userID, token } }) => {
 const mapDispatchToProps = dispatch => {
   return {
     removeProduct: (token, productID) => dispatch(removeProduct(token, productID)),
-    addProductToCart: product => dispatch(addProductToCart(product))
+    addProductToCart: (socket, product) => dispatch(addProductToCart(socket, product))
   };
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { addToProducts, removeFromProducts, fetchAllProducts } from './actions/productAction';
@@ -16,7 +17,8 @@ const App = ({
   authenticationCheck,
   authLogout,
   addToProducts,
-  removeFromProducts
+  removeFromProducts,
+  cart
 }) => {
   useEffect(() => {
     // getProducts('all');
@@ -37,6 +39,10 @@ const App = ({
     socket.on('productRemoved', ({ removedProductId }) => {
       removeFromProducts(removedProductId);
     });
+
+    socket.on('productReserved', ({ productId }) => {
+      cart.map(item => (item._id === productId ? (item.reserved = true) : null));
+    });
   });
 
   return (
@@ -54,8 +60,8 @@ const App = ({
   );
 };
 
-const mapStateToProps = ({ productReducer: { category } }) => {
-  return { category };
+const mapStateToProps = ({ productReducer: { category }, cartReducer: { cart } }) => {
+  return { category, cart };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -66,6 +72,10 @@ const mapDispatchToProps = dispatch => {
     addToProducts: product => dispatch(addToProducts(product)),
     removeFromProducts: productId => dispatch(removeFromProducts(productId))
   };
+};
+
+App.propTypes = {
+  cart: PropTypes.array
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

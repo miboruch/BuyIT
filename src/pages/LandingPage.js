@@ -10,7 +10,6 @@ import { updateCategory, fetchAllProducts } from '../actions/productAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
-  //padding-top: 60px;
 `;
 
 const StyledBackgroundImage = styled.div`
