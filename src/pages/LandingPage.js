@@ -8,6 +8,11 @@ import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import { landingPageContent } from '../utils/contentArrays';
 import { updateCategory, fetchAllProducts } from '../actions/productAction';
 
+const StyledWrapper = styled.div`
+  width: 100%;
+  //padding-top: 60px;
+`;
+
 const StyledBackgroundImage = styled.div`
   width: 100%;
   height: 200px;
@@ -79,27 +84,29 @@ const StyledListItem = styled.li`
 const LandingPage = ({ updateCategory, category, isLoggedIn, getAllProducts }) => {
   return (
     <MainTemplate>
-      <StyledBackgroundImage />
-      <ButtonWrapper>
-        <Link to='/products/all'>
-          <Button
-            text='See all products'
-            onClick={() => {
-              getAllProducts('all');
-            }}
-          />
-        </Link>
-      </ButtonWrapper>
-      <StyledList>
-        {landingPageContent.map((item, index) => (
-          <StyledListItem key={index}>{item}</StyledListItem>
-        ))}
-      </StyledList>
-      <ButtonWrapper>
-        <Link to='/my-account'>
-          {isLoggedIn ? <Button text='Account' /> : <Button text='Log in' />}
-        </Link>
-      </ButtonWrapper>
+      <StyledWrapper>
+        <StyledBackgroundImage />
+        <ButtonWrapper>
+          <Link to='/products/all'>
+            <Button
+              text='See all products'
+              onClick={() => {
+                getAllProducts('all');
+              }}
+            />
+          </Link>
+        </ButtonWrapper>
+        <StyledList>
+          {landingPageContent.map((item, index) => (
+            <StyledListItem key={index}>{item}</StyledListItem>
+          ))}
+        </StyledList>
+        <ButtonWrapper>
+          <Link to='/my-account'>
+            {isLoggedIn ? <Button text='Account' /> : <Button text='Log in' />}
+          </Link>
+        </ButtonWrapper>
+      </StyledWrapper>
     </MainTemplate>
   );
 };

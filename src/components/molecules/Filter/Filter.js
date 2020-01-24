@@ -99,9 +99,8 @@ const Filter = ({ getAllProducts, category, categoryUpdate }) => {
           <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
           {categories.map(item => {
             return (
-              <Link to={`/products/${item}`}>
+              <Link to={`/products/${item}`} key={item}>
                 <StyledParagraph
-                  key={item}
                   onClick={() => {
                     categoryUpdate(item);
                     if (category !== item) {

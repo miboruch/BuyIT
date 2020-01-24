@@ -12,13 +12,13 @@ export const cartReducer = (state = initialState, action) => {
     case ADD_PRODUCT:
       return {
         ...state,
-        cart: [...state.cart, product],
-        totalPrice: state.totalPrice + product.price
+        cart: [...state.cart, action.payload],
+        totalPrice: state.totalPrice + action.payload.price
       };
     case REMOVE_PRODUCT:
       return {
         ...state,
-        cart: [...state.cart.filter(item => item.id !== action.payload.id)],
+        cart: [...state.cart.filter(item => item._id !== action.payload._id)],
         totalPrice: state.totalPrice - action.payload.price
       };
     case RESET_CART:
@@ -26,5 +26,7 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         cart: []
       };
+    default:
+      return state;
   }
 };

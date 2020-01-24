@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { animated } from 'react-spring';
 import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import { removeProduct } from '../../../actions/productAction';
+import { addProductToCart } from '../../../actions/cartAction';
 import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
 import Button from '../../atoms/Button/Button';
 
@@ -28,20 +30,6 @@ const StyledImage = styled.img`
   height: 200px;
   object-fit: cover;
   border: 3px solid #000;
-`;
-
-const StyledCover = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100px;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  transition: all 0.4s ease-in-out;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 `;
 
 const StyledIcon = styled(ReactSVG)`
@@ -114,8 +102,9 @@ const OpenProduct = styled(Paragraph)`
   // }
 `;
 
-const SingleProductCart = ({ image, name, price, id, userLogin, style, userID, productUserID }) => {
+const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
   const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
+  const { image, name, price, _id: id, userLogin, productUserID } = product;
   return (
     <>
       <StyledWrapper>
@@ -137,7 +126,7 @@ const SingleProductCart = ({ image, name, price, id, userLogin, style, userID, p
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>
-          <Button text='add to cart' />
+          <Button text='add to cart' onClick={() => addProductToCart(product)} />
         </ContentWrapper>
       </StyledWrapper>
     </>
@@ -150,8 +139,15 @@ const mapStateToProps = ({ authenticationReducer: { userID, token } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeProduct: (token, productID) => dispatch(removeProduct(token, productID))
+    removeProduct: (token, productID) => dispatch(removeProduct(token, productID)),
+    addProductToCart: product => dispatch(addProductToCart(product))
   };
+};
+
+SingleProductCart.propTypes = {
+  userID: PropTypes.string,
+  product: PropTypes.object.isRequired,
+  addProductToCart: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProductCart);

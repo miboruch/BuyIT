@@ -13,6 +13,7 @@ import { FilterContext } from '../../../context/FilterContext';
 const StyledWrapper = styled.div`
   width: 90%;
   min-height: 100vh;
+  //padding-top: 60px;
   margin: auto;
   overflow: visible;
   padding-bottom: 4rem;

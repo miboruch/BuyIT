@@ -53,12 +53,7 @@ const ProductResult = ({ products, loading, categoryUpdate, match, getAllProduct
                   {productsTrail.map((props, index) => (
                     <SingleProductCart
                       style={props}
-                      name={products[index].name}
-                      image={products[index].image}
-                      id={products[index]._id}
-                      price={products[index].price}
-                      userLogin={products[index].userLogin}
-                      productUserID={products[index].userID}
+                      product={products[index]}
                       key={products[index]._id}
                     />
                   ))}

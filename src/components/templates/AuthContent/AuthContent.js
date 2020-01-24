@@ -6,6 +6,7 @@ import RegisterBox from '../../molecules/RegisterBox/RegisterBox';
 const StyledWrapper = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.color.backgroundLight};
+  //padding-top: 60px;
 `;
 
 const AuthContent = () => {

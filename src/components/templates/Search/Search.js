@@ -9,6 +9,7 @@ import FormLine from '../../molecules/FormLine/FormLine';
 import { SearchSchema } from '../../../utils/schemaValidation';
 import { Form, Formik } from 'formik';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
+import CloseButton from '../../atoms/CloseButton/CloseButton';
 
 const StyledSearchWrapper = styled.div`
   width: 100%;
@@ -24,6 +25,15 @@ const StyledSearchWrapper = styled.div`
   ${({ theme }) => theme.mq.standard} {
     width: 35%;
   }
+`;
+
+const CloseButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 500;
 `;
 
 const StyledContentWrapper = styled.div`
@@ -59,6 +69,9 @@ const Search = ({ searchProductByQuery }) => {
     <>
       <BackgroundWrapper isOpen={isSearchOpen} />
       <StyledSearchWrapper isOpen={isSearchOpen}>
+        <CloseButtonWrapper>
+          <CloseButton setBoxState={toggleSearch} />
+        </CloseButtonWrapper>
         <StyledContentWrapper>
           <Formik
             initialValues={{ query: '' }}
