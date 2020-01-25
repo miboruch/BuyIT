@@ -8,7 +8,6 @@ import { animated } from 'react-spring';
 import { socket } from '../../../utils/constants';
 import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
-import { removeProduct } from '../../../actions/productAction';
 import { addProductToCart } from '../../../actions/cartAction';
 import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
 import Button from '../../atoms/Button/Button';
@@ -24,6 +23,21 @@ const StyledWrapper = styled.div`
     overflow: visible;
     display: block;
   }
+`;
+
+const StyledCover = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 300;
+  display: ${({ reserved }) => (reserved ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  letter-spacing: 2px;
 `;
 
 const StyledImage = styled.img`
@@ -98,18 +112,16 @@ const OpenProduct = styled(Paragraph)`
   &:hover::after {
     width: 150px;
   }
-  // ${({ theme }) => theme.mq.standard} {
-  //   display: block;
-  // }
 `;
 
 const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
   const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
-  const { image, name, price, _id: id, userLogin, productUserID } = product;
+  const { image, name, price, _id: id, userLogin, userID: productUserID, reserved } = product;
   return (
     <>
       <StyledWrapper>
-        {userID === productUserID ? (
+        <StyledCover reserved={reserved}>Reserved</StyledCover>
+        {userID === productUserID && reserved === false ? (
           <StyledIcon
             src={deleteIcon}
             onClick={() => {
@@ -127,7 +139,7 @@ const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>
-          <Button text='add to cart' onClick={() => addProductToCart(socket, product)} />
+          <Button text='add to cart' onClick={() => addProductToCart(product)} />
         </ContentWrapper>
       </StyledWrapper>
     </>
@@ -140,8 +152,7 @@ const mapStateToProps = ({ authenticationReducer: { userID, token } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeProduct: (token, productID) => dispatch(removeProduct(token, productID)),
-    addProductToCart: (socket, product) => dispatch(addProductToCart(socket, product))
+    addProductToCart: product => dispatch(addProductToCart(product))
   };
 };
 

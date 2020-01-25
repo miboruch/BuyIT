@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { addToProducts, removeFromProducts, fetchAllProducts } from './actions/productAction';
+import {
+  addToProducts,
+  removeFromProducts,
+  fetchAllProducts,
+  unreserveAll
+} from './actions/productAction';
 import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
@@ -10,6 +15,7 @@ import AuthPage from './pages/AuthPage';
 import ProductResult from './pages/ProductResult';
 import { authenticationCheck, authLogout } from './actions/authenticationAction';
 import { socket } from './utils/constants';
+import { reserveProduct, unreserveProduct } from './actions/productAction';
 
 const App = ({
   category,
@@ -18,7 +24,10 @@ const App = ({
   authLogout,
   addToProducts,
   removeFromProducts,
-  cart
+  products,
+  reserveProduct,
+  unreserveProduct,
+  unreserveAll
 }) => {
   useEffect(() => {
     // getProducts('all');
@@ -41,9 +50,19 @@ const App = ({
     });
 
     socket.on('productReserved', ({ productId }) => {
-      cart.map(item => (item._id === productId ? (item.reserved = true) : null));
+      console.log(productId);
+      reserveProduct(productId);
     });
-  });
+
+    socket.on('productUnreserved', ({ productId }) => {
+      console.log(productId);
+      unreserveProduct(productId);
+    });
+
+    socket.on('unreserveAll', () => {
+      unreserveAll();
+    });
+  }, []);
 
   return (
     <Router>
@@ -60,8 +79,8 @@ const App = ({
   );
 };
 
-const mapStateToProps = ({ productReducer: { category }, cartReducer: { cart } }) => {
-  return { category, cart };
+const mapStateToProps = ({ productReducer: { category, products } }) => {
+  return { category, products };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -70,12 +89,15 @@ const mapDispatchToProps = dispatch => {
     authenticationCheck: () => dispatch(authenticationCheck()),
     authLogout: () => dispatch(authLogout()),
     addToProducts: product => dispatch(addToProducts(product)),
-    removeFromProducts: productId => dispatch(removeFromProducts(productId))
+    removeFromProducts: productId => dispatch(removeFromProducts(productId)),
+    reserveProduct: productId => dispatch(reserveProduct(productId)),
+    unreserveProduct: productId => dispatch(unreserveProduct(productId)),
+    unreserveAll: () => dispatch(unreserveAll())
   };
 };
 
 App.propTypes = {
-  cart: PropTypes.array
+  products: PropTypes.array
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

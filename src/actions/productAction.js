@@ -7,7 +7,10 @@ import {
   CATEGORY_UPDATE,
   ADD_TO_PRODUCTS,
   REMOVE_FROM_PRODUCTS,
-  REMOVE_FAILURE
+  REMOVE_FAILURE,
+  RESERVE_PRODUCT,
+  UNRESERVE_PRODUCT,
+  UNRESERVE_ALL
 } from '../reducers/productReducer';
 import { API_URL } from '../utils/constants';
 import { categories } from '../utils/constants';
@@ -47,6 +50,26 @@ export const removeFromProducts = productId => {
     payload: {
       id: productId
     }
+  };
+};
+
+export const reserveProduct = productId => {
+  return {
+    type: RESERVE_PRODUCT,
+    payload: productId
+  };
+};
+
+export const unreserveProduct = productId => {
+  return {
+    type: UNRESERVE_PRODUCT,
+    payload: productId
+  };
+};
+
+export const unreserveAll = () => {
+  return {
+    type: UNRESERVE_ALL
   };
 };
 

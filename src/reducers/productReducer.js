@@ -5,6 +5,9 @@ export const CATEGORY_UPDATE = 'CATEGORY_UPDATE';
 export const ADD_TO_PRODUCTS = 'ADD_TO_PRODUCTS';
 export const REMOVE_FROM_PRODUCTS = 'REMOVE_FROM_PRODUCTS';
 export const REMOVE_FAILURE = 'REMOVE_FAILURE';
+export const RESERVE_PRODUCT = 'RESERVE_PRODUCT';
+export const UNRESERVE_PRODUCT = 'UNRESERVE_PRODUCT';
+export const UNRESERVE_ALL = 'UNRESERVE_ALL';
 
 const initialState = {
   products: [],
@@ -53,6 +56,29 @@ export const productReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [...state.products.filter(item => item._id !== action.payload.id)]
+      };
+    case RESERVE_PRODUCT:
+      return {
+        ...state,
+        products: [
+          ...state.products.map(item =>
+            item._id === action.payload ? { ...item, reserved: true } : item
+          )
+        ]
+      };
+    case UNRESERVE_PRODUCT:
+      return {
+        ...state,
+        products: [
+          ...state.products.map(item =>
+            item._id === action.payload ? { ...item, reserved: false } : item
+          )
+        ]
+      };
+    case UNRESERVE_ALL:
+      return {
+        ...state,
+        products: [...state.products.map(item => (item ? { ...item, reserved: false } : null))]
       };
     default:
       return state;
