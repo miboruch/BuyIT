@@ -1,14 +1,37 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT, RESET_CART } from '../reducers/cartReducer';
+import { ADD_PRODUCT, REMOVE_PRODUCT, RESET_CART, LOAD_CART_ITEMS } from '../reducers/cartReducer';
 import { socket } from '../utils/constants';
 
 const addProduct = product => {
+  let cart;
+  if (localStorage.getItem('cart')) {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    localStorage.removeItem('cart');
+  } else {
+    cart = [];
+  }
+
+  cart.push({ ...product, expire: new Date().getTime() + 0.2 * 60 * 1000 });
+  localStorage.setItem('cart', JSON.stringify(cart));
+
   return {
     type: ADD_PRODUCT,
     payload: product
   };
 };
 
-const removeProduct = product => {
+export const loadCartItems = () => {
+  const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+  return {
+    type: LOAD_CART_ITEMS,
+    payload: cart
+  };
+};
+
+export const removeProduct = product => {
+  const cart = JSON.parse(localStorage.getItem('cart'));
+  const updatedCart = cart.filter(item => item._id !== product._id);
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+
   return {
     type: REMOVE_PRODUCT,
     payload: product

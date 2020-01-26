@@ -14,8 +14,10 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import ProductResult from './pages/ProductResult';
 import { authenticationCheck, authLogout } from './actions/authenticationAction';
+import { removeProduct, loadCartItems } from './actions/cartAction';
 import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
+import { isProductInLocalStorage } from './utils/functions';
 
 const App = ({
   category,
@@ -24,14 +26,17 @@ const App = ({
   authLogout,
   addToProducts,
   removeFromProducts,
-  products,
+  cart,
   reserveProduct,
   unreserveProduct,
-  unreserveAll
+  unreserveAll,
+  removeFromCart,
+  loadCartItems
 }) => {
   useEffect(() => {
     // getProducts('all');
     authenticationCheck();
+    loadCartItems();
   }, []);
 
   useEffect(() => {
@@ -49,18 +54,31 @@ const App = ({
       removeFromProducts(removedProductId);
     });
 
-    socket.on('productReserved', ({ productId }) => {
-      console.log(productId);
-      reserveProduct(productId);
+    socket.on('productReserved', ({ updatedProduct }) => {
+      reserveProduct(updatedProduct._id);
+      console.log(updatedProduct);
+
+      /* timeout for expire  */
+      /* this one with cartAction or remove this and use in cart action and server */
+      // setTimeout(() => {
+      //   if (isProductInLocalStorage(updatedProduct)) {
+      //     removeFromCart(updatedProduct);
+      //     unreserveProduct(updatedProduct._id);
+      //   }
+      // }, 15 * 60 * 1000);
+      /* changes item in products from TODO! reserved: false to reserved:true */
     });
 
-    socket.on('productUnreserved', ({ productId }) => {
-      console.log(productId);
-      unreserveProduct(productId);
+    socket.on('productUnreserved', ({ updatedProduct }) => {
+      console.log(updatedProduct);
+      unreserveProduct(updatedProduct._id);
     });
 
-    socket.on('unreserveAll', () => {
-      unreserveAll();
+    socket.on('productTimeout', ({ expiredProduct }) => {
+      if (isProductInLocalStorage(expiredProduct)) {
+        removeFromCart(expiredProduct);
+        unreserveProduct(expiredProduct._id);
+      }
     });
   }, []);
 
@@ -79,8 +97,8 @@ const App = ({
   );
 };
 
-const mapStateToProps = ({ productReducer: { category, products } }) => {
-  return { category, products };
+const mapStateToProps = ({ productReducer: { category }, cartReducer: { cart } }) => {
+  return { category, cart };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -90,9 +108,11 @@ const mapDispatchToProps = dispatch => {
     authLogout: () => dispatch(authLogout()),
     addToProducts: product => dispatch(addToProducts(product)),
     removeFromProducts: productId => dispatch(removeFromProducts(productId)),
+    removeFromCart: product => dispatch(removeProduct(product)),
     reserveProduct: productId => dispatch(reserveProduct(productId)),
     unreserveProduct: productId => dispatch(unreserveProduct(productId)),
-    unreserveAll: () => dispatch(unreserveAll())
+    unreserveAll: () => dispatch(unreserveAll()),
+    loadCartItems: () => dispatch(loadCartItems())
   };
 };
 

@@ -16,6 +16,7 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const StyledHeading = styled.h1`
@@ -29,9 +30,14 @@ const StyledPriceParagraph = styled(Paragraph)`
   color: #1d1d1d;
 `;
 
+const StyledParagraph = styled(Paragraph)`
+  color: #1d1d1d;
+`;
+
 const CartProduct = ({ product, removeFromCart }) => {
-  const { name, price, _id: id } = product;
+  const { name, price, _id: id, expire } = product;
   const { toggleCart } = useContext(CartContext);
+
   return (
     <StyledWrapper>
       <Link to={`/product/${id}`}>
@@ -41,6 +47,9 @@ const CartProduct = ({ product, removeFromCart }) => {
       </Link>
       <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
       <StyledPriceParagraph>{price} USD</StyledPriceParagraph>
+      <StyledParagraph small>
+        Product will be removed from your cart in {new Date(expire).toLocaleTimeString()}
+      </StyledParagraph>
     </StyledWrapper>
   );
 };

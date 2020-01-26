@@ -1,6 +1,7 @@
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const RESET_CART = 'RESET_CART';
+export const LOAD_CART_ITEMS = 'LOAD_CART_ITEMS';
 
 const initialState = {
   cart: [],
@@ -25,6 +26,11 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: []
+      };
+    case LOAD_CART_ITEMS:
+      return {
+        ...state,
+        cart: action.payload
       };
     default:
       return state;

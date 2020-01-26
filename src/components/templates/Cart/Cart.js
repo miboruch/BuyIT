@@ -70,7 +70,13 @@ const Cart = ({ cart }) => {
         </CloseButtonWrapper>
         <StyledHeading>Your cart</StyledHeading>
         <ProductsWrapper>
-          {cart.map(item => (
+          {/*{cart.length !== 0*/}
+          {/*  ? cart.map(item => <CartProduct product={item} key={item._id} />)*/}
+          {/*  : JSON.parse(localStorage.getItem('cart')).map(item => (*/}
+          {/*      <CartProduct product={item} key={item._id} />*/}
+          {/*    ))}*/}
+
+          {JSON.parse(localStorage.getItem('cart')).map(item => (
             <CartProduct product={item} key={item._id} />
           ))}
         </ProductsWrapper>

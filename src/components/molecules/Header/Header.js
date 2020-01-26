@@ -112,7 +112,13 @@ const Header = ({ backgroundTheme, search, cart }) => {
           <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
         </StyledSearchButton>
       ) : null}
-      <StyledCartButton onClick={toggleCart} isOpen={isCartOpen} cartItemsCounter={cart.length}>
+      <StyledCartButton
+        onClick={toggleCart}
+        isOpen={isCartOpen}
+        cartItemsCounter={
+          cart.length !== 0 ? cart.length : JSON.parse(localStorage.getItem('cart')).length
+        }
+      >
         <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
       </StyledCartButton>
     </StyledHeader>
