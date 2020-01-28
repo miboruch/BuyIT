@@ -21,6 +21,7 @@ const addProduct = product => {
 
 export const loadCartItems = () => {
   const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
   return {
     type: LOAD_CART_ITEMS,
     payload: cart

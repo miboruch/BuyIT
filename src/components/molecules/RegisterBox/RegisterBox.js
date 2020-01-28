@@ -23,6 +23,11 @@ const StyledWrapper = styled.div`
   color: #fff;
   margin: 4rem auto;
   padding: 3rem;
+
+  ${({ theme }) => theme.mq.standard} {
+    margin: 0 3rem;
+    height: 90vh;
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`

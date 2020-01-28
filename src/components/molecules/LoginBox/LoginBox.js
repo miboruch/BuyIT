@@ -21,6 +21,12 @@ const StyledWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 3rem;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 50%;
+    margin: 0 3rem;
+    height: 90vh;
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`

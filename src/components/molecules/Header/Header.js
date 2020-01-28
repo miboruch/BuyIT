@@ -116,7 +116,9 @@ const Header = ({ backgroundTheme, search, cart }) => {
         onClick={toggleCart}
         isOpen={isCartOpen}
         cartItemsCounter={
-          cart.length !== 0 ? cart.length : JSON.parse(localStorage.getItem('cart')).length
+          localStorage.getItem('cart')
+            ? JSON.parse(localStorage.getItem('cart')).length
+            : cart.length
         }
       >
         <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
