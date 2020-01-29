@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { withRouter, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductResultTemplate from '../components/templates/ProductResultTemplate/ProductResultTemplate';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';

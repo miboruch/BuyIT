@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { socket } from '../utils/constants';
 import {
   FETCH_START,
   FETCH_SUCCESS,
+  FETCH_SINGLE_SUCCESS,
   FETCH_FAILURE,
   CATEGORY_UPDATE,
   ADD_TO_PRODUCTS,
@@ -25,6 +25,13 @@ const fetchSuccess = products => {
   return {
     type: FETCH_SUCCESS,
     payload: products
+  };
+};
+
+const fetchSingleSuccess = product => {
+  return {
+    type: FETCH_SINGLE_SUCCESS,
+    payload: product
   };
 };
 
@@ -106,6 +113,17 @@ export const fetchAllProducts = category => async dispatch => {
     );
 
     dispatch(fetchSuccess(result.data));
+  } catch (error) {
+    dispatch(fetchFailure(error));
+  }
+};
+
+export const fetchSingleProduct = id => async dispatch => {
+  dispatch(fetchStart());
+  try {
+    const result = await axios.get(`${API_URL}/product/getSpecificProduct/${id}`);
+
+    dispatch(fetchSingleSuccess(result.data));
   } catch (error) {
     dispatch(fetchFailure(error));
   }

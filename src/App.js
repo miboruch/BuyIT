@@ -18,6 +18,7 @@ import { removeProduct, loadCartItems } from './actions/cartAction';
 import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
+import ProductPage from './pages/ProductPage';
 
 const App = ({
   category,
@@ -56,21 +57,9 @@ const App = ({
 
     socket.on('productReserved', ({ updatedProduct }) => {
       reserveProduct(updatedProduct._id);
-      console.log(updatedProduct);
-
-      /* timeout for expire  */
-      /* this one with cartAction or remove this and use in cart action and server */
-      // setTimeout(() => {
-      //   if (isProductInLocalStorage(updatedProduct)) {
-      //     removeFromCart(updatedProduct);
-      //     unreserveProduct(updatedProduct._id);
-      //   }
-      // }, 15 * 60 * 1000);
-      /* changes item in products from TODO! reserved: false to reserved:true */
     });
 
     socket.on('productUnreserved', ({ updatedProduct }) => {
-      console.log(updatedProduct);
       unreserveProduct(updatedProduct._id);
     });
 
@@ -90,6 +79,7 @@ const App = ({
             <Route path={'/'} exact component={LandingPage} />
             <Route path={'/my-account'} component={AuthPage} />
             <Route path={'/products/:category'} component={ProductResult} />
+            <Route path={'/product/:id'} component={ProductPage} />
           </Switch>
         </>
       </Layout>
