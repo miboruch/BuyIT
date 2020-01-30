@@ -41,10 +41,6 @@ const App = ({
   }, []);
 
   useEffect(() => {
-    console.log(category);
-  }, [category]);
-
-  useEffect(() => {
     socket.on('productAdded', ({ addedProduct }) => {
       if ((category !== null && addedProduct.category === category) || category === 'all') {
         addToProducts(addedProduct);
