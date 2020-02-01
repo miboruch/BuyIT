@@ -53,6 +53,7 @@ const ProductPage = ({
         {loading ? <Spinner /> : <StyledTitle>{singleProduct.name}</StyledTitle>}
         <StyledImage src={singleProduct.image} />
         <StyledParagraph medium>{singleProduct.description}</StyledParagraph>
+        <StyledParagraph>{singleProduct.price}$</StyledParagraph>
         {isAlreadyInCart.length !== 0 ? (
           <Button text='You have this product in cart' />
         ) : (

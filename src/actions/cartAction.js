@@ -10,7 +10,7 @@ const addProduct = product => {
     cart = [];
   }
 
-  cart.push({ ...product, expire: new Date().getTime() + 0.2 * 60 * 1000 });
+  cart.push({ ...product, expire: new Date().getTime() + 15 * 60 * 1000 });
   localStorage.setItem('cart', JSON.stringify(cart));
 
   return {

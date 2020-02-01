@@ -29,7 +29,6 @@ const ProductWrapper = styled.div`
 const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, category }) => {
   useEffect(() => {
     categoryUpdate(match.params.category);
-    console.log(category);
     getAllProducts(match.params.category);
   }, []);
 
@@ -57,17 +56,6 @@ const ProductResult = ({ products, loading, categoryUpdate, match, getAllProduct
                       key={products[index]._id}
                     />
                   ))}
-
-                  {/*{products.map(item => (*/}
-                  {/*  <SingleProductCart*/}
-                  {/*    name={item.name}*/}
-                  {/*    image={item.image}*/}
-                  {/*    id={item._id}*/}
-                  {/*    price={item.price}*/}
-                  {/*    userLogin={item.userLogin}*/}
-                  {/*    key={item._id}*/}
-                  {/*  />*/}
-                  {/*))}*/}
                 </ProductWrapper>
               </ProductResultTemplate>
             </FilterContextProvider>

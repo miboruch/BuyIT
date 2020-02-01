@@ -35,7 +35,6 @@ const App = ({
   loadCartItems
 }) => {
   useEffect(() => {
-    // getProducts('all');
     authenticationCheck();
     loadCartItems();
   }, []);

@@ -62,11 +62,11 @@ const StyledIcon = styled(ReactSVG)`
 `;
 
 const StyledCartButton = styled(StyledSearchButton)`
-  right: 50px;
+  right: ${({ search }) => (search ? '50px' : '1rem')};
   left: auto;
 
   ${({ theme }) => theme.mq.standard} {
-    right: 65px;
+      right: ${({ search }) => (search ? '65px' : '1rem')};
   }
   
   &::before{
@@ -115,6 +115,7 @@ const Header = ({ backgroundTheme, search, cart }) => {
       <StyledCartButton
         onClick={toggleCart}
         isOpen={isCartOpen}
+        search={search}
         cartItemsCounter={
           localStorage.getItem('cart')
             ? JSON.parse(localStorage.getItem('cart')).length

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
-import { animated } from 'react-spring';
-import { socket } from '../../../utils/constants';
 import { ReactSVG } from 'react-svg';
 import deleteIcon from '../../../assets/icons/delete.svg';
 import { addProductToCart } from '../../../actions/cartAction';
@@ -60,7 +58,6 @@ const StyledIcon = styled(ReactSVG)`
   ${({ theme }) => theme.mq.tablet} {
     display: block;
   }
-  //transform: translate(-50%, -50%);
 `;
 
 const StyledNameParagraph = styled(Paragraph)`
