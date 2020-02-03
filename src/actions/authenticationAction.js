@@ -58,6 +58,18 @@ const userInfoError = error => {
   };
 };
 
+const getUserInfo = token => async dispatch => {
+  dispatch(authStart());
+  try {
+    const result = await axios.get(`${API_URL}/user/information`, {
+      headers: { 'auth-token': token }
+    });
+    dispatch(userInfoSuccess(result.data));
+  } catch (error) {
+    dispatch(userInfoError(error));
+  }
+};
+
 export const authLogout = () => {
   return {
     type: AUTH_LOGOUT
@@ -69,8 +81,8 @@ export const userLogin = (email, password, history) => async dispatch => {
 
   try {
     const result = await axios.post(`${API_URL}/user/login`, { email, password });
-
     dispatch(authSuccess(result.data.token, result.data.id));
+    dispatch(getUserInfo(result.data.token));
     history.push('/');
     localStorage.setItem('token', result.data.token);
     localStorage.setItem('userID', result.data.id);
@@ -118,19 +130,8 @@ export const authenticationCheck = () => async dispatch => {
 
   if (token && userID) {
     dispatch(authSuccess(token, userID));
+    dispatch(getUserInfo(token));
   } else {
     dispatch(authLogout());
-  }
-};
-
-export const getUserInfo = token => async dispatch => {
-  dispatch(authStart());
-  try {
-    const result = await axios.get(`${API_URL}/user/information`, {
-      headers: { 'auth-token': token }
-    });
-    dispatch(userInfoSuccess(result.data));
-  } catch (error) {
-    dispatch(userInfoError(error));
   }
 };
