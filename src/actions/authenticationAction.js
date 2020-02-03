@@ -4,7 +4,9 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGIN_FAILURE,
   AUTH_REGISTER_FAILURE,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
+  GET_USER_INFO,
+  GET_USER_INFO_ERROR
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
 
@@ -39,6 +41,20 @@ const authRegisterFailure = error => {
     payload: {
       error: error
     }
+  };
+};
+
+const userInfoSuccess = userInfo => {
+  return {
+    type: GET_USER_INFO,
+    payload: userInfo
+  };
+};
+
+const userInfoError = error => {
+  return {
+    type: GET_USER_INFO_ERROR,
+    payload: error
   };
 };
 
@@ -86,7 +102,6 @@ export const userRegister = (
       city,
       address
     });
-    console.log(result);
 
     dispatch(authSuccess(result.data.token, result.data._doc._id));
     localStorage.setItem('token', result.data.token);
@@ -105,5 +120,17 @@ export const authenticationCheck = () => async dispatch => {
     dispatch(authSuccess(token, userID));
   } else {
     dispatch(authLogout());
+  }
+};
+
+export const getUserInfo = token => async dispatch => {
+  dispatch(authStart());
+  try {
+    const result = await axios.get(`${API_URL}/user/information`, {
+      headers: { 'auth-token': token }
+    });
+    dispatch(userInfoSuccess(result.data));
+  } catch (error) {
+    dispatch(userInfoError(error));
   }
 };

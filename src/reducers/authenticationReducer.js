@@ -3,6 +3,8 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE';
 export const AUTH_REGISTER_FAILURE = 'AUTH_REGISTER_FAILURE';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const GET_USER_INFO_ERROR = 'GET_USER_INFO_ERROR';
 
 const initialState = {
   isLoggedIn: false,
@@ -10,7 +12,9 @@ const initialState = {
   userID: null,
   loginError: null,
   registerError: null,
-  loading: false
+  userInfoError: null,
+  loading: false,
+  userInfo: null
 };
 
 export const authenticationReducer = (state = initialState, action) => {
@@ -53,6 +57,19 @@ export const authenticationReducer = (state = initialState, action) => {
         userID: null,
         isLoggedIn: false,
         loading: false
+      };
+    case GET_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.payload,
+        loading: false
+      };
+    case GET_USER_INFO_ERROR:
+      return {
+        ...state,
+        userInfo: null,
+        loading: false,
+        userInfoError: action.payload
       };
     default:
       return state;

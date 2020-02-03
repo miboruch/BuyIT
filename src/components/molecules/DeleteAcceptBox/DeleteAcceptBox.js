@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
@@ -19,7 +20,7 @@ const StyledBoxWrapper = styled.div`
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
   transition: all 0.5s ease;
-  display: none;
+  display: flex;
 
   ${({ theme }) => theme.mq.tablet} {
     display: flex;
@@ -27,14 +28,19 @@ const StyledBoxWrapper = styled.div`
 `;
 
 const StyledBox = styled.div`
-  width: 500px;
-  height: 300px;
+  width: 90%;
+  height: 250px;
   background: #fff;
   outline: 2px solid #0b1010;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 500px;
+    height: 300px;
+  }
 `;
 
 const LeftBoxSide = styled.section`
@@ -125,6 +131,11 @@ const mapDispatchToProps = dispatch => {
   return {
     removeProduct: (token, productID) => dispatch(removeProduct(token, productID))
   };
+};
+
+DeleteAcceptContext.propTypes = {
+  token: PropTypes.string,
+  removeProduct: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteAcceptBox);

@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import AuthContent from '../components/templates/AuthContent/AuthContent';
+import { getUserInfo } from '../actions/authenticationAction';
+import Spinner from '../components/atoms/Spinner/Spinner';
 
-const AuthPage = () => {
+const AuthPage = ({ token, getUserInfo, loading }) => {
+  useEffect(() => {
+    if (token) {
+      getUserInfo(token);
+    }
+  }, []);
+
   return (
-    <MainTemplate backgroundTheme='light'>
-      <AuthContent />
-    </MainTemplate>
+    <MainTemplate backgroundTheme='light'>{loading ? <Spinner /> : <AuthContent />}</MainTemplate>
   );
 };
 
-export default AuthPage;
+const mapStateToProps = ({ authenticationReducer: { token, loading } }) => {
+  return { token, loading };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserInfo: token => dispatch(getUserInfo(token))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);
