@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -48,12 +48,7 @@ const StyledHeading = styled.h1`
   transform: translate(-50%, -50%);
 `;
 
-const ProductResultTemplate = ({
-  children,
-  category,
-  products,
-  isLoggedIn
-}) => {
+const ProductResultTemplate = ({ children, category, products, isLoggedIn }) => {
   const { toggleFilter } = useContext(FilterContext);
 
   return (
