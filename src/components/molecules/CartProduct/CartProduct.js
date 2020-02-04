@@ -48,7 +48,7 @@ const CartProduct = ({ product, removeFromCart }) => {
       <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
       <StyledPriceParagraph>{price} USD</StyledPriceParagraph>
       <StyledParagraph small>
-        Product will be removed from your cart in {new Date(expire).toLocaleTimeString()}
+        Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
       </StyledParagraph>
     </StyledWrapper>
   );

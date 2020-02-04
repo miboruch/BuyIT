@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import LoginBox from '../../molecules/LoginBox/LoginBox';
@@ -7,7 +8,6 @@ import RegisterBox from '../../molecules/RegisterBox/RegisterBox';
 import Button from '../../atoms/Button/Button';
 import { authLogout } from '../../../actions/authenticationAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
-import Spinner from '../../atoms/Spinner/Spinner';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -20,25 +20,30 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledTitleParagraph = styled(Paragraph)`
-  font-size: 24px;
-  color: #000;
+const StyledContentWrapper = styled.div`
+  padding: 2rem;
 `;
 
-const AuthContent = ({
-  isLoggedIn,
-  userLogout,
-  history,
-  userInfo,
-  token,
-  loading
-}) => {
+const StyledTitleParagraph = styled(Paragraph)`
+  color: #000;
+  padding-bottom: 1rem;
+`;
+
+const StyledTitle = styled(Paragraph)`
+  color: #000;
+  font-size: 36px !important;
+`;
+
+const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
   return (
     <StyledWrapper>
       <>
         {isLoggedIn ? (
-          <>
-            {/*<StyledTitleParagraph>User: {userInfo.login}</StyledTitleParagraph>*/}
+          <StyledContentWrapper>
+            <StyledTitle title>Your account: </StyledTitle>
+            <StyledTitleParagraph medium>login: {userInfo.login}</StyledTitleParagraph>
+            <StyledTitleParagraph medium>email: {userInfo.email}</StyledTitleParagraph>
+            <StyledTitleParagraph medium>created date: {new Date(userInfo.createdDate).toLocaleString()}</StyledTitleParagraph>
             <Button
               text='Logout'
               onClick={() => {
@@ -47,7 +52,7 @@ const AuthContent = ({
               }}
               buttonTheme='dark'
             />
-          </>
+          </StyledContentWrapper>
         ) : (
           <>
             <LoginBox />
@@ -65,8 +70,15 @@ const mapStateToProps = ({ authenticationReducer: { isLoggedIn, userInfo, token,
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLogout: () => dispatch(authLogout()),
+    userLogout: () => dispatch(authLogout())
   };
+};
+
+AuthContent.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  userInfo: PropTypes.object,
+  history: PropTypes.object,
+  userLogout: PropTypes.func
 };
 
 const AuthContentWithRouter = withRouter(AuthContent);

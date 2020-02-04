@@ -64,7 +64,10 @@ const getUserInfo = token => async dispatch => {
     const result = await axios.get(`${API_URL}/user/information`, {
       headers: { 'auth-token': token }
     });
-    dispatch(userInfoSuccess(result.data));
+    const products = await axios.get(`${API_URL}/product/getUserProducts`, {
+      headers: { 'auth-token': token }
+    });
+    dispatch(userInfoSuccess({ ...result.data, products: products.data }));
   } catch (error) {
     dispatch(userInfoError(error));
   }

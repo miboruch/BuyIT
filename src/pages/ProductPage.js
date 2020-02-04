@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,6 +9,13 @@ import Spinner from '../components/atoms/Spinner/Spinner';
 import { addProductToCart } from '../actions/cartAction';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
 import ProductContent from '../components/molecules/ProductContent/ProductContent';
+import Footer from '../components/molecules/Footer/Footer';
+
+const FooterWrapper = styled.div`
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+`;
 
 const ProductPage = ({ match, fetchSingleProduct, loading }) => {
   useEffect(() => {
@@ -17,7 +25,16 @@ const ProductPage = ({ match, fetchSingleProduct, loading }) => {
   return (
     <MainTemplate>
       <DeleteAcceptContextProvider>
-        {loading ? <Spinner /> : <ProductContent />}
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <ProductContent />
+            <FooterWrapper>
+              <Footer footerTheme='light' />
+            </FooterWrapper>
+          </>
+        )}
       </DeleteAcceptContextProvider>
     </MainTemplate>
   );

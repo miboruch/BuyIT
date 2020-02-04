@@ -74,13 +74,13 @@ const Search = ({ searchProductByQuery }) => {
         </CloseButtonWrapper>
         <StyledContentWrapper>
           <Formik
-            initialValues={{ query: '' }}
+            initialValues={{ query: 'test' }}
             onSubmit={({ query }) => {
               searchProductByQuery(query.trim());
             }}
             validationSchema={SearchSchema}
           >
-            {({ handleChange, handleBlur, errors }) => (
+            {({ handleChange, handleBlur, errors, values }) => (
               <StyledForm>
                 <StyledHeading>SEARCH</StyledHeading>
                 <FormLine
@@ -90,6 +90,7 @@ const Search = ({ searchProductByQuery }) => {
                   inputType='text'
                   name='query'
                   colorTheme='light'
+                  value={values.query}
                 />
                 <ButtonWrapper>
                   <Button

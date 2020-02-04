@@ -50,16 +50,18 @@ const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart
         <StyledParagraph medium>{singleProduct.description}</StyledParagraph>
         <StyledParagraph>{singleProduct.price}$</StyledParagraph>
         {isYourOwnProduct ? (
-          <StyledParagraph>This is your product. You can remove this one</StyledParagraph>
+          <>
+            <StyledParagraph>This is your product. You can remove this one</StyledParagraph>
+            <Button
+              text='remove product'
+              onClick={() => {
+                setBoxState(true);
+                setProductId(singleProduct._id);
+                setProductName(singleProduct.name);
+              }}
+            />
+          </>
         ) : null}
-        <Button
-          text='remove product'
-          onClick={() => {
-            setBoxState(true);
-            setProductId(singleProduct._id);
-            setProductName(singleProduct.name);
-          }}
-        />
         <ButtonWrapper isYourOwnProduct={isYourOwnProduct}>
           {isAlreadyInCart.length !== 0 ? (
             <Button text='You have this product in cart' />
