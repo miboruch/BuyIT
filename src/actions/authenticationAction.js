@@ -6,7 +6,9 @@ import {
   AUTH_REGISTER_FAILURE,
   AUTH_LOGOUT,
   GET_USER_INFO,
-  GET_USER_INFO_ERROR
+  GET_USER_INFO_ERROR,
+  UPDATE_SUCCESS,
+  UPDATE_FAILURE
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
 
@@ -54,6 +56,19 @@ const userInfoSuccess = userInfo => {
 const userInfoError = error => {
   return {
     type: GET_USER_INFO_ERROR,
+    payload: error
+  };
+};
+
+const updateSuccess = () => {
+  return {
+    type: UPDATE_SUCCESS
+  };
+};
+
+const updateFailure = error => {
+  return {
+    type: UPDATE_FAILURE,
     payload: error
   };
 };
@@ -136,5 +151,22 @@ export const authenticationCheck = () => async dispatch => {
     dispatch(getUserInfo(token));
   } else {
     dispatch(authLogout());
+  }
+};
+
+export const userUpdate = (name, lastName, city, address, token) => async dispatch => {
+  dispatch(authStart());
+  try {
+    await axios.put(
+      `${API_URL}/user/update`,
+      { name, lastName, city, address },
+      {
+        headers: { 'auth-token': token }
+      }
+    );
+
+    dispatch(updateSuccess());
+  } catch (error) {
+    dispatch(updateFailure(error));
   }
 };

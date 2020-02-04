@@ -8,6 +8,7 @@ import RegisterBox from '../../molecules/RegisterBox/RegisterBox';
 import Button from '../../atoms/Button/Button';
 import { authLogout } from '../../../actions/authenticationAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
+import EditTemplate from '../EditTemplate/EditTemplate';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -34,6 +35,15 @@ const StyledTitle = styled(Paragraph)`
   font-size: 36px !important;
 `;
 
+const EditButtonWrapper = styled.div`
+  margin-top: 1rem;
+`;
+
+const LogoutButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 2rem;
+`;
+
 const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
   const [isEditOpen, setEditOpen] = useState(false);
   return (
@@ -52,7 +62,7 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
             </StyledTitleParagraph>
             <StyledTitle title>Personal data:</StyledTitle>
             {isEditOpen ? (
-              <h1>hello</h1>
+              <EditTemplate setEditOpen={setEditOpen} />
             ) : (
               <>
                 <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
@@ -61,15 +71,23 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
                 <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
               </>
             )}
-            <Button
-              text='Logout'
-              onClick={() => {
-                userLogout();
-                history.push('/');
-              }}
-              buttonTheme='dark'
-            />
-            <Button text='Edit data' buttonTheme='dark' />
+            <EditButtonWrapper>
+              <Button
+                text={isEditOpen ? 'close' : 'edit data'}
+                buttonTheme='dark'
+                onClick={() => setEditOpen(!isEditOpen)}
+              />
+            </EditButtonWrapper>
+            <LogoutButtonWrapper>
+              <Button
+                text='Logout'
+                onClick={() => {
+                  userLogout();
+                  history.push('/');
+                }}
+                buttonTheme='dark'
+              />
+            </LogoutButtonWrapper>
           </StyledContentWrapper>
         ) : (
           <>

@@ -44,6 +44,31 @@ export const registerInputArray = errors => {
   ];
 };
 
+export const updateInputArrays = (errors, values) => {
+  return [
+    {
+      name: 'name',
+      labelText: errors.name ? errors.name : 'name',
+      value: values.name
+    },
+    {
+      name: 'lastName',
+      labelText: errors.lastName ? errors.lastName : 'last name',
+      value: values.lastName
+    },
+    {
+      name: 'address',
+      labelText: errors.address ? errors.address : 'address',
+      value: values.address
+    },
+    {
+      name: 'city',
+      labelText: errors.city ? errors.city : 'city',
+      value: values.city
+    }
+  ];
+};
+
 export const menuItems = isLogged => {
   return [
     {

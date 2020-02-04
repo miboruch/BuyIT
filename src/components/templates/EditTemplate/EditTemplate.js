@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import FormLine from '../../molecules/FormLine/FormLine';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Button from '../../atoms/Button/Button';
+import { userUpdate } from '../../../actions/authenticationAction';
+import { UpdateSchema } from '../../../utils/schemaValidation';
+import { updateInputArrays } from '../../../utils/contentArrays';
 
 const StyledForm = styled(Form)`
   width: 90%;
+  transition: 1s ease all;
 `;
 
-const EditTemplate = ({ userInfo }) => {
+const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
+  console.log(token);
   return (
     <Formik
       initialValues={{
@@ -19,34 +25,53 @@ const EditTemplate = ({ userInfo }) => {
         address: userInfo.address,
         city: userInfo.city
       }}
-      onSubmit={data => {
-        console.log(data);
+      onSubmit={({ name, lastName, address, city }) => {
+        userUpdate(name, lastName, city, address, token);
+        history.push('/my-account');
       }}
+      validationSchema={UpdateSchema}
     >
-      {({ handleChange, handleBlur, errors, values }) => (
-        <StyledForm>
-          <FormLine
-            labelText={errors.query ? errors.query : 'name'}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            inputType='text'
-            name='query'
-            colorTheme='light'
-            value={values.query}
-          />
-          <Button buttonTheme='dark' text='Search' type='submit' onClick={() => toggleSearch()} />
-        </StyledForm>
-      )}
+      {({ handleChange, handleBlur, errors, values, setEditOpen }) => {
+        const updateInput = updateInputArrays(errors, values);
+        return (
+          <StyledForm>
+            {updateInput.map(item => (
+              <FormLine
+                key={item.name}
+                labelText={item.labelText}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputType='text'
+                name={item.name}
+                colorTheme='light'
+                value={item.value}
+              />
+            ))}
+            <Button buttonTheme='dark' text='Save' type='submit' />
+          </StyledForm>
+        );
+      }}
     </Formik>
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { userInfo } }) => {
-  return { userInfo };
+const mapStateToProps = ({ authenticationReducer: { userInfo, token } }) => {
+  return { userInfo, token };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userUpdate: (name, lastName, city, address, token) =>
+      dispatch(userUpdate(name, lastName, city, address, token))
+  };
 };
 
 EditTemplate.propTypes = {
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
+  userUpdate: PropTypes.func,
+  token: PropTypes.string
 };
 
-export default connect(mapStateToProps)(EditTemplate);
+const EditTemplateWithRouter = withRouter(EditTemplate);
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditTemplateWithRouter);
