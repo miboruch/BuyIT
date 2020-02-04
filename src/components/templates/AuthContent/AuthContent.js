@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -35,15 +35,32 @@ const StyledTitle = styled(Paragraph)`
 `;
 
 const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
+  const [isEditOpen, setEditOpen] = useState(false);
   return (
     <StyledWrapper>
       <>
         {isLoggedIn ? (
           <StyledContentWrapper>
             <StyledTitle title>Your account: </StyledTitle>
-            <StyledTitleParagraph medium>login: {userInfo.login}</StyledTitleParagraph>
-            <StyledTitleParagraph medium>email: {userInfo.email}</StyledTitleParagraph>
-            <StyledTitleParagraph medium>created date: {new Date(userInfo.createdDate).toLocaleString()}</StyledTitleParagraph>
+            <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
+            <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
+            <StyledTitleParagraph>
+              created date: {new Date(userInfo.createdDate).toLocaleString()}
+            </StyledTitleParagraph>
+            <StyledTitleParagraph>
+              Your products in database: {userInfo.products.length}
+            </StyledTitleParagraph>
+            <StyledTitle title>Personal data:</StyledTitle>
+            {isEditOpen ? (
+              <h1>hello</h1>
+            ) : (
+              <>
+                <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
+                <StyledTitleParagraph>last name: {userInfo.lastName}</StyledTitleParagraph>
+                <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
+                <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
+              </>
+            )}
             <Button
               text='Logout'
               onClick={() => {
@@ -52,6 +69,7 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
               }}
               buttonTheme='dark'
             />
+            <Button text='Edit data' buttonTheme='dark' />
           </StyledContentWrapper>
         ) : (
           <>
