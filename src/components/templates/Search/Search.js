@@ -74,7 +74,7 @@ const Search = ({ searchProductByQuery }) => {
         </CloseButtonWrapper>
         <StyledContentWrapper>
           <Formik
-            initialValues={{ query: 'test' }}
+            initialValues={{ query: '' }}
             onSubmit={({ query }) => {
               searchProductByQuery(query.trim());
             }}
@@ -90,7 +90,6 @@ const Search = ({ searchProductByQuery }) => {
                   inputType='text'
                   name='query'
                   colorTheme='light'
-                  value={values.query}
                 />
                 <ButtonWrapper>
                   <Button

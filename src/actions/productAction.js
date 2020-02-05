@@ -4,6 +4,7 @@ import {
   FETCH_SUCCESS,
   FETCH_SINGLE_SUCCESS,
   FETCH_FAILURE,
+  LOAD_STOP,
   CATEGORY_UPDATE,
   ADD_TO_PRODUCTS,
   REMOVE_FROM_PRODUCTS,
@@ -41,6 +42,12 @@ const fetchFailure = error => {
     payload: {
       error: error
     }
+  };
+};
+
+const loadStop = () => {
+  return {
+    type: LOAD_STOP
   };
 };
 
@@ -153,5 +160,28 @@ export const removeProduct = (token, productID) => async dispatch => {
     );
   } catch (error) {
     dispatch(removeFailure(error));
+  }
+};
+
+export const addProduct = (image, name, description, price, category, token) => async dispatch => {
+  const formData = new FormData();
+  formData.append('image', image);
+  formData.set('name', name);
+  formData.set('description', description);
+  formData.set('price', price);
+  formData.set('category', category);
+
+  dispatch(fetchStart());
+  try {
+    await axios.post(`${API_URL}/product/addProduct`, formData, {
+      headers: {
+        'auth-token': token,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    dispatch(loadStop());
+  } catch (error) {
+    dispatch(fetchFailure(error));
   }
 };
