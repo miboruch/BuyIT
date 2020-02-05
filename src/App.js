@@ -19,6 +19,7 @@ import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
 import ProductPage from './pages/ProductPage';
+import AddProductPage from "./pages/AddProductPage";
 
 const App = ({
   category,
@@ -75,6 +76,7 @@ const App = ({
             <Route path={'/my-account'} component={AuthPage} />
             <Route path={'/products/:category'} component={ProductResult} />
             <Route path={'/product/:id'} component={ProductPage} />
+            <Route path={'/addProduct'} component={AddProductPage} />
           </Switch>
         </>
       </Layout>

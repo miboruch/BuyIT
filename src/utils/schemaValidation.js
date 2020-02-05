@@ -52,6 +52,23 @@ export const UpdateSchema = Yup.object().shape({
     .required('City is required')
 });
 
+export const AddProductSchema = Yup.object().shape({
+  image: Yup.mixed().required('Image is required'),
+  name: Yup.string()
+    .min(2, 'Name too short - 2 chars minimum')
+    .required('Name is required'),
+  description: Yup.string()
+    .min(6, 'Description too short - 6 chars minimum')
+    .required('Description is required'),
+  price: Yup.number()
+    .required('Price is required')
+    .typeError('Price must be a number')
+    .positive('Price has to be positive'),
+  category: Yup.string()
+    .min(2, 'Category name too short - 2 chars minimum')
+    .required('Category is required')
+});
+
 export const SearchSchema = Yup.object().shape({
   query: Yup.string()
     .required('This field is required')
