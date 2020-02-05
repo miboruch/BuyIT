@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import FormLine from '../components/molecules/FormLine/FormLine';
 import Button from '../components/atoms/Button/Button';
 import { categories } from '../utils/constants';
 import { AddProductSchema } from '../utils/schemaValidation';
+import { addProduct } from '../actions/productAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -75,7 +78,7 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-const AddProductPage = () => {
+const AddProductPage = ({ addProduct, history, token }) => {
   return (
     <StyledWrapper>
       <StyledFormWrapper>
@@ -87,9 +90,9 @@ const AddProductPage = () => {
             price: null,
             category: categories[0]
           }}
-          onSubmit={data => {
-            // searchProductByQuery(query.trim());
-            console.log(data);
+          onSubmit={({ image, name, description, price, category }) => {
+            addProduct(image, name, description, price, category, token);
+            history.push('/products/all');
           }}
           validationSchema={AddProductSchema}
         >
@@ -125,19 +128,16 @@ const AddProductPage = () => {
               </StyledSelect>
               <StyledLabel>{errors.image ? errors.image : 'image'}</StyledLabel>
               <FormLine
-                onChange={handleChange}
+                onChange={event => {
+                  setFieldValue('image', event.currentTarget.files[0]);
+                }}
                 onBlur={handleBlur}
                 inputType='file'
                 name='file'
                 colorTheme='light'
               />
               <ButtonWrapper>
-                <Button
-                  buttonTheme='dark'
-                  text='Add'
-                  type='submit'
-                  // onClick={() => toggleSearch()}
-                />
+                <Button buttonTheme='dark' text='Add' type='submit' />
               </ButtonWrapper>
             </StyledForm>
           )}
@@ -147,4 +147,22 @@ const AddProductPage = () => {
   );
 };
 
-export default AddProductPage;
+const mapStateToProps = ({ authenticationReducer: { token } }) => {
+  return { token };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addProduct: (image, name, description, price, category, token) =>
+      dispatch(addProduct(image, name, description, price, category, token))
+  };
+};
+
+AddProductPage.propTypes = {
+  addProduct: PropTypes.func,
+  token: PropTypes.string
+};
+
+const AddProductPageWithRouter = withRouter(AddProductPage);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProductPageWithRouter);

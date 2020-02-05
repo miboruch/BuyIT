@@ -50,45 +50,49 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
     <StyledWrapper>
       <>
         {isLoggedIn ? (
-          <StyledContentWrapper>
-            <StyledTitle title>Your account: </StyledTitle>
-            <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
-            <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
-            <StyledTitleParagraph>
-              created date: {new Date(userInfo.createdDate).toLocaleString()}
-            </StyledTitleParagraph>
-            <StyledTitleParagraph>
-              Your products in database: {userInfo.products.length}
-            </StyledTitleParagraph>
-            <StyledTitle title>Personal data:</StyledTitle>
-            {isEditOpen ? (
-              <EditTemplate setEditOpen={setEditOpen} />
-            ) : (
-              <>
-                <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
-                <StyledTitleParagraph>last name: {userInfo.lastName}</StyledTitleParagraph>
-                <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
-                <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
-              </>
-            )}
-            <EditButtonWrapper>
-              <Button
-                text={isEditOpen ? 'close' : 'edit data'}
-                buttonTheme='dark'
-                onClick={() => setEditOpen(!isEditOpen)}
-              />
-            </EditButtonWrapper>
-            <LogoutButtonWrapper>
-              <Button
-                text='Logout'
-                onClick={() => {
-                  userLogout();
-                  history.push('/');
-                }}
-                buttonTheme='dark'
-              />
-            </LogoutButtonWrapper>
-          </StyledContentWrapper>
+          <>
+            {userInfo ? (
+              <StyledContentWrapper>
+                <StyledTitle title>Your account: </StyledTitle>
+                <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
+                <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
+                <StyledTitleParagraph>
+                  created date: {new Date(userInfo.createdDate).toLocaleString()}
+                </StyledTitleParagraph>
+                <StyledTitleParagraph>
+                  Your products in database: {userInfo.products.length}
+                </StyledTitleParagraph>
+                <StyledTitle title>Personal data:</StyledTitle>
+                {isEditOpen ? (
+                  <EditTemplate setEditOpen={setEditOpen} />
+                ) : (
+                  <>
+                    <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
+                    <StyledTitleParagraph>last name: {userInfo.lastName}</StyledTitleParagraph>
+                    <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
+                    <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
+                  </>
+                )}
+                <EditButtonWrapper>
+                  <Button
+                    text={isEditOpen ? 'close' : 'edit data'}
+                    buttonTheme='dark'
+                    onClick={() => setEditOpen(!isEditOpen)}
+                  />
+                </EditButtonWrapper>
+                <LogoutButtonWrapper>
+                  <Button
+                    text='Logout'
+                    onClick={() => {
+                      userLogout();
+                      history.push('/');
+                    }}
+                    buttonTheme='dark'
+                  />
+                </LogoutButtonWrapper>
+              </StyledContentWrapper>
+            ) : null}
+          </>
         ) : (
           <>
             <LoginBox />

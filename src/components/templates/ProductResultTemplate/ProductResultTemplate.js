@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { updateCategory } from '../../../actions/productAction';
@@ -58,7 +58,9 @@ const ProductResultTemplate = ({ children, category, products, isLoggedIn }) => 
           <Button text='Filter' onClick={() => toggleFilter()} />
         </ButtonWrapper>
         <ButtonWrapper>
-          <Button text={isLoggedIn ? 'add new product' : 'log in'} />
+          <Link to={isLoggedIn ? '/addProduct' : '/my-account'}>
+            <Button text={isLoggedIn ? 'add new product' : 'log in'} />
+          </Link>
         </ButtonWrapper>
         {products.length !== 0 ? (
           <>
