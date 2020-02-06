@@ -19,7 +19,7 @@ import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
 import ProductPage from './pages/ProductPage';
-import AddProductPage from "./pages/AddProductPage";
+import AddProductPage from './pages/AddProductPage';
 
 const App = ({
   category,
@@ -61,7 +61,8 @@ const App = ({
     });
 
     socket.on('productTimeout', ({ expiredProduct }) => {
-      if (isProductInLocalStorage(expiredProduct)) {
+      const [isInLocalStorage] = isProductInLocalStorage(expiredProduct);
+      if (isInLocalStorage) {
         removeFromCart(expiredProduct);
         unreserveProduct(expiredProduct._id);
       }

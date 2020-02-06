@@ -19,15 +19,6 @@ const addProduct = product => {
   };
 };
 
-export const loadCartItems = () => {
-  const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-
-  return {
-    type: LOAD_CART_ITEMS,
-    payload: cart
-  };
-};
-
 export const removeProduct = product => {
   const cart = JSON.parse(localStorage.getItem('cart'));
   const updatedCart = cart.filter(item => item._id !== product._id);
@@ -36,6 +27,15 @@ export const removeProduct = product => {
   return {
     type: REMOVE_PRODUCT,
     payload: product
+  };
+};
+
+export const loadCartItems = () => {
+  const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+  return {
+    type: LOAD_CART_ITEMS,
+    payload: cart
   };
 };
 
@@ -49,8 +49,3 @@ export const removeProductFromCart = product => dispatch => {
   dispatch(removeProduct(product));
 };
 
-export const resetCart = () => {
-  return {
-    type: RESET_CART
-  };
-};

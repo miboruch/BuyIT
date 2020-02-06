@@ -81,7 +81,7 @@ export const menuItems = isLogged => {
     },
     {
       name: 'ADD PRODUCT',
-      link: '/'
+      link: '/addProduct'
     },
     {
       name: isLogged ? 'ACCOUNT' : 'SIGN IN',

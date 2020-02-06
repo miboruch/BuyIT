@@ -16,7 +16,6 @@ const StyledForm = styled(Form)`
 `;
 
 const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
-  console.log(token);
   return (
     <Formik
       initialValues={{
