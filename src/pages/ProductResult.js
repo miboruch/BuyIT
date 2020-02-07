@@ -10,13 +10,7 @@ import Spinner from '../components/atoms/Spinner/Spinner';
 import { useTrail } from 'react-spring';
 import FilterContextProvider from '../context/FilterContext';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
-import {
-  addToProducts,
-  fetchAllProducts,
-  removeFromProducts,
-  updateCategory
-} from '../actions/productAction';
-import { socket } from '../utils/constants';
+import { fetchAllProducts, removeFromProducts, updateCategory } from '../actions/productAction';
 
 const ProductWrapper = styled.div`
   display: flex;

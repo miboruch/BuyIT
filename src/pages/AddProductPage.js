@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
+import backIcon from '../assets/icons/next.svg';
+import { Link, withRouter } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import FormLine from '../components/molecules/FormLine/FormLine';
 import Button from '../components/atoms/Button/Button';
@@ -18,6 +20,12 @@ const StyledWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+`;
+
+const CloseButtonWrapper = styled.div`
+  position: absolute;
+  top: 3rem;
+  left: 2rem;
 `;
 
 const StyledFormWrapper = styled.div`
@@ -38,6 +46,45 @@ const StyledHeading = styled.h1`
 
 const ButtonWrapper = styled.div`
   margin-top: 4rem;
+`;
+
+const StyledIcon = styled(ReactSVG)`
+  width: 20px;
+  height: 20px;
+  fill: #000;
+  transform: rotate(180deg);
+  cursor: pointer;
+  position: relative;
+
+  &::after {
+    content: 'GO BACK';
+    color: #000;
+    width: 100px;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: auto;
+    right: -20px;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 100px;
+    height: 20px;
+    background-color: ${({ theme }) => theme.color.backgroundLight};
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: width 0.5s ease;
+  }
+
+  &:hover::before {
+    width: 0;
+    transition: width 0.5s ease;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -81,6 +128,11 @@ const StyledTextArea = styled.textarea`
 const AddProductPage = ({ addProduct, history, token }) => {
   return (
     <StyledWrapper>
+      <Link to='/products/all'>
+        <CloseButtonWrapper>
+          <StyledIcon src={backIcon} />
+        </CloseButtonWrapper>
+      </Link>
       <StyledFormWrapper>
         <Formik
           initialValues={{

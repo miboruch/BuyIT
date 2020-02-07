@@ -89,6 +89,8 @@ const getUserInfo = token => async dispatch => {
 };
 
 export const authLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userID');
   return {
     type: AUTH_LOGOUT
   };

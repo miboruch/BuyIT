@@ -72,7 +72,6 @@ const App = ({
             <Route path={'/my-account'} component={AuthPage} />
             <Route path={'/products/:category'} component={ProductResult} />
             <Route path={'/product/:id'} component={ProductPage} />
-            {/*<Route path={'/addProduct'} component={AddProductPage} />*/}
             <PrivateRoute path={'/addProduct'} component={AddProductPage} />
           </Switch>
         </>

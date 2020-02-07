@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, isLoggedIn, loading, ...rest }) => {
-  console.log(isLoggedIn);
+  const token = localStorage.getItem('token') || isLoggedIn;
   return (
     <Route
       {...rest}
       render={props =>
-        isLoggedIn ? (
+        token ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: '/my-account', state: { from: props.location } }} />

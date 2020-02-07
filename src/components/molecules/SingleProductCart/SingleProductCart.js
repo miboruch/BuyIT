@@ -129,7 +129,13 @@ const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
             }}
           />
         ) : null}
-        {image ? <StyledImage src={image} /> : <p>no image</p>}
+        {image ? (
+          <Link to={`/product/${id}`}>
+            <StyledImage src={image} />
+          </Link>
+        ) : (
+          <p>no image</p>
+        )}
         <ContentWrapper>
           <StyledNameParagraph medium>{name}</StyledNameParagraph>
           <StyledPrice>{price}$</StyledPrice>
