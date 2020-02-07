@@ -114,11 +114,12 @@ const OpenProduct = styled(Paragraph)`
 const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
   const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
   const { image, name, price, _id: id, userLogin, userID: productUserID, reserved } = product;
+  const isUserProduct = userID === productUserID;
   return (
     <>
       <StyledWrapper>
         <StyledCover reserved={reserved}>Reserved</StyledCover>
-        {userID === productUserID && reserved === false ? (
+        {isUserProduct && reserved === false ? (
           <StyledIcon
             src={deleteIcon}
             onClick={() => {
@@ -136,7 +137,9 @@ const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>
-          <Button text='add to cart' onClick={() => addProductToCart(product)} />
+          {isUserProduct ? null : (
+            <Button text='add to cart' onClick={() => addProductToCart(product)} />
+          )}
         </ContentWrapper>
       </StyledWrapper>
     </>

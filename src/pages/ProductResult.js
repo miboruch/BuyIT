@@ -16,6 +16,7 @@ import {
   removeFromProducts,
   updateCategory
 } from '../actions/productAction';
+import { socket } from '../utils/constants';
 
 const ProductWrapper = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ const ProductWrapper = styled.div`
   position: relative;
 `;
 
-const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, category }) => {
+const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts }) => {
   useEffect(() => {
     categoryUpdate(match.params.category);
     getAllProducts(match.params.category);
@@ -66,15 +67,14 @@ const ProductResult = ({ products, loading, categoryUpdate, match, getAllProduct
   );
 };
 
-const mapStateToProps = ({ productReducer: { products, loading, category } }) => {
-  return { products, loading, category };
+const mapStateToProps = ({ productReducer: { products, loading } }) => {
+  return { products, loading };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     categoryUpdate: category => dispatch(updateCategory(category)),
     getAllProducts: category => dispatch(fetchAllProducts(category)),
-    addToProducts: product => dispatch(addToProducts(product)),
     removeFromProducts: productId => dispatch(removeFromProducts(productId))
   };
 };
@@ -82,7 +82,9 @@ const mapDispatchToProps = dispatch => {
 ProductResult.propTypes = {
   products: PropTypes.array,
   loading: PropTypes.bool,
-  match: PropTypes.object
+  match: PropTypes.object,
+  categoryUpdate: PropTypes.func,
+  getAllProducts: PropTypes.func
 };
 
 const ProductResultWithRouter = withRouter(ProductResult);

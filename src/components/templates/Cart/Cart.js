@@ -7,6 +7,7 @@ import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 import PropTypes from 'prop-types';
 import CartProduct from '../../molecules/CartProduct/CartProduct';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -24,6 +25,15 @@ const StyledCartWrapper = styled.div`
     right: 0;
     left: auto;
   }
+`;
+
+const StyledTotalPrice = styled(Paragraph)`
+  color: #000;
+  font-size: 20px;
+  position: absolute;
+  right: 2rem;
+  bottom: 100px;
+  left: auto;
 `;
 
 const CloseButtonWrapper = styled.div`
@@ -59,7 +69,7 @@ const ProductsWrapper = styled.div`
   overflow-y: scroll;
 `;
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, totalPrice }) => {
   const { isCartOpen, toggleCart } = useContext(CartContext);
   return (
     <>
@@ -76,6 +86,7 @@ const Cart = ({ cart }) => {
               ))
             : cart.map(item => <CartProduct product={item} key={item._id} />)}
         </ProductsWrapper>
+        <StyledTotalPrice>Total price: {totalPrice} $</StyledTotalPrice>
         <ButtonWrapper>
           <Button text='Check all products' buttonTheme='dark' />
         </ButtonWrapper>
@@ -84,12 +95,13 @@ const Cart = ({ cart }) => {
   );
 };
 
-const mapStateToProps = ({ cartReducer: { cart } }) => {
-  return { cart };
+const mapStateToProps = ({ cartReducer: { cart, totalPrice } }) => {
+  return { cart, totalPrice };
 };
 
 Cart.propTypes = {
-  cart: PropTypes.array.isRequired
+  cart: PropTypes.array.isRequired,
+  totalPrice: PropTypes.number
 };
 
 export default connect(mapStateToProps)(Cart);

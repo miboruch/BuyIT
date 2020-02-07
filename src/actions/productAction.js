@@ -10,8 +10,7 @@ import {
   REMOVE_FROM_PRODUCTS,
   REMOVE_FAILURE,
   RESERVE_PRODUCT,
-  UNRESERVE_PRODUCT,
-  UNRESERVE_ALL
+  UNRESERVE_PRODUCT
 } from '../reducers/productReducer';
 import { API_URL } from '../utils/constants';
 import { categories } from '../utils/constants';
@@ -81,12 +80,6 @@ export const unreserveProduct = productId => {
   };
 };
 
-export const unreserveAll = () => {
-  return {
-    type: UNRESERVE_ALL
-  };
-};
-
 const removeFailure = error => {
   return {
     type: REMOVE_FAILURE,
@@ -137,7 +130,6 @@ export const fetchSingleProduct = id => async dispatch => {
 };
 
 export const searchProductByQuery = query => async dispatch => {
-  console.log(query);
   dispatch(fetchStart());
   try {
     const queryResult = query.split(' ').join('_');

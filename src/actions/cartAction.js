@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT, RESET_CART, LOAD_CART_ITEMS } from '../reducers/cartReducer';
+import { ADD_PRODUCT, REMOVE_PRODUCT, LOAD_CART_ITEMS } from '../reducers/cartReducer';
 import { socket } from '../utils/constants';
 
 const addProduct = product => {

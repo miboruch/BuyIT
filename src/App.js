@@ -1,37 +1,29 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import {
-  addToProducts,
-  removeFromProducts,
-  fetchAllProducts,
-  unreserveAll
-} from './actions/productAction';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { addToProducts, removeFromProducts } from './actions/productAction';
 import './App.css';
 import Layout from './components/Layout/Layout';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import ProductResult from './pages/ProductResult';
-import { authenticationCheck, authLogout } from './actions/authenticationAction';
+import { authenticationCheck } from './actions/authenticationAction';
 import { removeProduct, loadCartItems } from './actions/cartAction';
 import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
 import ProductPage from './pages/ProductPage';
 import AddProductPage from './pages/AddProductPage';
+import PrivateRoute from './components/templates/PrivateRoute/PrivateRoute';
 
 const App = ({
   category,
-  getProducts,
   authenticationCheck,
-  authLogout,
   addToProducts,
   removeFromProducts,
-  cart,
   reserveProduct,
   unreserveProduct,
-  unreserveAll,
   removeFromCart,
   loadCartItems
 }) => {
@@ -47,7 +39,9 @@ const App = ({
         addToProducts(addedProduct);
       }
     });
+  });
 
+  useEffect(() => {
     socket.on('productRemoved', ({ removedProductId }) => {
       removeFromProducts(removedProductId);
     });
@@ -78,7 +72,8 @@ const App = ({
             <Route path={'/my-account'} component={AuthPage} />
             <Route path={'/products/:category'} component={ProductResult} />
             <Route path={'/product/:id'} component={ProductPage} />
-            <Route path={'/addProduct'} component={AddProductPage} />
+            {/*<Route path={'/addProduct'} component={AddProductPage} />*/}
+            <PrivateRoute path={'/addProduct'} component={AddProductPage} />
           </Switch>
         </>
       </Layout>
@@ -86,27 +81,30 @@ const App = ({
   );
 };
 
-const mapStateToProps = ({ productReducer: { category }, cartReducer: { cart } }) => {
-  return { category, cart };
+const mapStateToProps = ({ productReducer: { category } }) => {
+  return { category };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProducts: category => dispatch(fetchAllProducts(category)),
     authenticationCheck: () => dispatch(authenticationCheck()),
-    authLogout: () => dispatch(authLogout()),
     addToProducts: product => dispatch(addToProducts(product)),
     removeFromProducts: productId => dispatch(removeFromProducts(productId)),
     removeFromCart: product => dispatch(removeProduct(product)),
     reserveProduct: productId => dispatch(reserveProduct(productId)),
     unreserveProduct: productId => dispatch(unreserveProduct(productId)),
-    unreserveAll: () => dispatch(unreserveAll()),
     loadCartItems: () => dispatch(loadCartItems())
   };
 };
 
 App.propTypes = {
-  products: PropTypes.array
+  authenticationCheck: PropTypes.func,
+  addToProducts: PropTypes.func,
+  removeFromProducts: PropTypes.func,
+  removeFromCart: PropTypes.func,
+  reserveProduct: PropTypes.func,
+  unreserveProduct: PropTypes.func,
+  loadCartItems: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

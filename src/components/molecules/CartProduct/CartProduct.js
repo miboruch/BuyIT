@@ -14,9 +14,9 @@ const StyledWrapper = styled.div`
   margin: 2rem 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
+  position: relative;
 `;
 
 const StyledHeading = styled.h1`
@@ -26,8 +26,19 @@ const StyledHeading = styled.h1`
 
 const StyledPriceParagraph = styled(Paragraph)`
   font-size: 13px;
-  text-align: right;
   color: #1d1d1d;
+  padding: 1rem 0;
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 2rem;
+
+  ${({ theme }) => theme.mq.standard} {
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`
@@ -45,7 +56,9 @@ const CartProduct = ({ product, removeFromCart }) => {
           {name}
         </StyledHeading>
       </Link>
-      <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
+      <ButtonWrapper>
+        <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
+      </ButtonWrapper>
       <StyledPriceParagraph>{price} USD</StyledPriceParagraph>
       <StyledParagraph small>
         Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
