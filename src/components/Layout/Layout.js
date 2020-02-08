@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import SEO from '../SEO';
 import { theme } from '../../style/theme';
 import GlobalStyle from '../../style/GlobalStyle';
-import MainContext from '../../context/MainContext';
 import Menu from '../molecules/Menu/Menu';
 import Cart from '../templates/Cart/Cart';
 import Search from '../templates/Search/Search';
@@ -15,12 +14,10 @@ const Layout = ({ children }) => {
       <SEO />
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <MainContext>
-          <Menu />
-          <Cart />
-          <Search />
-          {children}
-        </MainContext>
+        <Menu />
+        <Cart />
+        <Search />
+        {children}
       </ThemeProvider>
     </>
   );

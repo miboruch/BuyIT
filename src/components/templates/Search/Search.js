@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '../../atoms/Button/Button';
-import { SearchContext } from '../../../context/SearchContext';
 import { searchProductByQuery } from '../../../actions/productAction';
 import FormLine from '../../molecules/FormLine/FormLine';
 import { SearchSchema } from '../../../utils/schemaValidation';
 import { Form, Formik } from 'formik';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
+import { searchToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledSearchWrapper = styled.div`
   width: 100%;
@@ -62,15 +62,13 @@ const StyledForm = styled(Form)`
   width: 90%;
 `;
 
-const Search = ({ searchProductByQuery }) => {
-  const { isSearchOpen, toggleSearch } = useContext(SearchContext);
-
+const Search = ({ searchProductByQuery, isSearchOpen, searchToggle }) => {
   return (
     <>
       <BackgroundWrapper isOpen={isSearchOpen} />
       <StyledSearchWrapper isOpen={isSearchOpen}>
         <CloseButtonWrapper>
-          <CloseButton setBoxState={toggleSearch} />
+          <CloseButton setBoxState={searchToggle} />
         </CloseButtonWrapper>
         <StyledContentWrapper>
           <Formik
@@ -80,7 +78,7 @@ const Search = ({ searchProductByQuery }) => {
             }}
             validationSchema={SearchSchema}
           >
-            {({ handleChange, handleBlur, errors, values }) => (
+            {({ handleChange, handleBlur, errors }) => (
               <StyledForm>
                 <StyledHeading>SEARCH</StyledHeading>
                 <FormLine
@@ -96,7 +94,7 @@ const Search = ({ searchProductByQuery }) => {
                     buttonTheme='dark'
                     text='Search'
                     type='submit'
-                    onClick={() => toggleSearch()}
+                    onClick={() => searchToggle()}
                   />
                 </ButtonWrapper>
               </StyledForm>
@@ -108,14 +106,21 @@ const Search = ({ searchProductByQuery }) => {
   );
 };
 
+const mapStateToProps = ({ sliderBoxesReducer: { isSearchOpen } }) => {
+  return { isSearchOpen };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    searchProductByQuery: query => dispatch(searchProductByQuery(query))
+    searchProductByQuery: query => dispatch(searchProductByQuery(query)),
+    searchToggle: () => dispatch(searchToggle())
   };
 };
 
 Search.propTypes = {
-  searchProductByQuery: PropTypes.func.isRequired
+  searchProductByQuery: PropTypes.func.isRequired,
+  searchToggle: PropTypes.func,
+  isSearchOpen: PropTypes.bool
 };
 
-export default connect(null, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -37,7 +37,7 @@ export const sliderBoxesReducer = (state = initialState, action) => {
     case MENU_TOGGLE:
       return {
         ...state,
-        isMenuOpen: false
+        isMenuOpen: !state.isMenuOpen
       };
     case MENU_TOGGLE_FUNCTION:
       return {

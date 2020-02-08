@@ -8,7 +8,6 @@ import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import SingleProductCart from '../components/molecules/SingleProductCart/SingleProductCart';
 import Spinner from '../components/atoms/Spinner/Spinner';
 import { useTrail } from 'react-spring';
-import FilterContextProvider from '../context/FilterContext';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
 import { fetchAllProducts, removeFromProducts, updateCategory } from '../actions/productAction';
 
@@ -41,19 +40,17 @@ const ProductResult = ({ products, loading, categoryUpdate, match, getAllProduct
       ) : (
         <>
           <DeleteAcceptContextProvider>
-            <FilterContextProvider>
-              <ProductResultTemplate>
-                <ProductWrapper>
-                  {productsTrail.map((props, index) => (
-                    <SingleProductCart
-                      style={props}
-                      product={products[index]}
-                      key={products[index]._id}
-                    />
-                  ))}
-                </ProductWrapper>
-              </ProductResultTemplate>
-            </FilterContextProvider>
+            <ProductResultTemplate>
+              <ProductWrapper>
+                {productsTrail.map((props, index) => (
+                  <SingleProductCart
+                    style={props}
+                    product={products[index]}
+                    key={products[index]._id}
+                  />
+                ))}
+              </ProductWrapper>
+            </ProductResultTemplate>
           </DeleteAcceptContextProvider>
         </>
       )}

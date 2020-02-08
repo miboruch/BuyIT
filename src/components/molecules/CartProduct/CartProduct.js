@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { removeProductFromCart } from '../../../actions/cartAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
-import { CartContext } from '../../../context/CartContext';
+import { cartToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -45,14 +45,13 @@ const StyledParagraph = styled(Paragraph)`
   color: #1d1d1d;
 `;
 
-const CartProduct = ({ product, removeFromCart }) => {
+const CartProduct = ({ product, removeFromCart, cartToggle }) => {
   const { name, price, _id: id, expire } = product;
-  const { toggleCart } = useContext(CartContext);
 
   return (
     <StyledWrapper>
       <Link to={`/product/${id}`}>
-        <StyledHeading title onClick={() => toggleCart()}>
+        <StyledHeading title onClick={() => cartToggle()}>
           {name}
         </StyledHeading>
       </Link>
@@ -73,13 +72,15 @@ const mapStateToProps = ({ cartReducer: { cart } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeFromCart: product => dispatch(removeProductFromCart(product))
+    removeFromCart: product => dispatch(removeProductFromCart(product)),
+    cartToggle: () => dispatch(cartToggle())
   };
 };
 
 CartProduct.propTypes = {
   product: PropTypes.object.isRequired,
-  removeFromCart: PropTypes.func
+  removeFromCart: PropTypes.func,
+  cartToggle: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartProduct);

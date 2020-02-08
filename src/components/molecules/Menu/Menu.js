@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MenuContext } from '../../../context/MenuContext';
 import { useTrail, animated } from 'react-spring';
 import { menuItems } from '../../../utils/contentArrays';
 import { Link } from 'react-router-dom';
+import { menuToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -42,9 +42,7 @@ const StyledListItem = styled(animated.li)`
   color: #dfdfdf;
 `;
 
-const Menu = ({ isLoggedIn }) => {
-  const { isMenuOpen, toggleMenu } = useContext(MenuContext);
-
+const Menu = ({ isLoggedIn, isMenuOpen, menuToggle }) => {
   const allMenuItems = menuItems(isLoggedIn);
   const menuTrail = useTrail(allMenuItems.length, {
     opacity: isMenuOpen ? 1 : 0,
@@ -60,7 +58,7 @@ const Menu = ({ isLoggedIn }) => {
         {menuTrail.map((props, index) => (
           <Link to={allMenuItems[index].link} key={index}>
             <OverflowBox>
-              <StyledListItem style={props} onClick={() => toggleMenu()}>
+              <StyledListItem style={props} onClick={() => menuToggle()}>
                 {allMenuItems[index].name}
               </StyledListItem>
             </OverflowBox>
@@ -71,12 +69,23 @@ const Menu = ({ isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { isLoggedIn } }) => {
-  return { isLoggedIn };
+const mapStateToProps = ({
+  authenticationReducer: { isLoggedIn },
+  sliderBoxesReducer: { isMenuOpen }
+}) => {
+  return { isLoggedIn, isMenuOpen };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    menuToggle: () => dispatch(menuToggle())
+  };
 };
 
 Menu.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  isMenuOpen: PropTypes.bool,
+  menuToggle: PropTypes.func
 };
 
-export default connect(mapStateToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

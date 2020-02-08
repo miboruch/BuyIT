@@ -8,7 +8,6 @@ import { updateCategory } from '../../../actions/productAction';
 import Button from '../../atoms/Button/Button';
 import DeleteAcceptBox from '../../molecules/DeleteAcceptBox/DeleteAcceptBox';
 import Filter from '../../molecules/Filter/Filter';
-import { FilterContext } from '../../../context/FilterContext';
 import { filterToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`
@@ -50,8 +49,6 @@ const StyledHeading = styled.h1`
 `;
 
 const ProductResultTemplate = ({ children, category, products, isLoggedIn, filterToggle }) => {
-  const { toggleFilter } = useContext(FilterContext);
-
   return (
     <>
       <StyledWrapper>
@@ -98,7 +95,8 @@ ProductResultTemplate.propTypes = {
   products: PropTypes.array,
   match: PropTypes.object,
   updateCategory: PropTypes.func,
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  filterToggle: PropTypes.func
 };
 
 const ProductResultTemplateWithRouter = withRouter(ProductResultTemplate);
