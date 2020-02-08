@@ -9,6 +9,7 @@ import Button from '../../atoms/Button/Button';
 import DeleteAcceptBox from '../../molecules/DeleteAcceptBox/DeleteAcceptBox';
 import Filter from '../../molecules/Filter/Filter';
 import { FilterContext } from '../../../context/FilterContext';
+import { filterToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -48,14 +49,14 @@ const StyledHeading = styled.h1`
   transform: translate(-50%, -50%);
 `;
 
-const ProductResultTemplate = ({ children, category, products, isLoggedIn }) => {
+const ProductResultTemplate = ({ children, category, products, isLoggedIn, filterToggle }) => {
   const { toggleFilter } = useContext(FilterContext);
 
   return (
     <>
       <StyledWrapper>
         <ButtonWrapper>
-          <Button text='Filter' onClick={() => toggleFilter()} />
+          <Button text='Filter' onClick={() => filterToggle()} />
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to={isLoggedIn ? '/addProduct' : '/my-account'}>
@@ -86,7 +87,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateCategory: category => dispatch(updateCategory(category))
+    updateCategory: category => dispatch(updateCategory(category)),
+    filterToggle: () => dispatch(filterToggle())
   };
 };
 

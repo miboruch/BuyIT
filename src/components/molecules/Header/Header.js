@@ -7,10 +7,8 @@ import { ReactSVG } from 'react-svg';
 import { connect } from 'react-redux';
 import cartIcon from '../../../assets/icons/cart-icon.svg';
 import searchIcon from '../../../assets/icons/search.svg';
-import { MenuContext } from '../../../context/MenuContext';
-import { SearchContext } from '../../../context/SearchContext';
-import { CartContext } from '../../../context/CartContext';
 import { useScrollPosition } from '../../../utils/customHooks';
+import { menuToggle, cartToggle, searchToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -89,11 +87,17 @@ const StyledCartButton = styled(StyledSearchButton)`
   
 `;
 
-const Header = ({ backgroundTheme, search, cart }) => {
-  const { isMenuOpen, toggleMenu } = useContext(MenuContext);
-  const { isSearchOpen, toggleSearch } = useContext(SearchContext);
-  const { isCartOpen, toggleCart } = useContext(CartContext);
-
+const Header = ({
+  backgroundTheme,
+  search,
+  cart,
+  menuToggle,
+  cartToggle,
+  searchToggle,
+  isMenuOpen,
+  isCartOpen,
+  isSearchOpen
+}) => {
   const isOnTop = useScrollPosition();
 
   const isSearchOrCartOpen = isSearchOpen || isCartOpen || backgroundTheme === 'light';
@@ -101,19 +105,19 @@ const Header = ({ backgroundTheme, search, cart }) => {
     <StyledHeader isOnTop={isOnTop}>
       <Hamburger
         isOpen={isMenuOpen}
-        toggleMenu={toggleMenu}
+        toggleMenu={menuToggle}
         hamburgerTheme={isSearchOrCartOpen ? 'dark' : 'light'}
       />
       <StyledParagraph colorTheme={backgroundTheme}>
         buy<StyledSpan colorTheme={backgroundTheme}>IT</StyledSpan>
       </StyledParagraph>
       {search ? (
-        <StyledSearchButton onClick={toggleSearch} isOpen={isSearchOpen}>
+        <StyledSearchButton onClick={searchToggle} isOpen={isSearchOpen}>
           <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
         </StyledSearchButton>
       ) : null}
       <StyledCartButton
-        onClick={toggleCart}
+        onClick={cartToggle}
         isOpen={isCartOpen}
         search={search}
         cartItemsCounter={
@@ -131,11 +135,28 @@ const Header = ({ backgroundTheme, search, cart }) => {
 Header.propTypes = {
   backgroundTheme: PropTypes.oneOf(['light', 'dark']),
   search: PropTypes.bool,
-  cart: PropTypes.array
+  cart: PropTypes.array,
+  menuToggle: PropTypes.func,
+  cartToggle: PropTypes.func,
+  searchToggle: PropTypes.func,
+  isCartOpen: PropTypes.bool,
+  isMenuOpen: PropTypes.bool,
+  isSearchOpen: PropTypes.bool
 };
 
-const mapStateToProps = ({ cartReducer: { cart } }) => {
-  return { cart };
+const mapStateToProps = ({
+  cartReducer: { cart },
+  sliderBoxesReducer: { isMenuOpen, isCartOpen, isSearchOpen }
+}) => {
+  return { cart, isMenuOpen, isCartOpen, isSearchOpen };
 };
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => {
+  return {
+    menuToggle: () => dispatch(menuToggle()),
+    cartToggle: () => dispatch(cartToggle()),
+    searchToggle: () => dispatch(searchToggle())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

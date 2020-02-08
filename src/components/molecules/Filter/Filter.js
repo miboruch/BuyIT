@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { FilterContext } from '../../../context/FilterContext';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
@@ -8,6 +8,7 @@ import { categories } from '../../../utils/constants';
 import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
 import { Link } from 'react-router-dom';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
+import { filterToggle, filterToggleFunction } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -84,15 +85,19 @@ const StyledParagraph = styled(Paragraph)`
   }
 `;
 
-const Filter = ({ getAllProducts, category, categoryUpdate }) => {
-  const { isFilterOpen, setFilterState } = useContext(FilterContext);
-
+const Filter = ({
+  getAllProducts,
+  category,
+  categoryUpdate,
+  filterToggleFunction,
+  isFilterOpen
+}) => {
   return (
     <>
       <BackgroundWrapper isOpen={isFilterOpen} />
       <StyledWrapper isOpen={isFilterOpen}>
         <CloseButtonWrapper>
-          <CloseButton setBoxState={setFilterState} />
+          <CloseButton setBoxState={filterToggleFunction} />
         </CloseButtonWrapper>
         <ContentWrapper>
           <StyledHeading>Filter</StyledHeading>
@@ -119,15 +124,28 @@ const Filter = ({ getAllProducts, category, categoryUpdate }) => {
   );
 };
 
-const mapStateToProps = ({ productReducer: { category } }) => {
-  return { category };
+const mapStateToProps = ({
+  productReducer: { category },
+  sliderBoxesReducer: { isFilterOpen }
+}) => {
+  return { category, isFilterOpen };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getAllProducts: category => dispatch(fetchAllProducts(category)),
-    categoryUpdate: category => dispatch(updateCategory(category))
+    categoryUpdate: category => dispatch(updateCategory(category)),
+    filterToggle: () => dispatch(filterToggle()),
+    filterToggleFunction: bool => dispatch(filterToggleFunction(bool))
   };
+};
+
+Filter.propTypes = {
+  getAllProducts: PropTypes.func,
+  category: PropTypes.string,
+  categoryUpdate: PropTypes.func,
+  filterToggleFunction: PropTypes.func,
+  isFilterOpen: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

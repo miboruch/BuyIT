@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { CartContext } from '../../../context/CartContext';
 import Button from '../../atoms/Button/Button';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 import PropTypes from 'prop-types';
 import CartProduct from '../../molecules/CartProduct/CartProduct';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
+import { cartToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -69,14 +69,13 @@ const ProductsWrapper = styled.div`
   overflow-y: scroll;
 `;
 
-const Cart = ({ cart, totalPrice }) => {
-  const { isCartOpen, toggleCart } = useContext(CartContext);
+const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
   return (
     <>
       <BackgroundWrapper isOpen={isCartOpen} />
       <StyledCartWrapper isOpen={isCartOpen}>
         <CloseButtonWrapper>
-          <CloseButton setBoxState={toggleCart} />
+          <CloseButton setBoxState={cartToggle} />
         </CloseButtonWrapper>
         <StyledHeading>Your cart</StyledHeading>
         <ProductsWrapper>
@@ -95,13 +94,24 @@ const Cart = ({ cart, totalPrice }) => {
   );
 };
 
-const mapStateToProps = ({ cartReducer: { cart, totalPrice } }) => {
-  return { cart, totalPrice };
+const mapStateToProps = ({
+  cartReducer: { cart, totalPrice },
+  sliderBoxesReducer: { isCartOpen }
+}) => {
+  return { cart, totalPrice, isCartOpen };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    cartToggle: () => dispatch(cartToggle())
+  };
 };
 
 Cart.propTypes = {
   cart: PropTypes.array.isRequired,
-  totalPrice: PropTypes.number
+  totalPrice: PropTypes.number,
+  isCartOpen: PropTypes.bool,
+  cartToggle: PropTypes.func
 };
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
