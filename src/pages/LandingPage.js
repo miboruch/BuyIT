@@ -86,7 +86,7 @@ const LandingPage = ({ updateCategory, category, isLoggedIn, getAllProducts }) =
       <StyledWrapper>
         <StyledBackgroundImage />
         <ButtonWrapper>
-          <Link to='/products/all'>
+          <Link to='/products/all?page=1'>
             <Button
               text='See all products'
               onClick={() => {

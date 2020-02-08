@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -38,7 +38,11 @@ const ButtonWrapper = styled.div`
 `;
 
 const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart }) => {
-  const isAlreadyInCart = cart.filter(item => item === singleProduct);
+  const isAlreadyInCart =
+    cart !== []
+      ? cart.filter(item => item._id === singleProduct._id)
+      : JSON.parse(localStorage.getItem('cart')).filter(item => item._id === singleProduct._id);
+
   const isYourOwnProduct = userID === singleProduct.userID;
   const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
 

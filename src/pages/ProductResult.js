@@ -20,8 +20,9 @@ const ProductWrapper = styled.div`
   position: relative;
 `;
 
-const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts }) => {
+const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, location }) => {
   useEffect(() => {
+    console.log(location);
     categoryUpdate(match.params.category);
     getAllProducts(match.params.category);
   }, []);
@@ -75,7 +76,8 @@ ProductResult.propTypes = {
   loading: PropTypes.bool,
   match: PropTypes.object,
   categoryUpdate: PropTypes.func,
-  getAllProducts: PropTypes.func
+  getAllProducts: PropTypes.func,
+  location: PropTypes.object
 };
 
 const ProductResultWithRouter = withRouter(ProductResult);

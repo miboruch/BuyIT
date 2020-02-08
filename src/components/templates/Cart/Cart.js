@@ -29,7 +29,7 @@ const StyledCartWrapper = styled.div`
 
 const StyledTotalPrice = styled(Paragraph)`
   color: #000;
-  font-size: 20px;
+  font-size: 14px;
   position: absolute;
   right: 2rem;
   bottom: 100px;
@@ -70,6 +70,8 @@ const ProductsWrapper = styled.div`
 `;
 
 const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
+  const isSomethingInCart =
+    cart.length !== 0 || JSON.parse(localStorage.getItem('cart')).length !== 0;
   return (
     <>
       <BackgroundWrapper isOpen={isCartOpen} />
@@ -87,7 +89,11 @@ const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
         </ProductsWrapper>
         <StyledTotalPrice>Total price: {totalPrice} $</StyledTotalPrice>
         <ButtonWrapper>
-          <Button text='Check all products' buttonTheme='dark' />
+          {isSomethingInCart ? (
+            <Button text='checkout' buttonTheme='dark' />
+          ) : (
+            <Button text='empty' buttonTheme='dark' />
+          )}
         </ButtonWrapper>
       </StyledCartWrapper>
     </>

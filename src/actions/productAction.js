@@ -10,7 +10,8 @@ import {
   REMOVE_FROM_PRODUCTS,
   REMOVE_FAILURE,
   RESERVE_PRODUCT,
-  UNRESERVE_PRODUCT
+  UNRESERVE_PRODUCT,
+  SET_TOTAL_PRODUCTS_COUNTER
 } from '../reducers/productReducer';
 import { API_URL } from '../utils/constants';
 import { categories } from '../utils/constants';
@@ -47,6 +48,13 @@ const fetchFailure = error => {
 const loadStop = () => {
   return {
     type: LOAD_STOP
+  };
+};
+
+const setProductTotalCounter = totalCounter => {
+  return {
+    type: SET_TOTAL_PRODUCTS_COUNTER,
+    payload: totalCounter
   };
 };
 
@@ -97,7 +105,7 @@ export const updateCategory = category => {
 };
 
 /* Fix this on backend to return only first 10, then add pagination */
-export const fetchAllProducts = category => async dispatch => {
+export const fetchAllProducts = (category, page) => async dispatch => {
   dispatch(fetchStart());
   try {
     const [currentCategory] = categories.filter(item => category.includes(item));
@@ -108,11 +116,12 @@ export const fetchAllProducts = category => async dispatch => {
     }
     const result = await axios.get(
       currentCategory === 'all'
-        ? `${API_URL}/product/getAll`
-        : `${API_URL}/product/getAllCategoryProducts/${category}`
+        ? `${API_URL}/product/getAll?page=${page}`
+        : `${API_URL}/product/getAllCategoryProducts/${category}?page=${page}`
     );
 
-    dispatch(fetchSuccess(result.data));
+    dispatch(fetchSuccess(result.data.products));
+    dispatch(setProductTotalCounter(result.data.productsLength));
   } catch (error) {
     dispatch(fetchFailure(error));
   }

@@ -108,6 +108,7 @@ const Filter = ({
                 <StyledParagraph
                   onClick={() => {
                     categoryUpdate(item);
+                    filterToggleFunction(false);
                     if (category !== item) {
                       getAllProducts(item);
                     }

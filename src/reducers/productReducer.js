@@ -9,9 +9,11 @@ export const REMOVE_FROM_PRODUCTS = 'REMOVE_FROM_PRODUCTS';
 export const REMOVE_FAILURE = 'REMOVE_FAILURE';
 export const RESERVE_PRODUCT = 'RESERVE_PRODUCT';
 export const UNRESERVE_PRODUCT = 'UNRESERVE_PRODUCT';
+export const SET_TOTAL_PRODUCTS_COUNTER = 'SET_TOTAL_PRODUCTS_COUNTER';
 
 const initialState = {
   products: [],
+  totalProductsCounter: undefined,
   singleProduct: {},
   loading: true,
   error: null,
@@ -88,6 +90,11 @@ export const productReducer = (state = initialState, action) => {
             item._id === action.payload ? { ...item, reserved: false } : item
           )
         ]
+      };
+    case SET_TOTAL_PRODUCTS_COUNTER:
+      return {
+        ...state,
+        totalProductsCounter: action.payload
       };
     default:
       return state;

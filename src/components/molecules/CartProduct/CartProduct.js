@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ const StyledWrapper = styled.div`
   padding: 0 2rem;
   margin: 2rem 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
   position: relative;
@@ -22,6 +22,19 @@ const StyledWrapper = styled.div`
 const StyledHeading = styled.h1`
   font-size: 20px;
   color: #1d1d1d;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 48%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+  }
 `;
 
 const StyledPriceParagraph = styled(Paragraph)`
@@ -31,14 +44,7 @@ const StyledPriceParagraph = styled(Paragraph)`
 `;
 
 const ButtonWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 2rem;
-
-  ${({ theme }) => theme.mq.standard} {
-    top: 50%;
-    transform: translateY(-50%);
-  }
+  margin-top: 1rem;
 `;
 
 const StyledParagraph = styled(Paragraph)`
@@ -55,13 +61,13 @@ const CartProduct = ({ product, removeFromCart, cartToggle }) => {
           {name}
         </StyledHeading>
       </Link>
-      <ButtonWrapper>
-        <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
-      </ButtonWrapper>
       <StyledPriceParagraph>{price} USD</StyledPriceParagraph>
       <StyledParagraph small>
         Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
       </StyledParagraph>
+      <ButtonWrapper>
+        <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
+      </ButtonWrapper>
     </StyledWrapper>
   );
 };
