@@ -106,6 +106,7 @@ export const updateCategory = category => {
 
 /* Fix this on backend to return only first 10, then add pagination */
 export const fetchAllProducts = (category, page) => async dispatch => {
+  console.log(page);
   dispatch(fetchStart());
   try {
     const [currentCategory] = categories.filter(item => category.includes(item));

@@ -90,7 +90,7 @@ const LandingPage = ({ updateCategory, category, isLoggedIn, getAllProducts }) =
             <Button
               text='See all products'
               onClick={() => {
-                getAllProducts('all');
+                getAllProducts('all', 1);
               }}
             />
           </Link>
@@ -120,7 +120,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => {
   return {
     updateCategory: category => dispatch(updateCategory(category)),
-    getAllProducts: category => dispatch(fetchAllProducts(category))
+    getAllProducts: (category, page) => dispatch(fetchAllProducts(category, page))
   };
 };
 

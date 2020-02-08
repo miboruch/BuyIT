@@ -104,13 +104,13 @@ const Filter = ({
           <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
           {categories.map(item => {
             return (
-              <Link to={`/products/${item}`} key={item}>
+              <Link to={`/products/${item}?page=1`} key={item}>
                 <StyledParagraph
                   onClick={() => {
                     categoryUpdate(item);
                     filterToggleFunction(false);
                     if (category !== item) {
-                      getAllProducts(item);
+                      getAllProducts(item, 1);
                     }
                   }}
                 >
@@ -134,7 +134,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAllProducts: category => dispatch(fetchAllProducts(category)),
+    getAllProducts: (category, page) => dispatch(fetchAllProducts(category, page)),
     categoryUpdate: category => dispatch(updateCategory(category)),
     filterToggle: () => dispatch(filterToggle()),
     filterToggleFunction: bool => dispatch(filterToggleFunction(bool))
