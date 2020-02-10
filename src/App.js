@@ -15,7 +15,9 @@ import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
 import ProductPage from './pages/ProductPage';
 import AddProductPage from './pages/AddProductPage';
-import PrivateRoute from './components/templates/PrivateRoute/PrivateRoute';
+import PrivateRoute from './hoc/PrivateRoute/PrivateRoute';
+import OrderPage from './pages/OrderPage';
+import OrderPrivateRoute from './hoc/OrderPrivateRoute/OrderPrivateRoute';
 
 const App = ({
   category,
@@ -72,7 +74,16 @@ const App = ({
             <Route path={'/my-account'} component={AuthPage} />
             <Route path={'/products/:category'} component={ProductResult} />
             <Route path={'/product/:id'} component={ProductPage} />
-            <PrivateRoute path={'/addProduct'} component={AddProductPage} />
+            <PrivateRoute
+              path={'/addProduct'}
+              component={AddProductPage}
+              pathnameRedirect={'/my-account'}
+            />
+            <OrderPrivateRoute
+              path={'/order/information'}
+              component={OrderPage}
+              pathnameRedirect={'/products/all?page=1'}
+            />
           </Switch>
         </>
       </Layout>

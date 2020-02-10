@@ -8,6 +8,7 @@ import CartProduct from '../../molecules/CartProduct/CartProduct';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { cartToggle } from '../../../actions/sliderBoxesAction';
+import { Link } from 'react-router-dom';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -47,7 +48,7 @@ const CloseButtonWrapper = styled.div`
 
 const StyledHeading = styled.h1`
   font-family: ${({ theme }) => theme.font.family.avanti};
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   color: #1d1d1d;
 `;
 
@@ -67,6 +68,8 @@ const ProductsWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   overflow-y: scroll;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 `;
 
 const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
@@ -90,7 +93,9 @@ const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
         <StyledTotalPrice>Total price: {totalPrice} $</StyledTotalPrice>
         <ButtonWrapper>
           {isSomethingInCart ? (
-            <Button text='checkout' buttonTheme='dark' />
+            <Link to={'/order/information'}>
+              <Button text='checkout' buttonTheme='dark' onClick={() => cartToggle()}/>
+            </Link>
           ) : (
             <Button text='empty' buttonTheme='dark' />
           )}

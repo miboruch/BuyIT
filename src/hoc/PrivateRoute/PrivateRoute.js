@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, isLoggedIn, loading, ...rest }) => {
+const PrivateRoute = ({
+  component: Component,
+  isLoggedIn,
+  loading,
+  location,
+  pathnameRedirect,
+  ...rest
+}) => {
   const token = localStorage.getItem('token') || isLoggedIn;
   return (
     <Route
@@ -12,7 +19,7 @@ const PrivateRoute = ({ component: Component, isLoggedIn, loading, ...rest }) =>
         token ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: '/my-account', state: { from: props.location } }} />
+          <Redirect to={{ pathname: pathnameRedirect, state: { from: location } }} />
         )
       }
     />
@@ -25,7 +32,10 @@ const mapStateToProps = ({ authenticationReducer: { isLoggedIn, loading } }) => 
 
 PrivateRoute.propTypes = {
   component: PropTypes.element.isRequired,
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  loading: PropTypes.bool,
+  location: PropTypes.object,
+  pathnameRedirect: PropTypes.string
 };
 
 export default connect(mapStateToProps)(PrivateRoute);

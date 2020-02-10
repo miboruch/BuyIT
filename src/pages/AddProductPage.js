@@ -128,7 +128,7 @@ const StyledTextArea = styled.textarea`
 const AddProductPage = ({ addProduct, history, token }) => {
   return (
     <StyledWrapper>
-      <Link to='/products/all'>
+      <Link to='/products/all?page=1'>
         <CloseButtonWrapper>
           <StyledIcon src={backIcon} />
         </CloseButtonWrapper>
@@ -144,7 +144,7 @@ const AddProductPage = ({ addProduct, history, token }) => {
           }}
           onSubmit={({ image, name, description, price, category }) => {
             addProduct(image, name, description, price, category, token);
-            history.push('/products/all');
+            history.push('/products/all?page=1');
           }}
           validationSchema={AddProductSchema}
         >

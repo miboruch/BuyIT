@@ -77,7 +77,7 @@ export const menuItems = isLogged => {
     },
     {
       name: 'PRODUCTS',
-      link: '/products/all'
+      link: '/products/all?page=1'
     },
     {
       name: 'ADD PRODUCT',
