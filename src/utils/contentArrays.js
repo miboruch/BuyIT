@@ -44,6 +44,36 @@ export const registerInputArray = errors => {
   ];
 };
 
+export const orderNotLoggedIn = errors => {
+  return [
+    {
+      name: 'email',
+      labelText: errors.email ? errors.email : 'email',
+      inputType: 'email'
+    },
+    {
+      name: 'name',
+      labelText: errors.name ? errors.name : 'name',
+      inputType: 'text'
+    },
+    {
+      name: 'lastName',
+      labelText: errors.lastName ? errors.lastName : 'last name',
+      inputType: 'text'
+    },
+    {
+      name: 'address',
+      labelText: errors.address ? errors.address : 'address',
+      inputType: 'text'
+    },
+    {
+      name: 'city',
+      labelText: errors.city ? errors.city : 'city',
+      inputType: 'text'
+    }
+  ];
+};
+
 export const updateInputArrays = (errors, values) => {
   return [
     {

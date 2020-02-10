@@ -52,6 +52,25 @@ export const UpdateSchema = Yup.object().shape({
     .required('City is required')
 });
 
+export const NotLoggedInOrderSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Email is required'),
+  name: Yup.string()
+    .min(2, 'Name too short - 2 chars minimum')
+    .required('Name is required'),
+  lastName: Yup.string()
+    .min(2, 'Last name too short - 2 chars minimum')
+    .required('Last name is required'),
+  address: Yup.string()
+    .min(2, 'Address too short - 2 chars minimum')
+    .required('Address is required'),
+  city: Yup.string()
+    .min(2, 'City name too short - 2 chars minimum')
+    .required('City is required'),
+  country: Yup.string()
+});
+
 export const AddProductSchema = Yup.object().shape({
   image: Yup.mixed().required('Image is required'),
   name: Yup.string()
