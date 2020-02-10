@@ -76,7 +76,7 @@ FormLine.propTypes = {
   onBlur: PropTypes.func,
   inputType: PropTypes.string,
   name: PropTypes.string,
-  colorTheme: PropTypes.string,
+  colorTheme: PropTypes.oneOf(['light, dark']),
   value: PropTypes.string,
   step: PropTypes.string
 };

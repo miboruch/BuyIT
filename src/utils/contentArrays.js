@@ -74,6 +74,21 @@ export const orderNotLoggedIn = errors => {
   ];
 };
 
+export const orderEditAddress = errors => {
+  return [
+    {
+      name: 'address',
+      labelText: errors.address ? errors.address : 'address',
+      inputType: 'text'
+    },
+    {
+      name: 'city',
+      labelText: errors.city ? errors.city : 'city',
+      inputType: 'text'
+    }
+  ];
+};
+
 export const updateInputArrays = (errors, values) => {
   return [
     {

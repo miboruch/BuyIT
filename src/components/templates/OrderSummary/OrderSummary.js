@@ -6,6 +6,8 @@ import Paragraph from '../../atoms/Paragraph/Paragraph';
 import BackArrow from '../../atoms/BackArrow/BackArrow';
 import { Link } from 'react-router-dom';
 import NotLoggedInSummary from '../../molecules/NotLoggedInSummary/NotLoggedInSummary';
+import LoggedInSummary from '../../molecules/LoggedInSummary/LoggedInSummary';
+import Spinner from '../../atoms/Spinner/Spinner';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -68,45 +70,52 @@ const TotalSummary = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-const OrderSummary = ({ cart, totalPrice, isLoggedIn }) => {
+const OrderSummary = ({ cart, totalPrice, isLoggedIn, loading }) => {
   return (
     <StyledWrapper>
-      <Link to='/products/all?page=1'>
-        <CloseButtonWrapper>
-          <BackArrow />
-        </CloseButtonWrapper>
-      </Link>
-      <StyledTitleParagraph>Order summary</StyledTitleParagraph>
-      {cart.map(item => (
-        <ProductSummary key={item._id}>
-          <StyledImage src={item.image} />
-          <ProductTitle>{item.name}</ProductTitle>
-          <StyledPriceParagraph>{item.price} $</StyledPriceParagraph>
-        </ProductSummary>
-      ))}
-      <TotalSummary>
-        <StyledTotalParagraph>Products: {cart.length}</StyledTotalParagraph>
-        <StyledTotalParagraph>
-          Total: <strong>{totalPrice} $</strong>
-        </StyledTotalParagraph>
-      </TotalSummary>
-      <StyledTitleParagraph>Shipping address</StyledTitleParagraph>
-      {isLoggedIn ? <p>logged in</p> : <NotLoggedInSummary />}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Link to='/products/all?page=1'>
+            <CloseButtonWrapper>
+              <BackArrow />
+            </CloseButtonWrapper>
+          </Link>
+          <StyledTitleParagraph>Order summary</StyledTitleParagraph>
+          {cart.map(item => (
+            <ProductSummary key={item._id}>
+              <StyledImage src={item.image} />
+              <ProductTitle>{item.name}</ProductTitle>
+              <StyledPriceParagraph>{item.price} $</StyledPriceParagraph>
+            </ProductSummary>
+          ))}
+          <TotalSummary>
+            <StyledTotalParagraph>Products: {cart.length}</StyledTotalParagraph>
+            <StyledTotalParagraph>
+              Total: <strong>{totalPrice} $</strong>
+            </StyledTotalParagraph>
+          </TotalSummary>
+          <StyledTitleParagraph>Shipping address</StyledTitleParagraph>
+          {isLoggedIn ? <LoggedInSummary /> : <NotLoggedInSummary />}
+        </>
+      )}
     </StyledWrapper>
   );
 };
 
 const mapStateToProps = ({
   cartReducer: { cart, totalPrice },
-  authenticationReducer: { isLoggedIn }
+  authenticationReducer: { isLoggedIn, loading }
 }) => {
-  return { cart, totalPrice, isLoggedIn };
+  return { cart, totalPrice, isLoggedIn, loading };
 };
 
 OrderSummary.propTypes = {
   cart: PropTypes.array,
   totalPrice: PropTypes.number,
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  loading: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(OrderSummary);

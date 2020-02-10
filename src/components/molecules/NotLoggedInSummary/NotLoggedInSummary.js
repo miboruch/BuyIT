@@ -7,7 +7,6 @@ import FormLine from '../FormLine/FormLine';
 import Button from '../../atoms/Button/Button';
 import { Form, Formik } from 'formik';
 import { countries } from 'countries-list';
-import { categories } from '../../../utils/constants';
 
 const countriesArray = Object.values(countries).map(item => item.name);
 
