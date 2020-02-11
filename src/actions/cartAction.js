@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT, LOAD_CART_ITEMS } from '../reducers/cartReducer';
+import { ADD_PRODUCT, REMOVE_PRODUCT, LOAD_CART_ITEMS, RESET_CART } from '../reducers/cartReducer';
 import { socket } from '../utils/constants';
 
 const addProduct = product => {
@@ -16,6 +16,13 @@ const addProduct = product => {
   return {
     type: ADD_PRODUCT,
     payload: product
+  };
+};
+
+export const resetCart = () => {
+  localStorage.setItem('cart', JSON.stringify([]));
+  return {
+    type: RESET_CART
   };
 };
 
@@ -48,4 +55,3 @@ export const removeProductFromCart = product => dispatch => {
   socket.emit('productDeleteReservation', { productId: product._id });
   dispatch(removeProduct(product));
 };
-

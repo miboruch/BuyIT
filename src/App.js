@@ -9,7 +9,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import ProductResult from './pages/ProductResult';
 import { authenticationCheck } from './actions/authenticationAction';
-import { removeProduct, loadCartItems } from './actions/cartAction';
+import { removeProduct, loadCartItems, resetCart } from './actions/cartAction';
 import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
@@ -27,7 +27,8 @@ const App = ({
   reserveProduct,
   unreserveProduct,
   removeFromCart,
-  loadCartItems
+  loadCartItems,
+  cartReset
 }) => {
   useEffect(() => {
     authenticationCheck();
@@ -57,11 +58,21 @@ const App = ({
     });
 
     socket.on('productTimeout', ({ expiredProduct }) => {
+      console.log('PRODUCT TIMEOUT');
       const [isInLocalStorage] = isProductInLocalStorage(expiredProduct);
       if (isInLocalStorage) {
         removeFromCart(expiredProduct);
         unreserveProduct(expiredProduct._id);
       }
+    });
+
+    socket.on('productOrdered', ({ orderedProduct }) => {
+      console.log('product ordered');
+      console.log(orderedProduct);
+      cartReset();
+      orderedProduct.map(item => {
+        removeFromProducts(item._id);
+      });
     });
   }, []);
 
@@ -103,7 +114,8 @@ const mapDispatchToProps = dispatch => {
     removeFromCart: product => dispatch(removeProduct(product)),
     reserveProduct: productId => dispatch(reserveProduct(productId)),
     unreserveProduct: productId => dispatch(unreserveProduct(productId)),
-    loadCartItems: () => dispatch(loadCartItems())
+    loadCartItems: () => dispatch(loadCartItems()),
+    cartReset: () => dispatch(resetCart())
   };
 };
 
@@ -114,7 +126,8 @@ App.propTypes = {
   removeFromCart: PropTypes.func,
   reserveProduct: PropTypes.func,
   unreserveProduct: PropTypes.func,
-  loadCartItems: PropTypes.func
+  loadCartItems: PropTypes.func,
+  cartReset: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

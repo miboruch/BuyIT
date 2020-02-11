@@ -117,7 +117,9 @@ const mapDispatchToProps = dispatch => {
 
 RegisterBox.propTypes = {
   registerError: PropTypes.string,
-  userRegister: PropTypes.func.isRequired
+  userRegister: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  history: PropTypes.object
 };
 
 const RegisterBoxWithRouter = withRouter(RegisterBox);

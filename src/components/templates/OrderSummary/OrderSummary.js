@@ -97,7 +97,11 @@ const OrderSummary = ({ cart, totalPrice, isLoggedIn, loading }) => {
             </StyledTotalParagraph>
           </TotalSummary>
           <StyledTitleParagraph>Shipping address</StyledTitleParagraph>
-          {isLoggedIn ? <LoggedInSummary /> : <NotLoggedInSummary />}
+          {isLoggedIn ? (
+            <LoggedInSummary cart={cart} totalPrice={totalPrice} />
+          ) : (
+            <NotLoggedInSummary cart={cart} totalPrice={totalPrice} />
+          )}
         </>
       )}
     </StyledWrapper>

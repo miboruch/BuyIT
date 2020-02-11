@@ -7,6 +7,7 @@ import GlobalStyle from '../../style/GlobalStyle';
 import Menu from '../molecules/Menu/Menu';
 import Cart from '../templates/Cart/Cart';
 import Search from '../templates/Search/Search';
+import DialogBox from '../atoms/DialogBox/DialogBox';
 
 const Layout = ({ children }) => {
   return (
@@ -14,6 +15,7 @@ const Layout = ({ children }) => {
       <SEO />
       <GlobalStyle />
       <ThemeProvider theme={theme}>
+        <DialogBox />
         <Menu />
         <Cart />
         <Search />

@@ -25,7 +25,8 @@ export const cartReducer = (state = initialState, action) => {
     case RESET_CART:
       return {
         ...state,
-        cart: []
+        cart: [],
+        totalPrice: 0
       };
     case LOAD_CART_ITEMS:
       return {

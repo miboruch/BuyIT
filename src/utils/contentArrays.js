@@ -129,3 +129,32 @@ export const menuItems = isLogged => {
     }
   ];
 };
+
+export const loggedInSummaryData = values => {
+  return [
+    {
+      titleName: 'Name',
+      result: values.name
+    },
+    {
+      titleName: 'Last name',
+      result: values.lastName
+    },
+    {
+      titleName: 'Email',
+      result: values.email
+    },
+    {
+      titleName: 'Address',
+      result: values.address
+    },
+    {
+      titleName: 'City',
+      result: values.city
+    },
+    {
+      titleName: 'Country',
+      result: values.country
+    }
+  ];
+};

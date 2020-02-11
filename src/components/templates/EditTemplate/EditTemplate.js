@@ -9,33 +9,11 @@ import Button from '../../atoms/Button/Button';
 import { userUpdate } from '../../../actions/authenticationAction';
 import { UpdateSchema } from '../../../utils/schemaValidation';
 import { updateInputArrays } from '../../../utils/contentArrays';
-import { countries } from 'countries-list';
 import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
-
-const countriesArray = Object.values(countries).map(item => item.name);
 
 const StyledForm = styled(Form)`
   width: 90%;
   transition: 1s ease all;
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 40px;
-  background: transparent;
-  border: none;
-  border-bottom: ${({ colorTheme }) =>
-    colorTheme === 'dark' ? '1px solid #fff' : '1px solid #000'};
-  font-family: ${({ theme }) => theme.font.family.futura};
-  font-size: 16px;
-  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : '#000')};
-  margin-bottom: 3rem;
-`;
-
-const StyledLabel = styled.label`
-  font-family: ${({ theme }) => theme.font.family.futura};
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 13px;
 `;
 
 const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
@@ -54,7 +32,7 @@ const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
       }}
       validationSchema={UpdateSchema}
     >
-      {({ handleChange, handleBlur, errors, values, setEditOpen }) => {
+      {({ handleChange, handleBlur, errors, values }) => {
         const updateInput = updateInputArrays(errors, values);
         return (
           <StyledForm>
@@ -93,7 +71,8 @@ const mapDispatchToProps = dispatch => {
 EditTemplate.propTypes = {
   userInfo: PropTypes.object,
   userUpdate: PropTypes.func,
-  token: PropTypes.string
+  token: PropTypes.string,
+  history: PropTypes.object
 };
 
 const EditTemplateWithRouter = withRouter(EditTemplate);
