@@ -11,6 +11,8 @@ import { RegisterSchema } from '../../../utils/schemaValidation';
 import { userRegister } from '../../../actions/authenticationAction';
 import { registerInputArray } from '../../../utils/contentArrays';
 import Spinner from '../../atoms/Spinner/Spinner';
+import { countriesArray } from '../../../utils/constants';
+import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
 
 const StyledWrapper = styled.div`
   width: 90%;
@@ -56,16 +58,16 @@ const RegisterBox = ({ registerError, userRegister, history, loading }) => {
       ) : (
         <Formik
           initialValues={{
-            login: '',
             email: '',
             password: '',
             name: '',
             lastName: '',
             address: '',
-            city: ''
+            city: '',
+            country: countriesArray[0]
           }}
-          onSubmit={({ login, email, password, name, lastName, city, address }) =>
-            userRegister(login, email, password, name, lastName, city, address, history)
+          onSubmit={({ email, password, name, lastName, city, address, country }) =>
+            userRegister(email, password, name, lastName, city, address, country, history)
           }
           validationSchema={RegisterSchema}
         >
@@ -84,6 +86,11 @@ const RegisterBox = ({ registerError, userRegister, history, loading }) => {
                     key={item.name}
                   />
                 ))}
+                <CountrySelectMenu
+                  handleChange={handleChange}
+                  formFieldName='country'
+                  colorTheme='dark'
+                />
                 <Button buttonTheme='light' text='Register' type='submit' />
                 <StyledErrorParagraph>
                   {registerError ? 'Some data are invalid' : null}
@@ -103,8 +110,8 @@ const mapStateToProps = ({ authenticationReducer: { registerError, loading } }) 
 
 const mapDispatchToProps = dispatch => {
   return {
-    userRegister: (login, email, password, name, lastName, city, address, history) =>
-      dispatch(userRegister(login, email, password, name, lastName, city, address, history))
+    userRegister: (email, password, name, lastName, city, address, country, history) =>
+      dispatch(userRegister(email, password, name, lastName, city, address, country, history))
   };
 };
 

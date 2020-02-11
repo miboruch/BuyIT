@@ -6,9 +6,8 @@ import { orderNotLoggedIn } from '../../../utils/contentArrays';
 import FormLine from '../FormLine/FormLine';
 import Button from '../../atoms/Button/Button';
 import { Form, Formik } from 'formik';
-import { countries } from 'countries-list';
-
-const countriesArray = Object.values(countries).map(item => item.name);
+import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
+import {countriesArray} from "../../../utils/constants";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -18,25 +17,6 @@ const StyledWrapper = styled.div`
 const StyledForm = styled(Form)`
   width: 100%;
   position: relative;
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 40px;
-  background: transparent;
-  border: none;
-  border-bottom: ${({ colorTheme }) =>
-    colorTheme === 'dark' ? '1px solid #fff' : '1px solid #000'};
-  font-family: ${({ theme }) => theme.font.family.futura};
-  font-size: 16px;
-  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : '#000')};
-  margin-bottom: 3rem;
-`;
-
-const StyledLabel = styled.label`
-  font-family: ${({ theme }) => theme.font.family.futura};
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 13px;
 `;
 
 const NotLoggedInSummary = () => {
@@ -71,14 +51,7 @@ const NotLoggedInSummary = () => {
                   colorTheme='light'
                 />
               ))}
-              <StyledLabel>Country</StyledLabel>
-              <StyledSelect name='country' onChange={handleChange}>
-                {countriesArray.map(item => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </StyledSelect>
+              <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
               <Button buttonTheme='dark' text='Submit' type='submit' />
             </StyledForm>
           );

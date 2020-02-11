@@ -9,6 +9,7 @@ import { NotLoggedInOrderSchema } from '../../../utils/schemaValidation';
 import { orderEditAddress } from '../../../utils/contentArrays';
 import FormLine from '../FormLine/FormLine';
 import { countries } from 'countries-list';
+import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
 
 const countriesArray = Object.values(countries).map(item => item.name);
 
@@ -76,7 +77,7 @@ const LoggedInSummary = ({ userInfo }) => {
           lastName: userInfo.lastName,
           address: userInfo.address,
           city: userInfo.city,
-          country: countriesArray[0]
+          country: userInfo.country
         }}
         onSubmit={({ email, name, lastName, city, address, country }) =>
           console.log(email, name, lastName, city, address, country)
@@ -114,14 +115,7 @@ const LoggedInSummary = ({ userInfo }) => {
                       colorTheme='light'
                     />
                   ))}
-                  <StyledLabel>Country</StyledLabel>
-                  <StyledSelect name='country' onChange={handleChange}>
-                    {countriesArray.map(item => (
-                      <option value={item} key={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </StyledSelect>
+                  <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
                 </>
               ) : null}
               <StyledButtonWrapper>

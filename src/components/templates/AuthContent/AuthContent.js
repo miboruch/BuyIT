@@ -71,6 +71,7 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo }) => {
                     <StyledTitleParagraph>last name: {userInfo.lastName}</StyledTitleParagraph>
                     <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
                     <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
+                    <StyledTitleParagraph>country: {userInfo.country}</StyledTitleParagraph>
                   </>
                 )}
                 <EditButtonWrapper>

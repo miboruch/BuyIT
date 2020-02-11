@@ -13,9 +13,6 @@ export const RegisterSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Email is required'),
-  login: Yup.string()
-    .min(2, 'Login too short - 2 chars minimum')
-    .required('Login is required'),
   password: Yup.string()
     .min(8, 'Password is too short - 8 chars minimum')
     .required('Password is required')
@@ -34,7 +31,8 @@ export const RegisterSchema = Yup.object().shape({
     .required('Address is required'),
   city: Yup.string()
     .min(2, 'City name too short - 2 chars minimum')
-    .required('City is required')
+    .required('City is required'),
+  country: Yup.string()
 });
 
 export const UpdateSchema = Yup.object().shape({
@@ -49,7 +47,8 @@ export const UpdateSchema = Yup.object().shape({
     .required('Address is required'),
   city: Yup.string()
     .min(2, 'City name too short - 2 chars minimum')
-    .required('City is required')
+    .required('City is required'),
+  country: Yup.string()
 });
 
 export const NotLoggedInOrderSchema = Yup.object().shape({

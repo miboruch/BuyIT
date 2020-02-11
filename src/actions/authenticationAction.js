@@ -113,26 +113,26 @@ export const userLogin = (email, password, history) => async dispatch => {
 };
 
 export const userRegister = (
-  login,
   email,
   password,
   name,
   lastName,
   city,
   address,
+  country,
   history
 ) => async dispatch => {
   dispatch(authStart());
 
   try {
     const result = await axios.post(`${API_URL}/user/register`, {
-      login,
       email,
       password,
       name,
       lastName,
       city,
-      address
+      address,
+      country
     });
 
     dispatch(authSuccess(result.data.token, result.data._doc._id));
@@ -156,12 +156,12 @@ export const authenticationCheck = () => async dispatch => {
   }
 };
 
-export const userUpdate = (name, lastName, city, address, token) => async dispatch => {
+export const userUpdate = (name, lastName, city, address, country, token) => async dispatch => {
   dispatch(authStart());
   try {
     await axios.put(
       `${API_URL}/user/update`,
-      { name, lastName, city, address },
+      { name, lastName, city, address, country },
       {
         headers: { 'auth-token': token }
       }

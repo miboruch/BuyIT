@@ -7,11 +7,6 @@ export const landingPageContent = [
 export const registerInputArray = errors => {
   return [
     {
-      name: 'login',
-      labelText: errors.login ? errors.login : 'login',
-      inputType: 'text'
-    },
-    {
       name: 'email',
       labelText: errors.email ? errors.email : 'email',
       inputType: 'email'
