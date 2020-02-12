@@ -1,5 +1,6 @@
 import { ADD_PRODUCT, REMOVE_PRODUCT, LOAD_CART_ITEMS, RESET_CART } from '../reducers/cartReducer';
 import { socket } from '../utils/constants';
+import { unreserveProduct } from './productAction';
 
 const addProduct = product => {
   let cart;
@@ -19,11 +20,16 @@ const addProduct = product => {
   };
 };
 
-export const resetCart = () => {
+export const clearCart = () => {
   localStorage.setItem('cart', JSON.stringify([]));
   return {
     type: RESET_CART
   };
+};
+
+export const resetCart = () => {
+  const currentCart = JSON.parse(localStorage.getItem('cart'));
+  socket.emit('resetCart', { cart: currentCart });
 };
 
 export const removeProduct = product => {

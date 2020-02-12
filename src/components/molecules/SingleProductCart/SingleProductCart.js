@@ -113,7 +113,7 @@ const OpenProduct = styled(Paragraph)`
 
 const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
   const { setBoxState, setProductId, setProductName } = useContext(DeleteAcceptContext);
-  const { image, name, price, _id: id, userLogin, userID: productUserID, reserved } = product;
+  const { image, name, price, _id: id, userID: productUserID, reserved } = product;
   const isUserProduct = userID === productUserID;
   return (
     <>
@@ -139,7 +139,7 @@ const SingleProductCart = ({ style, userID, product, addProductToCart }) => {
         <ContentWrapper>
           <StyledNameParagraph medium>{name}</StyledNameParagraph>
           <StyledPrice>{price}$</StyledPrice>
-          <StyledUserName>User: {userLogin}</StyledUserName>
+          <StyledUserName>User: {productUserID}</StyledUserName>
           <StyledLink to={`/product/${id}`} style={style}>
             <OpenProduct small>Open product</OpenProduct>
           </StyledLink>

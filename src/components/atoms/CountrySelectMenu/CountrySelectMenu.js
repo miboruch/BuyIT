@@ -20,7 +20,7 @@ const StyledSelect = styled.select`
 
 const StyledLabel = styled.label`
   font-family: ${({ theme }) => theme.font.family.futura};
-  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : 'rgba(0, 0, 0, 0.7)')}
+  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : '#000')}
   font-size: 13px;
 `;
 

@@ -48,7 +48,7 @@ const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
                 value={item.value}
               />
             ))}
-            <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
+            <CountrySelectMenu handleChange={handleChange} formFieldName='country' colorTheme='light' />
             <Button buttonTheme='dark' text='Save' type='submit' />
           </StyledForm>
         );

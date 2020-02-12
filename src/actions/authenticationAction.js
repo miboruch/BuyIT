@@ -11,6 +11,7 @@ import {
   UPDATE_FAILURE
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
+import { resetCart } from './cartAction';
 
 const authStart = () => {
   return {
@@ -88,12 +89,19 @@ const getUserInfo = token => async dispatch => {
   }
 };
 
-export const authLogout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userID');
+const logout = () => {
   return {
     type: AUTH_LOGOUT
   };
+};
+
+export const authLogout = () => dispatch => {
+  dispatch(authStart());
+  localStorage.removeItem('token');
+  localStorage.removeItem('userID');
+
+  resetCart();
+  dispatch(logout());
 };
 
 export const userLogin = (email, password, history) => async dispatch => {

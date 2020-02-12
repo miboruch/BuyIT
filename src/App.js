@@ -9,7 +9,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import ProductResult from './pages/ProductResult';
 import { authenticationCheck } from './actions/authenticationAction';
-import { removeProduct, loadCartItems, resetCart } from './actions/cartAction';
+import { removeProduct, loadCartItems, resetCart, clearCart } from './actions/cartAction';
 import { socket } from './utils/constants';
 import { reserveProduct, unreserveProduct } from './actions/productAction';
 import { isProductInLocalStorage } from './utils/functions';
@@ -28,7 +28,8 @@ const App = ({
   unreserveProduct,
   removeFromCart,
   loadCartItems,
-  cartReset
+  cartReset,
+  clearCart
 }) => {
   useEffect(() => {
     authenticationCheck();
@@ -74,6 +75,14 @@ const App = ({
         removeFromProducts(item._id);
       });
     });
+
+    socket.on('resetCartFinish', ({ cart }) => {
+      cart.map(item => {
+        unreserveProduct(item._id);
+      });
+
+      clearCart();
+    });
   }, []);
 
   return (
@@ -115,7 +124,8 @@ const mapDispatchToProps = dispatch => {
     reserveProduct: productId => dispatch(reserveProduct(productId)),
     unreserveProduct: productId => dispatch(unreserveProduct(productId)),
     loadCartItems: () => dispatch(loadCartItems()),
-    cartReset: () => dispatch(resetCart())
+    cartReset: () => dispatch(resetCart()),
+    clearCart: () => dispatch(clearCart())
   };
 };
 
@@ -127,7 +137,8 @@ App.propTypes = {
   reserveProduct: PropTypes.func,
   unreserveProduct: PropTypes.func,
   loadCartItems: PropTypes.func,
-  cartReset: PropTypes.func
+  cartReset: PropTypes.func,
+  clearCart: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

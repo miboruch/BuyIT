@@ -22,14 +22,7 @@ const ProductWrapper = styled.div`
   position: relative;
 `;
 
-const ProductResult = ({
-  products,
-  loading,
-  categoryUpdate,
-  match,
-  getAllProducts,
-  location
-}) => {
+const ProductResult = ({ products, loading, categoryUpdate, match, getAllProducts, location }) => {
   useEffect(() => {
     categoryUpdate(match.params.category);
     getAllProducts(match.params.category, queryString.parse(location.search).page);
