@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import NotLoggedInSummary from '../../molecules/NotLoggedInSummary/NotLoggedInSummary';
 import LoggedInSummary from '../../molecules/LoggedInSummary/LoggedInSummary';
 import Spinner from '../../atoms/Spinner/Spinner';
+import SingleProductSummary from '../../molecules/SingleProductSummary/SingleProductSummary';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -24,33 +25,6 @@ const StyledTitleParagraph = styled.h1`
   font-size: 18px;
   color: #000;
   padding: 2rem 0;
-`;
-
-const ProductSummary = styled.section`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 1rem;
-`;
-
-const StyledImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-`;
-
-const ProductTitle = styled(Paragraph)`
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  width: 90px;
-`;
-
-const StyledPriceParagraph = styled(Paragraph)`
-  color: #000;
-  font-size: 13px;
 `;
 
 const StyledTotalParagraph = styled(Paragraph)`
@@ -84,11 +58,13 @@ const OrderSummary = ({ cart, totalPrice, isLoggedIn, loading }) => {
           </Link>
           <StyledTitleParagraph>Order summary</StyledTitleParagraph>
           {cart.map(item => (
-            <ProductSummary key={item._id}>
-              <StyledImage src={item.image} />
-              <ProductTitle>{item.name}</ProductTitle>
-              <StyledPriceParagraph>{item.price} $</StyledPriceParagraph>
-            </ProductSummary>
+            <SingleProductSummary
+              key={item._id}
+              id={item._id}
+              image={item.image}
+              price={item.price}
+              name={item.name}
+            />
           ))}
           <TotalSummary>
             <StyledTotalParagraph>Products: {cart.length}</StyledTotalParagraph>

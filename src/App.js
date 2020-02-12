@@ -28,7 +28,6 @@ const App = ({
   unreserveProduct,
   removeFromCart,
   loadCartItems,
-  cartReset,
   clearCart
 }) => {
   useEffect(() => {
@@ -70,7 +69,7 @@ const App = ({
     socket.on('productOrdered', ({ orderedProduct }) => {
       console.log('product ordered');
       console.log(orderedProduct);
-      cartReset();
+      clearCart();
       orderedProduct.map(item => {
         removeFromProducts(item._id);
       });
@@ -124,7 +123,6 @@ const mapDispatchToProps = dispatch => {
     reserveProduct: productId => dispatch(reserveProduct(productId)),
     unreserveProduct: productId => dispatch(unreserveProduct(productId)),
     loadCartItems: () => dispatch(loadCartItems()),
-    cartReset: () => dispatch(resetCart()),
     clearCart: () => dispatch(clearCart())
   };
 };
@@ -137,7 +135,6 @@ App.propTypes = {
   reserveProduct: PropTypes.func,
   unreserveProduct: PropTypes.func,
   loadCartItems: PropTypes.func,
-  cartReset: PropTypes.func,
   clearCart: PropTypes.func
 };
 

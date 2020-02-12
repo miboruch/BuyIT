@@ -1,6 +1,5 @@
 import { ADD_PRODUCT, REMOVE_PRODUCT, LOAD_CART_ITEMS, RESET_CART } from '../reducers/cartReducer';
 import { socket } from '../utils/constants';
-import { unreserveProduct } from './productAction';
 
 const addProduct = product => {
   let cart;
