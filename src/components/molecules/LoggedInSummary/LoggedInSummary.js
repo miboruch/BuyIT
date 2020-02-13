@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
 import { Form, Formik } from 'formik';
-import { NotLoggedInOrderSchema } from '../../../utils/schemaValidation';
+import { LoggedInOrderSchema } from '../../../utils/schemaValidation';
 import { orderEditAddress } from '../../../utils/contentArrays';
 import FormLine from '../FormLine/FormLine';
 import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
@@ -49,7 +49,6 @@ const StyledForm = styled(Form)`
 `;
 
 const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, history }) => {
-  console.log(userInfo);
   const [isEditOpen, setEditOpen] = useState(false);
   return (
     <StyledWrapper>
@@ -69,7 +68,7 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
             createOrder(cart, totalPrice, userInfo._id, address, city, country);
             history.push('/');
           }}
-          validationSchema={NotLoggedInOrderSchema}
+          validationSchema={LoggedInOrderSchema}
         >
           {({ handleChange, handleBlur, errors, values }) => {
             const orderInputData = orderEditAddress(errors);
@@ -107,7 +106,11 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
                   </>
                 ) : null}
                 <StyledButtonWrapper>
-                  <Button buttonTheme='dark' text='Submit' type='submit' />
+                  {values.address && values.city ? (
+                    <Button buttonTheme='dark' text='Submit' type='submit' />
+                  ) : (
+                    <StyledDataParagraph>Fill up edited data</StyledDataParagraph>
+                  )}
                 </StyledButtonWrapper>
               </StyledForm>
             );

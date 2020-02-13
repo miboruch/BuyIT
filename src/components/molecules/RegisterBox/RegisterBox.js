@@ -35,7 +35,7 @@ const StyledWrapper = styled.div`
 const StyledParagraph = styled(Paragraph)`
   font-weight: lighter;
   font-size: 40px;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 `;
 
 const StyledErrorParagraph = styled(Paragraph)`

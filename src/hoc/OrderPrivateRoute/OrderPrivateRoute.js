@@ -5,7 +5,6 @@ import { Redirect, Route } from 'react-router-dom';
 
 const OrderPrivateRoute = ({ component: Component, cart, location, pathnameRedirect, ...rest }) => {
   const userCart = JSON.parse(localStorage.getItem('cart')).length !== 0;
-  console.log(userCart);
   return (
     <Route
       {...rest}

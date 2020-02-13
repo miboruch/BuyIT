@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Hamburger from '../../atoms/Hamburger/Hamburger';
@@ -9,6 +9,7 @@ import cartIcon from '../../../assets/icons/cart-icon.svg';
 import searchIcon from '../../../assets/icons/search.svg';
 import { useScrollPosition } from '../../../utils/customHooks';
 import { menuToggle, cartToggle, searchToggle } from '../../../actions/sliderBoxesAction';
+import { Link } from 'react-router-dom';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -108,9 +109,11 @@ const Header = ({
         toggleMenu={menuToggle}
         hamburgerTheme={isSearchOrCartOpen ? 'dark' : 'light'}
       />
-      <StyledParagraph colorTheme={backgroundTheme}>
-        buy<StyledSpan colorTheme={backgroundTheme}>IT</StyledSpan>
-      </StyledParagraph>
+      <Link to='/'>
+        <StyledParagraph colorTheme={backgroundTheme}>
+          buy<StyledSpan colorTheme={backgroundTheme}>IT</StyledSpan>
+        </StyledParagraph>
+      </Link>
       {search ? (
         <StyledSearchButton onClick={searchToggle} isOpen={isSearchOpen}>
           <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />

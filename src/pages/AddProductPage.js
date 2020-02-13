@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ReactSVG } from 'react-svg';
-import backIcon from '../assets/icons/next.svg';
 import BackArrow from '../components/atoms/BackArrow/BackArrow';
 import { Link, withRouter } from 'react-router-dom';
 import { Form, Formik } from 'formik';
@@ -21,6 +19,13 @@ const StyledWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  ${({ theme }) => theme.mq.standard} {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 `;
 
 const CloseButtonWrapper = styled.div`
@@ -87,7 +92,20 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
+const StyledImagePreview = styled.img`
+  width: 50%;
+  height: 90vh;
+  display: none;
+  border: 1px solid #2d2d2d;
+  object-fit: cover;
+
+  ${({ theme }) => theme.mq.standard} {
+    display: block;
+  }
+`;
+
 const AddProductPage = ({ addProduct, history, token }) => {
+  const [filePreview, setFilePreview] = useState(null);
   return (
     <StyledWrapper>
       <Link to='/products/all?page=1'>
@@ -144,6 +162,11 @@ const AddProductPage = ({ addProduct, history, token }) => {
               <FormLine
                 onChange={event => {
                   setFieldValue('image', event.currentTarget.files[0]);
+                  if (event.currentTarget.files[0]) {
+                    setFilePreview(URL.createObjectURL(event.target.files[0]));
+                  } else {
+                    setFilePreview(null);
+                  }
                 }}
                 onBlur={handleBlur}
                 inputType='file'
@@ -157,6 +180,7 @@ const AddProductPage = ({ addProduct, history, token }) => {
           )}
         </Formik>
       </StyledFormWrapper>
+      {filePreview ? <StyledImagePreview src={filePreview} alt='Preview' /> : null}
     </StyledWrapper>
   );
 };

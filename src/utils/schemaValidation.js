@@ -70,6 +70,16 @@ export const NotLoggedInOrderSchema = Yup.object().shape({
   country: Yup.string()
 });
 
+export const LoggedInOrderSchema = Yup.object().shape({
+  address: Yup.string()
+    .min(2, 'Address too short - 2 chars minimum')
+    .required('Address is required'),
+  city: Yup.string()
+    .min(2, 'City name too short - 2 chars minimum')
+    .required('City is required'),
+  country: Yup.string()
+});
+
 export const AddProductSchema = Yup.object().shape({
   image: Yup.mixed().required('Image is required'),
   name: Yup.string()
