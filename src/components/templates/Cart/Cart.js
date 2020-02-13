@@ -9,6 +9,7 @@ import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { cartToggle } from '../../../actions/sliderBoxesAction';
 import { Link } from 'react-router-dom';
+import SingleProductSummary from '../../molecules/SingleProductSummary/SingleProductSummary';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -94,7 +95,7 @@ const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
         <ButtonWrapper>
           {isSomethingInCart ? (
             <Link to={'/order/information'}>
-              <Button text='checkout' buttonTheme='dark' onClick={() => cartToggle()}/>
+              <Button text='checkout' buttonTheme='dark' onClick={() => cartToggle()} />
             </Link>
           ) : (
             <Button text='empty' buttonTheme='dark' />

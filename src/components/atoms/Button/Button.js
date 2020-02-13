@@ -41,13 +41,25 @@ const StyledButton = styled.button`
     height: 100%;
     transition: all 0.25s ease;
   }
+
+  :disabled {
+    opacity: 0.5;
+  }
 `;
 
-const Button = ({ text, onClick, buttonTheme, type = 'button' }) => {
+const Button = ({ text, onClick, buttonTheme, type = 'button', disabled }) => {
   return (
-    <StyledButton onClick={onClick} type={type} buttonTheme={buttonTheme}>
-      {text}
-    </StyledButton>
+    <>
+      {disabled ? (
+        <StyledButton onClick={onClick} type={type} buttonTheme={buttonTheme} disabled>
+          {text}
+        </StyledButton>
+      ) : (
+        <StyledButton onClick={onClick} type={type} buttonTheme={buttonTheme}>
+          {text}
+        </StyledButton>
+      )}
+    </>
   );
 };
 
@@ -55,7 +67,8 @@ Button.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
   buttonTheme: PropTypes.oneOf(['light, dark']),
-  type: PropTypes.string
+  type: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 export default Button;

@@ -13,6 +13,7 @@ import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
 import { loggedInSummaryData } from '../../../utils/contentArrays';
 import { createOrderWithAccount } from '../../../actions/orderAction';
 import Spinner from '../../atoms/Spinner/Spinner';
+import FormCheckbox from '../../atoms/FormCheckbox/FormCheckbox';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -62,7 +63,8 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
             lastName: userInfo.lastName,
             address: userInfo.address,
             city: userInfo.city,
-            country: userInfo.country
+            country: userInfo.country,
+            accept: false
           }}
           onSubmit={({ city, address, country }) => {
             createOrder(cart, totalPrice, userInfo._id, address, city, country);
@@ -70,7 +72,7 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
           }}
           validationSchema={LoggedInOrderSchema}
         >
-          {({ handleChange, handleBlur, errors, values }) => {
+          {({ handleChange, handleBlur, errors, values, setFieldValue }) => {
             const orderInputData = orderEditAddress(errors);
             const loggedInData = loggedInSummaryData(values);
             return (
@@ -105,6 +107,21 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
                     <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
                   </>
                 ) : null}
+                <FormCheckbox
+                  onChange={event => {
+                    if (event.target.checked) {
+                      setFieldValue('accept', true);
+                    } else {
+                      setFieldValue('accept', false);
+                    }
+                  }}
+                  name='accept'
+                />
+                {values.accept ? (
+                  <Button buttonTheme='dark' text='Submit' type='submit' />
+                ) : (
+                  <Button buttonTheme='dark' text='Submit' type='submit' disabled />
+                )}
                 <StyledButtonWrapper>
                   {values.address && values.city ? (
                     <Button buttonTheme='dark' text='Submit' type='submit' />

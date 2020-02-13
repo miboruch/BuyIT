@@ -10,6 +10,7 @@ const ProductSummary = styled.section`
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
+  padding: 0 2rem;
 `;
 
 const StyledImage = styled.img`
@@ -30,13 +31,19 @@ const StyledPriceParagraph = styled(Paragraph)`
   font-size: 13px;
 `;
 
+const StyledParagraph = styled(Paragraph)`
+  color: #1d1d1d;
+`;
+
 const SingleProductSummary = ({ id, image, name, price }) => {
   return (
-    <ProductSummary>
-      <StyledImage src={image} />
-      <ProductTitle>{name}</ProductTitle>
-      <StyledPriceParagraph>{price} $</StyledPriceParagraph>
-    </ProductSummary>
+    <>
+      <ProductSummary>
+        <StyledImage src={image} />
+        <ProductTitle>{name}</ProductTitle>
+        <StyledPriceParagraph>{price} $</StyledPriceParagraph>
+      </ProductSummary>
+    </>
   );
 };
 

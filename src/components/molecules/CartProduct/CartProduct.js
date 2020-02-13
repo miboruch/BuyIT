@@ -8,67 +8,71 @@ import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
 import { cartToggle } from '../../../actions/sliderBoxesAction';
 
-const StyledWrapper = styled.div`
-  width: 100%;
-  padding: 0 2rem;
-  margin: 2rem 0;
+const ButtonWrapper = styled.div`
+  margin-top: 1rem;
   display: flex;
   justify-content: flex-start;
-  flex-direction: column;
-  flex-wrap: wrap;
-  position: relative;
 `;
 
-const StyledHeading = styled.h1`
-  font-size: 20px;
-  color: #1d1d1d;
-  position: relative;
+const ProductSummary = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 2rem;
+`;
 
-  &::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 48%;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    background-color: #000;
-    border-radius: 50%;
+const StyledImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+`;
+
+const ProductTitle = styled(Paragraph)`
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  width: 90px;
+  text-align: center;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 200px;
   }
 `;
 
 const StyledPriceParagraph = styled(Paragraph)`
+  color: #000;
   font-size: 13px;
-  color: #1d1d1d;
-  padding: 1rem 0;
-`;
-
-const ButtonWrapper = styled.div`
-  margin-top: 1rem;
 `;
 
 const StyledParagraph = styled(Paragraph)`
   color: #1d1d1d;
+  text-align: left;
 `;
 
 const CartProduct = ({ product, removeFromCart, cartToggle }) => {
-  const { name, price, _id: id, expire } = product;
+  const { image, name, price, _id: id, expire } = product;
 
   return (
-    <StyledWrapper>
-      <Link to={`/product/${id}`}>
-        <StyledHeading title onClick={() => cartToggle()}>
-          {name}
-        </StyledHeading>
-      </Link>
-      <StyledPriceParagraph>{price} USD</StyledPriceParagraph>
-      <StyledParagraph small>
-        Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
-      </StyledParagraph>
+    <>
+      <ProductSummary>
+        <Link to={`/product/${id}`} onClick={() => cartToggle()}>
+          <StyledImage src={image} />
+        </Link>
+        <ProductTitle>{name}</ProductTitle>
+        <StyledPriceParagraph>{price} $</StyledPriceParagraph>
+      </ProductSummary>
+      {expire ? (
+        <StyledParagraph small>
+          Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
+        </StyledParagraph>
+      ) : null}
       <ButtonWrapper>
         <Button text='Remove product' buttonTheme='dark' onClick={() => removeFromCart(product)} />
       </ButtonWrapper>
-    </StyledWrapper>
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ import CountrySelectMenu from '../../atoms/CountrySelectMenu/CountrySelectMenu';
 import { countriesArray } from '../../../utils/constants';
 import { createOrderWithoutAccount } from '../../../actions/orderAction';
 import Spinner from '../../atoms/Spinner/Spinner';
+import FormCheckbox from '../../atoms/FormCheckbox/FormCheckbox';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -36,7 +37,8 @@ const NotLoggedInSummary = ({ cart, totalPrice, createOrder, loading, history })
             lastName: '',
             address: '',
             city: '',
-            country: countriesArray[0]
+            country: countriesArray[0],
+            accept: false
           }}
           onSubmit={({ email, name, lastName, city, address, country }) => {
             createOrder(cart, totalPrice, name, lastName, email, address, city, country);
@@ -44,7 +46,7 @@ const NotLoggedInSummary = ({ cart, totalPrice, createOrder, loading, history })
           }}
           validationSchema={NotLoggedInOrderSchema}
         >
-          {({ handleChange, handleBlur, errors }) => {
+          {({ handleChange, handleBlur, errors, values, setFieldValue }) => {
             const orderInputData = orderNotLoggedIn(errors);
             return (
               <StyledForm>
@@ -60,7 +62,21 @@ const NotLoggedInSummary = ({ cart, totalPrice, createOrder, loading, history })
                   />
                 ))}
                 <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
-                <Button buttonTheme='dark' text='Submit' type='submit' />
+                <FormCheckbox
+                  onChange={event => {
+                    if (event.target.checked) {
+                      setFieldValue('accept', true);
+                    } else {
+                      setFieldValue('accept', false);
+                    }
+                  }}
+                  name='accept'
+                />
+                {values.accept ? (
+                  <Button buttonTheme='dark' text='Submit' type='submit' />
+                ) : (
+                  <Button buttonTheme='dark' text='Submit' type='submit' disabled />
+                )}
               </StyledForm>
             );
           }}
