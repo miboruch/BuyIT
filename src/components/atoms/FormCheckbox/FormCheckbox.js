@@ -9,7 +9,7 @@ const CheckboxWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  margin-bottom: 3rem;
+  margin: 3rem 0;
 `;
 
 const StyledInput = styled.input`

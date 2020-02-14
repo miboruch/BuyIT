@@ -14,6 +14,7 @@ import { loggedInSummaryData } from '../../../utils/contentArrays';
 import { createOrderWithAccount } from '../../../actions/orderAction';
 import Spinner from '../../atoms/Spinner/Spinner';
 import FormCheckbox from '../../atoms/FormCheckbox/FormCheckbox';
+import withEditToggle from '../../../hoc/withEditToggle';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -40,17 +41,21 @@ const StyledDataParagraph = styled(Paragraph)`
   font-size: 15px;
 `;
 
-const StyledButtonWrapper = styled.div`
-  margin-top: 1rem;
-`;
-
 const StyledForm = styled(Form)`
   width: 100%;
   position: relative;
 `;
 
-const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, history }) => {
-  const [isEditOpen, setEditOpen] = useState(false);
+const LoggedInSummary = ({
+  userInfo,
+  cart,
+  totalPrice,
+  createOrder,
+  loading,
+  history,
+  isOpen,
+  toggleEdit
+}) => {
   return (
     <StyledWrapper>
       {loading ? (
@@ -84,12 +89,8 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
                     </StyledDataParagraph>
                   ))}
                 </StyledContentWrapper>
-                <Button
-                  text='Edit shipping data'
-                  buttonTheme='dark'
-                  onClick={() => setEditOpen(!isEditOpen)}
-                />
-                {isEditOpen ? (
+                <Button text='Edit shipping data' buttonTheme='dark' onClick={() => toggleEdit()} />
+                {isOpen ? (
                   <>
                     <StyledTitleParagraph>Edit</StyledTitleParagraph>
                     {orderInputData.map(item => (
@@ -104,7 +105,11 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
                         colorTheme='light'
                       />
                     ))}
-                    <CountrySelectMenu handleChange={handleChange} formFieldName='country' />
+                    <CountrySelectMenu
+                      handleChange={handleChange}
+                      formFieldName='country'
+                      defaultValue={values.country}
+                    />
                   </>
                 ) : null}
                 <FormCheckbox
@@ -122,13 +127,6 @@ const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, his
                 ) : (
                   <Button buttonTheme='dark' text='Submit' type='submit' disabled />
                 )}
-                <StyledButtonWrapper>
-                  {values.address && values.city ? (
-                    <Button buttonTheme='dark' text='Submit' type='submit' />
-                  ) : (
-                    <StyledDataParagraph>Fill up edited data</StyledDataParagraph>
-                  )}
-                </StyledButtonWrapper>
               </StyledForm>
             );
           }}
@@ -156,9 +154,13 @@ LoggedInSummary.propTypes = {
   userID: PropTypes.string,
   createOrder: PropTypes.func,
   loading: PropTypes.bool,
-  history: PropTypes.object
+  history: PropTypes.object,
+  isOpen: PropTypes.bool,
+  toggleEdit: PropTypes.func
 };
 
 const LoggedInSummaryWithRouter = withRouter(LoggedInSummary);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoggedInSummaryWithRouter);
+export default withEditToggle(
+  connect(mapStateToProps, mapDispatchToProps)(LoggedInSummaryWithRouter)
+);

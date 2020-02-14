@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { authLogout } from '../../../actions/authenticationAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import EditTemplate from '../EditTemplate/EditTemplate';
 import Spinner from '../../atoms/Spinner/Spinner';
+import withEditToggle from '../../../hoc/withEditToggle';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -44,8 +45,15 @@ const LogoutButtonWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading }) => {
-  const [isEditOpen, setEditOpen] = useState(false);
+const AuthContent = ({
+  isLoggedIn,
+  userLogout,
+  history,
+  userInfo,
+  loading,
+  isOpen,
+  toggleEdit
+}) => {
   return (
     <StyledWrapper>
       {loading ? (
@@ -66,8 +74,8 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading }) => 
                     Your products in database: {userInfo.products.length}
                   </StyledTitleParagraph>
                   <StyledTitle title>Personal data:</StyledTitle>
-                  {isEditOpen ? (
-                    <EditTemplate setEditOpen={setEditOpen} />
+                  {isOpen ? (
+                    <EditTemplate />
                   ) : (
                     <>
                       <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
@@ -79,9 +87,9 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading }) => 
                   )}
                   <EditButtonWrapper>
                     <Button
-                      text={isEditOpen ? 'close' : 'edit data'}
+                      text={isOpen ? 'close' : 'edit data'}
                       buttonTheme='dark'
-                      onClick={() => setEditOpen(!isEditOpen)}
+                      onClick={() => toggleEdit()}
                     />
                   </EditButtonWrapper>
                   <LogoutButtonWrapper>
@@ -124,9 +132,11 @@ AuthContent.propTypes = {
   userInfo: PropTypes.object,
   history: PropTypes.object,
   userLogout: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  toggleEdit: PropTypes.func
 };
 
 const AuthContentWithRouter = withRouter(AuthContent);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthContentWithRouter);
+export default withEditToggle(connect(mapStateToProps, mapDispatchToProps)(AuthContentWithRouter));

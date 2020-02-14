@@ -31,10 +31,6 @@ const StyledPriceParagraph = styled(Paragraph)`
   font-size: 13px;
 `;
 
-const StyledParagraph = styled(Paragraph)`
-  color: #1d1d1d;
-`;
-
 const SingleProductSummary = ({ id, image, name, price }) => {
   return (
     <>

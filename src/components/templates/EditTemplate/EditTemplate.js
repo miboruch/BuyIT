@@ -16,6 +16,10 @@ const StyledForm = styled(Form)`
   transition: 1s ease all;
 `;
 
+const ButtonWrapper = styled.div`
+  margin-top: 1rem;
+`;
+
 const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
   return (
     <Formik
@@ -48,8 +52,14 @@ const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
                 value={item.value}
               />
             ))}
-            <CountrySelectMenu handleChange={handleChange} formFieldName='country' colorTheme='light' />
-            <Button buttonTheme='dark' text='Save' type='submit' />
+            <CountrySelectMenu
+              handleChange={handleChange}
+              formFieldName='country'
+              colorTheme='light'
+            />
+            <ButtonWrapper>
+              <Button buttonTheme='dark' text='Save' type='submit' />
+            </ButtonWrapper>
           </StyledForm>
         );
       }}

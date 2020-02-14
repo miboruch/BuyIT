@@ -76,10 +76,6 @@ const CartProduct = ({ product, removeFromCart, cartToggle }) => {
   );
 };
 
-const mapStateToProps = ({ cartReducer: { cart } }) => {
-  return { cart };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     removeFromCart: product => dispatch(removeProductFromCart(product)),
@@ -93,4 +89,4 @@ CartProduct.propTypes = {
   cartToggle: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartProduct);
+export default connect(mapDispatchToProps)(CartProduct);

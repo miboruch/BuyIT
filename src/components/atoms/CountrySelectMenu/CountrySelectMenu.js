@@ -15,7 +15,6 @@ const StyledSelect = styled.select`
   font-family: ${({ theme }) => theme.font.family.futura};
   font-size: 16px;
   color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : '#000')};
-  margin-bottom: 3rem;
 `;
 
 const StyledLabel = styled.label`
@@ -24,11 +23,16 @@ const StyledLabel = styled.label`
   font-size: 13px;
 `;
 
-const CountrySelectMenu = ({ formFieldName, handleChange, colorTheme }) => {
+const CountrySelectMenu = ({ formFieldName, handleChange, colorTheme, defaultValue }) => {
   return (
     <>
       <StyledLabel colorTheme={colorTheme}>Country</StyledLabel>
-      <StyledSelect name={formFieldName} onChange={handleChange} colorTheme={colorTheme}>
+      <StyledSelect
+        name={formFieldName}
+        onChange={handleChange}
+        colorTheme={colorTheme}
+        defaultValue={defaultValue}
+      >
         {countriesArray.map(item => (
           <option value={item} key={item}>
             {item}
@@ -42,7 +46,12 @@ const CountrySelectMenu = ({ formFieldName, handleChange, colorTheme }) => {
 CountrySelectMenu.propTypes = {
   formFieldName: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  colorTheme: PropTypes.oneOf(['light', 'dark'])
+  colorTheme: PropTypes.oneOf(['light', 'dark']),
+  defaultValue: PropTypes.string
+};
+
+CountrySelectMenu.defaultProps = {
+  defaultValue: 'Andorra'
 };
 
 export default CountrySelectMenu;
