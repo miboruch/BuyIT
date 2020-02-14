@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
-const PrivateRoute = ({
+const WithOrderPrivateRoute = ({
   component: Component,
-  isLoggedIn,
-  loading,
+  cart,
   location,
   pathnameRedirect,
   ...rest
 }) => {
-  const token = localStorage.getItem('token') || isLoggedIn;
+  const userCart = JSON.parse(localStorage.getItem('cart')).length !== 0;
   return (
     <Route
       {...rest}
       render={props =>
-        token ? (
+        userCart ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: pathnameRedirect, state: { from: location } }} />
@@ -26,16 +25,15 @@ const PrivateRoute = ({
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { isLoggedIn, loading } }) => {
-  return { isLoggedIn, loading };
+const mapStateToProps = ({ cartReducer: { cart } }) => {
+  return { cart };
 };
 
-PrivateRoute.propTypes = {
+WithOrderPrivateRoute.propTypes = {
   component: PropTypes.element.isRequired,
-  isLoggedIn: PropTypes.bool,
-  loading: PropTypes.bool,
+  cart: PropTypes.array,
   location: PropTypes.object,
   pathnameRedirect: PropTypes.string
 };
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(WithOrderPrivateRoute);

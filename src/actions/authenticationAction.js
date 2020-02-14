@@ -173,6 +173,7 @@ export const userUpdate = (name, lastName, city, address, country, token) => asy
     );
 
     dispatch(updateSuccess());
+    dispatch(getUserInfo(token));
   } catch (error) {
     dispatch(updateFailure(error));
   }

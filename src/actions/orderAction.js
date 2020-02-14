@@ -107,7 +107,7 @@ export const createOrderWithAccount = (
   }
 };
 
-export const fetchOrders = token => dispatch => {
+export const fetchUserOrders = token => dispatch => {
   dispatch(fetchOrdersStart());
   try {
     const result = axios.get(`${API_URL}/order/getUserOrders`, {
