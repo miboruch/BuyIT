@@ -52,10 +52,15 @@ const LoggedInSummary = ({
   totalPrice,
   createOrder,
   loading,
-  history,
-  isOpen,
-  toggleEdit
+  history
+  // isOpen,
+  // toggleEdit
 }) => {
+  const [isOpen, setOpen] = useState(false);
+
+  const toggleEdit = () => {
+    setOpen(!isOpen);
+  };
   return (
     <StyledWrapper>
       {loading ? (
@@ -161,6 +166,4 @@ LoggedInSummary.propTypes = {
 
 const LoggedInSummaryWithRouter = withRouter(LoggedInSummary);
 
-export default withEditToggle(
-  connect(mapStateToProps, mapDispatchToProps)(LoggedInSummaryWithRouter)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(LoggedInSummaryWithRouter);

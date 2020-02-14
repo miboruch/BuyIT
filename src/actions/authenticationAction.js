@@ -12,6 +12,7 @@ import {
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
 import { resetCart } from './cartAction';
+import {fetchUserOrders} from "./orderAction";
 
 const authStart = () => {
   return {
@@ -111,6 +112,7 @@ export const userLogin = (email, password, history) => async dispatch => {
     const result = await axios.post(`${API_URL}/user/login`, { email, password });
     dispatch(authSuccess(result.data.token, result.data.id));
     dispatch(getUserInfo(result.data.token));
+    dispatch(fetchUserOrders(result.data.token));
     history.push('/');
     localStorage.setItem('token', result.data.token);
     localStorage.setItem('userID', result.data.id);
@@ -158,6 +160,7 @@ export const authenticationCheck = () => async dispatch => {
   if (token && userID) {
     dispatch(authSuccess(token, userID));
     dispatch(getUserInfo(token));
+    dispatch(fetchUserOrders(token));
   }
 };
 

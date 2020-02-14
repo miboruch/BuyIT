@@ -89,4 +89,4 @@ CartProduct.propTypes = {
   cartToggle: PropTypes.func
 };
 
-export default connect(mapDispatchToProps)(CartProduct);
+export default connect(null, mapDispatchToProps)(CartProduct);

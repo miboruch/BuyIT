@@ -18,6 +18,7 @@ import AddProductPage from './pages/AddProductPage';
 import PrivateRoute from './hoc/withPrivateRoute';
 import OrderPage from './pages/OrderPage';
 import OrderPrivateRoute from './hoc/withOrderPrivateRoute';
+import UserOrdersPage from './pages/UserOrdersPage';
 
 const App = ({
   category,
@@ -96,6 +97,11 @@ const App = ({
             <PrivateRoute
               path={'/addProduct'}
               component={AddProductPage}
+              pathnameRedirect={'/my-account'}
+            />
+            <PrivateRoute
+              path={'/orders/userOrders'}
+              component={UserOrdersPage}
               pathnameRedirect={'/my-account'}
             />
             <OrderPrivateRoute

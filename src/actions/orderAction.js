@@ -107,13 +107,13 @@ export const createOrderWithAccount = (
   }
 };
 
-export const fetchUserOrders = token => dispatch => {
+export const fetchUserOrders = token => async dispatch => {
   dispatch(fetchOrdersStart());
   try {
-    const result = axios.get(`${API_URL}/order/getUserOrders`, {
+    const result = await axios.get(`${API_URL}/order/getUserOrders`, {
       headers: { 'auth-token': token }
     });
-    dispatch(fetchOrdersSuccess(result));
+    dispatch(fetchOrdersSuccess(result.data.orders));
   } catch (error) {
     dispatch(fetchOrdersError(error));
   }

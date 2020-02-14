@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import LoginBox from '../../molecules/LoginBox/LoginBox';
 import RegisterBox from '../../molecules/RegisterBox/RegisterBox';
@@ -52,7 +53,8 @@ const AuthContent = ({
   userInfo,
   loading,
   isOpen,
-  toggleEdit
+  toggleEdit,
+  allUserOrders
 }) => {
   return (
     <StyledWrapper>
@@ -73,6 +75,9 @@ const AuthContent = ({
                   <StyledTitleParagraph>
                     Your products in database: {userInfo.products.length}
                   </StyledTitleParagraph>
+                  <Link to={'/orders/userOrders'}>
+                    <StyledTitleParagraph>Orders: {allUserOrders.length}</StyledTitleParagraph>
+                  </Link>
                   <StyledTitle title>Personal data:</StyledTitle>
                   {isOpen ? (
                     <EditTemplate />
@@ -117,8 +122,11 @@ const AuthContent = ({
   );
 };
 
-const mapStateToProps = ({ authenticationReducer: { isLoggedIn, userInfo, token, loading } }) => {
-  return { isLoggedIn, userInfo, token, loading };
+const mapStateToProps = ({
+  authenticationReducer: { isLoggedIn, userInfo, token, loading },
+  orderReducer: { allUserOrders }
+}) => {
+  return { isLoggedIn, userInfo, token, loading, allUserOrders };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -134,7 +142,8 @@ AuthContent.propTypes = {
   userLogout: PropTypes.func,
   loading: PropTypes.bool,
   isOpen: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
+  allUserOrders: PropTypes.array
 };
 
 const AuthContentWithRouter = withRouter(AuthContent);

@@ -10,7 +10,7 @@ const ProductSummary = styled.section`
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
-  padding: 0 2rem;
+  //padding: 0 2rem;
 `;
 
 const StyledImage = styled.img`
