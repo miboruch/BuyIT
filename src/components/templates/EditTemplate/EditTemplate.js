@@ -56,6 +56,7 @@ const EditTemplate = ({ userInfo, userUpdate, token, history }) => {
               handleChange={handleChange}
               formFieldName='country'
               colorTheme='light'
+              defaultValue={values.country}
             />
             <ButtonWrapper>
               <Button buttonTheme='dark' text='Save' type='submit' />

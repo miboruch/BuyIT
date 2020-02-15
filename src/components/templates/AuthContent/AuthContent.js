@@ -11,7 +11,7 @@ import { authLogout } from '../../../actions/authenticationAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import EditTemplate from '../EditTemplate/EditTemplate';
 import Spinner from '../../atoms/Spinner/Spinner';
-import withEditToggle from '../../../hoc/withEditToggle';
+import Toggle from '../../../providers/Toggle';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -46,79 +46,76 @@ const LogoutButtonWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthContent = ({
-  isLoggedIn,
-  userLogout,
-  history,
-  userInfo,
-  loading,
-  isOpen,
-  toggleEdit,
-  allUserOrders
-}) => {
+const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading, allUserOrders }) => {
   return (
-    <StyledWrapper>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <>
-          {isLoggedIn ? (
-            <>
-              {userInfo ? (
-                <StyledContentWrapper>
-                  <StyledTitle title>Your account: </StyledTitle>
-                  <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
-                  <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
-                  <StyledTitleParagraph>
-                    created date: {new Date(userInfo.createdDate).toLocaleString()}
-                  </StyledTitleParagraph>
-                  <StyledTitleParagraph>
-                    Your products in database: {userInfo.products.length}
-                  </StyledTitleParagraph>
-                  <Link to={'/orders/userOrders'}>
-                    <StyledTitleParagraph>Orders: {allUserOrders.length}</StyledTitleParagraph>
-                  </Link>
-                  <StyledTitle title>Personal data:</StyledTitle>
-                  {isOpen ? (
-                    <EditTemplate />
-                  ) : (
-                    <>
-                      <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
-                      <StyledTitleParagraph>last name: {userInfo.lastName}</StyledTitleParagraph>
-                      <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
-                      <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
-                      <StyledTitleParagraph>country: {userInfo.country}</StyledTitleParagraph>
-                    </>
-                  )}
-                  <EditButtonWrapper>
-                    <Button
-                      text={isOpen ? 'close' : 'edit data'}
-                      buttonTheme='dark'
-                      onClick={() => toggleEdit()}
-                    />
-                  </EditButtonWrapper>
-                  <LogoutButtonWrapper>
-                    <Button
-                      text='Logout'
-                      onClick={() => {
-                        userLogout();
-                        history.push('/');
-                      }}
-                      buttonTheme='dark'
-                    />
-                  </LogoutButtonWrapper>
-                </StyledContentWrapper>
-              ) : null}
-            </>
+    <Toggle
+      render={(isOpen, toggle) => (
+        <StyledWrapper>
+          {loading ? (
+            <Spinner />
           ) : (
             <>
-              <LoginBox />
-              <RegisterBox />
+              {isLoggedIn ? (
+                <>
+                  {userInfo ? (
+                    <StyledContentWrapper>
+                      <StyledTitle title>Your account: </StyledTitle>
+                      <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
+                      <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
+                      <StyledTitleParagraph>
+                        created date: {new Date(userInfo.createdDate).toLocaleString()}
+                      </StyledTitleParagraph>
+                      <StyledTitleParagraph>
+                        Your products in database: {userInfo.products.length}
+                      </StyledTitleParagraph>
+                      <Link to={'/orders/userOrders'}>
+                        <StyledTitleParagraph>Orders: {allUserOrders.length}</StyledTitleParagraph>
+                      </Link>
+                      <StyledTitle title>Personal data:</StyledTitle>
+                      {isOpen ? (
+                        <EditTemplate />
+                      ) : (
+                        <>
+                          <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
+                          <StyledTitleParagraph>
+                            last name: {userInfo.lastName}
+                          </StyledTitleParagraph>
+                          <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
+                          <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
+                          <StyledTitleParagraph>country: {userInfo.country}</StyledTitleParagraph>
+                        </>
+                      )}
+                      <EditButtonWrapper>
+                        <Button
+                          text={isOpen ? 'close' : 'edit data'}
+                          buttonTheme='dark'
+                          onClick={() => toggle()}
+                        />
+                      </EditButtonWrapper>
+                      <LogoutButtonWrapper>
+                        <Button
+                          text='Logout'
+                          onClick={() => {
+                            userLogout();
+                            history.push('/');
+                          }}
+                          buttonTheme='dark'
+                        />
+                      </LogoutButtonWrapper>
+                    </StyledContentWrapper>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <LoginBox />
+                  <RegisterBox />
+                </>
+              )}
             </>
           )}
-        </>
+        </StyledWrapper>
       )}
-    </StyledWrapper>
+    />
   );
 };
 
@@ -148,4 +145,4 @@ AuthContent.propTypes = {
 
 const AuthContentWithRouter = withRouter(AuthContent);
 
-export default withEditToggle(connect(mapStateToProps, mapDispatchToProps)(AuthContentWithRouter));
+export default connect(mapStateToProps, mapDispatchToProps)(AuthContentWithRouter);

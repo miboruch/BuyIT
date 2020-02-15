@@ -14,6 +14,7 @@ import { loggedInSummaryData } from '../../../utils/contentArrays';
 import { createOrderWithAccount } from '../../../actions/orderAction';
 import Spinner from '../../atoms/Spinner/Spinner';
 import FormCheckbox from '../../atoms/FormCheckbox/FormCheckbox';
+import Toggle from '../../../providers/Toggle';
 import withEditToggle from '../../../hoc/withEditToggle';
 
 const StyledWrapper = styled.div`
@@ -53,91 +54,92 @@ const LoggedInSummary = ({
   createOrder,
   loading,
   history
-  // isOpen,
-  // toggleEdit
 }) => {
-  const [isOpen, setOpen] = useState(false);
-
-  const toggleEdit = () => {
-    setOpen(!isOpen);
-  };
   return (
-    <StyledWrapper>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Formik
-          initialValues={{
-            email: userInfo.email,
-            name: userInfo.name,
-            lastName: userInfo.lastName,
-            address: userInfo.address,
-            city: userInfo.city,
-            country: userInfo.country,
-            accept: false
-          }}
-          onSubmit={({ city, address, country }) => {
-            createOrder(cart, totalPrice, userInfo._id, address, city, country);
-            history.push('/');
-          }}
-          validationSchema={LoggedInOrderSchema}
-        >
-          {({ handleChange, handleBlur, errors, values, setFieldValue }) => {
-            const orderInputData = orderEditAddress(errors);
-            const loggedInData = loggedInSummaryData(values);
-            return (
-              <StyledForm>
-                <StyledContentWrapper>
-                  {loggedInData.map(item => (
-                    <StyledDataParagraph key={item.titleName}>
-                      {item.titleName}: {item.result}
-                    </StyledDataParagraph>
-                  ))}
-                </StyledContentWrapper>
-                <Button text='Edit shipping data' buttonTheme='dark' onClick={() => toggleEdit()} />
-                {isOpen ? (
-                  <>
-                    <StyledTitleParagraph>Edit</StyledTitleParagraph>
-                    {orderInputData.map(item => (
-                      <FormLine
-                        labelText={item.labelText}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        inputType={item.inputType}
-                        name={item.name}
-                        key={item.name}
-                        value={values[item.name]}
-                        colorTheme='light'
-                      />
-                    ))}
-                    <CountrySelectMenu
-                      handleChange={handleChange}
-                      formFieldName='country'
-                      defaultValue={values.country}
+    <Toggle
+      render={(isOpen, toggle) => (
+        <StyledWrapper>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Formik
+              initialValues={{
+                email: userInfo.email,
+                name: userInfo.name,
+                lastName: userInfo.lastName,
+                address: userInfo.address,
+                city: userInfo.city,
+                country: userInfo.country,
+                accept: false
+              }}
+              onSubmit={({ city, address, country }) => {
+                createOrder(cart, totalPrice, userInfo._id, address, city, country);
+                history.push('/');
+              }}
+              validationSchema={LoggedInOrderSchema}
+            >
+              {({ handleChange, handleBlur, errors, values, setFieldValue }) => {
+                const orderInputData = orderEditAddress(errors);
+                const loggedInData = loggedInSummaryData(values);
+                return (
+                  <StyledForm>
+                    <StyledContentWrapper>
+                      {loggedInData.map(item => (
+                        <StyledDataParagraph key={item.titleName}>
+                          {item.titleName}: {item.result}
+                        </StyledDataParagraph>
+                      ))}
+                    </StyledContentWrapper>
+                    <Button
+                      text='Edit shipping data'
+                      buttonTheme='dark'
+                      onClick={() => toggle()}
                     />
-                  </>
-                ) : null}
-                <FormCheckbox
-                  onChange={event => {
-                    if (event.target.checked) {
-                      setFieldValue('accept', true);
-                    } else {
-                      setFieldValue('accept', false);
-                    }
-                  }}
-                  name='accept'
-                />
-                {values.accept ? (
-                  <Button buttonTheme='dark' text='Submit' type='submit' />
-                ) : (
-                  <Button buttonTheme='dark' text='Submit' type='submit' disabled />
-                )}
-              </StyledForm>
-            );
-          }}
-        </Formik>
+                    {isOpen ? (
+                      <>
+                        <StyledTitleParagraph>Edit</StyledTitleParagraph>
+                        {orderInputData.map(item => (
+                          <FormLine
+                            labelText={item.labelText}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            inputType={item.inputType}
+                            name={item.name}
+                            key={item.name}
+                            value={values[item.name]}
+                            colorTheme='light'
+                          />
+                        ))}
+                        <CountrySelectMenu
+                          handleChange={handleChange}
+                          formFieldName='country'
+                          defaultValue={values.country}
+                        />
+                      </>
+                    ) : null}
+                    <FormCheckbox
+                      onChange={event => {
+                        if (event.target.checked) {
+                          setFieldValue('accept', true);
+                        } else {
+                          setFieldValue('accept', false);
+                        }
+                      }}
+                      name='accept'
+                    />
+                    {values.accept ? (
+                      <Button buttonTheme='dark' text='Submit' type='submit' />
+                    ) : (
+                      <Button buttonTheme='dark' text='Submit' type='submit' disabled />
+                    )}
+                  </StyledForm>
+                );
+              }}
+            </Formik>
+          )}
+        </StyledWrapper>
       )}
-    </StyledWrapper>
+    />
   );
 };
 

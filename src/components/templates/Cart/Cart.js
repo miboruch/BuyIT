@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Button from '../../atoms/Button/Button';
@@ -76,6 +76,9 @@ const ProductsWrapper = styled.div`
 const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
   const isSomethingInCart =
     cart.length !== 0 || JSON.parse(localStorage.getItem('cart')).length !== 0;
+
+  console.log(isSomethingInCart);
+
   return (
     <>
       <BackgroundWrapper isOpen={isCartOpen} />
