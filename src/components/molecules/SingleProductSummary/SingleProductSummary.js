@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 const ProductSummary = styled.section`
@@ -35,7 +36,13 @@ const SingleProductSummary = ({ id, image, name, price }) => {
   return (
     <>
       <ProductSummary>
-        <StyledImage src={image} />
+        {id ? (
+          <Link to={`/product/${id}`}>
+            <StyledImage src={image} />
+          </Link>
+        ) : (
+          <StyledImage src={image} />
+        )}
         <ProductTitle>{name}</ProductTitle>
         <StyledPriceParagraph>{price} $</StyledPriceParagraph>
       </ProductSummary>

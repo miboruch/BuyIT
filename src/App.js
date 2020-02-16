@@ -19,6 +19,7 @@ import PrivateRoute from './hoc/withPrivateRoute';
 import OrderPage from './pages/OrderPage';
 import OrderPrivateRoute from './hoc/withOrderPrivateRoute';
 import UserOrdersPage from './pages/UserOrdersPage';
+import UserProductsPage from './pages/UserProductsPage';
 
 const App = ({
   category,
@@ -42,7 +43,6 @@ const App = ({
 
   useEffect(() => {
     socket.on('productAdded', ({ addedProduct }) => {
-      console.log(category);
       if ((category !== null && addedProduct.category === category) || category === 'all') {
         addToProducts(addedProduct);
       }
@@ -63,7 +63,6 @@ const App = ({
     });
 
     socket.on('productTimeout', ({ expiredProduct }) => {
-      console.log('PRODUCT TIMEOUT');
       const [isInLocalStorage] = isProductInLocalStorage(expiredProduct);
       if (isInLocalStorage) {
         removeFromCart(expiredProduct);
@@ -72,8 +71,6 @@ const App = ({
     });
 
     socket.on('productOrdered', ({ orderedProduct }) => {
-      console.log('product ordered');
-      console.log(orderedProduct);
       clearCart();
       orderedProduct.map(item => {
         removeFromProducts(item._id);
@@ -96,22 +93,27 @@ const App = ({
           <Switch>
             <Route path={'/'} exact component={LandingPage} />
             <Route path={'/my-account'} component={AuthPage} />
-            <Route path={'/products/:category'} component={ProductResult} />
+            <Route path={'/products/:category'} exact component={ProductResult} />
             <Route path={'/product/:id'} component={ProductPage} />
             <PrivateRoute
               path={'/addProduct'}
               component={AddProductPage}
               pathnameRedirect={'/my-account'}
             />
+            <OrderPrivateRoute
+              path={'/order/information'}
+              component={OrderPage}
+              pathnameRedirect={'/'}
+            />
             <PrivateRoute
               path={'/orders/userOrders'}
               component={UserOrdersPage}
               pathnameRedirect={'/my-account'}
             />
-            <OrderPrivateRoute
-              path={'/order/information'}
-              component={OrderPage}
-              pathnameRedirect={'/'}
+            <PrivateRoute
+              path={'/user-products'}
+              component={UserProductsPage}
+              pathnameRedirect={'/my-account'}
             />
           </Switch>
         </>

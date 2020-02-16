@@ -65,9 +65,11 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading, allUs
                       <StyledTitleParagraph>
                         created date: {new Date(userInfo.createdDate).toLocaleString()}
                       </StyledTitleParagraph>
-                      <StyledTitleParagraph>
-                        Your products in database: {userInfo.products.length}
-                      </StyledTitleParagraph>
+                      <Link to={'/user-products'}>
+                        <StyledTitleParagraph>
+                          Your products in database: {userInfo.products.length}
+                        </StyledTitleParagraph>
+                      </Link>
                       <Link to={'/orders/userOrders'}>
                         <StyledTitleParagraph>Orders: {allUserOrders.length}</StyledTitleParagraph>
                       </Link>

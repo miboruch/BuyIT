@@ -15,6 +15,7 @@ import {
 } from '../reducers/productReducer';
 import { API_URL } from '../utils/constants';
 import { categories } from '../utils/constants';
+import { getUserInfo } from './authenticationAction';
 
 const fetchStart = () => {
   return {
@@ -183,6 +184,7 @@ export const addProduct = (image, name, description, price, category, token) => 
     });
 
     dispatch(loadStop());
+    dispatch(getUserInfo(token));
   } catch (error) {
     dispatch(fetchFailure(error));
   }

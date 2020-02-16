@@ -35,6 +35,7 @@ const StyledIDParagraph = styled(Paragraph)`
 `;
 
 const UserOrders = ({ allUserOrders }) => {
+  console.log(allUserOrders);
   return (
     <StyledWrapper>
       <Link to='/my-account'>
@@ -43,7 +44,6 @@ const UserOrders = ({ allUserOrders }) => {
         </CloseButtonWrapper>
       </Link>
       <StyledTitleParagraph>All user orders</StyledTitleParagraph>
-
       {allUserOrders.map(item => (
         <ResultWrapper key={item._id}>
           <StyledIDParagraph small>Order ID: {item._id}</StyledIDParagraph>

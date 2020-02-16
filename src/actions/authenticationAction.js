@@ -75,7 +75,7 @@ const updateFailure = error => {
   };
 };
 
-const getUserInfo = token => async dispatch => {
+export const getUserInfo = token => async dispatch => {
   dispatch(authStart());
   try {
     const result = await axios.get(`${API_URL}/user/information`, {
