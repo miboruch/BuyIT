@@ -9,6 +9,7 @@
     "axios": "^0.19.1",
     "countries-list": "^2.5.1",
     "d3-ease": "^1.0.6",
+    "downshift": "^5.0.0",
     "formik": "^2.1.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.10.1",

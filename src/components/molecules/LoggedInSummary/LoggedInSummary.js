@@ -15,7 +15,6 @@ import { createOrderWithAccount } from '../../../actions/orderAction';
 import Spinner from '../../atoms/Spinner/Spinner';
 import FormCheckbox from '../../atoms/FormCheckbox/FormCheckbox';
 import Toggle from '../../../providers/Toggle';
-import withEditToggle from '../../../hoc/withEditToggle';
 
 const StyledWrapper = styled.div`
   width: 100%;

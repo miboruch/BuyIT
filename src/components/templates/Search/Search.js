@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -62,7 +62,48 @@ const StyledForm = styled(Form)`
   width: 90%;
 `;
 
-const Search = ({ searchProductByQuery, isSearchOpen, searchToggle }) => {
+const AutocompleteBox = styled.div`
+  width: 200px;
+  max-height: 300px;
+  overflow-y: scroll;
+  background: #282c34;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  position: absolute;
+  z-index: 900;
+  left: 0;
+  bottom: 0;
+  visibility: ${({ isContent }) => (isContent ? 'visible' : 'hidden')};
+  opacity: ${({ isContent }) => (isContent ? 1 : 0)};
+  transform: translateY(100%);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+`;
+
+const FormLineWrapper = styled.div`
+  position: relative;
+`;
+
+const StyledOptionButton = styled.button`
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  color: #fff;
+  font-family: ${({ theme }) => theme.font.family.futura};
+  background: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const Search = ({ searchProductByQuery, isSearchOpen, searchToggle, products }) => {
+  const result = products.map(item => item.name);
+
+  const [isContent, setContent] = useState(false);
+  const [isAccepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    setAccepted(false);
+  }, [isSearchOpen]);
+
   return (
     <>
       <BackgroundWrapper isOpen={isSearchOpen} />
@@ -78,27 +119,49 @@ const Search = ({ searchProductByQuery, isSearchOpen, searchToggle }) => {
             }}
             validationSchema={SearchSchema}
           >
-            {({ handleChange, handleBlur, errors }) => (
-              <StyledForm>
-                <StyledHeading>SEARCH</StyledHeading>
-                <FormLine
-                  labelText={errors.query ? errors.query : 'name'}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  inputType='text'
-                  name='query'
-                  colorTheme='light'
-                />
-                <ButtonWrapper>
-                  <Button
-                    buttonTheme='dark'
-                    text='Search'
-                    type='submit'
-                    onClick={() => searchToggle()}
-                  />
-                </ButtonWrapper>
-              </StyledForm>
-            )}
+            {({ handleChange, handleBlur, errors, values, setFieldValue }) => {
+              setContent(!!values.query);
+              return (
+                <StyledForm autoComplete='off'>
+                  <StyledHeading>SEARCH</StyledHeading>
+                  <FormLineWrapper>
+                    <FormLine
+                      labelText={errors.query ? errors.query : 'name'}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      colorTheme='light'
+                      inputType='text'
+                      name='query'
+                      value={values.query}
+                      autocomplete='off'
+                    />
+                    <AutocompleteBox isContent={isContent && !isAccepted}>
+                      {result
+                        .filter(item => item.includes(values.query))
+                        .map((item, index) => (
+                          <StyledOptionButton
+                            key={index}
+                            onClick={() => {
+                              setFieldValue('query', item);
+                              setAccepted(true);
+                            }}
+                          >
+                            {item}
+                          </StyledOptionButton>
+                        ))}
+                    </AutocompleteBox>
+                  </FormLineWrapper>
+                  <ButtonWrapper>
+                    <Button
+                      buttonTheme='dark'
+                      text='Search'
+                      type='submit'
+                      onClick={() => searchToggle()}
+                    />
+                  </ButtonWrapper>
+                </StyledForm>
+              );
+            }}
           </Formik>
         </StyledContentWrapper>
       </StyledSearchWrapper>
@@ -106,8 +169,11 @@ const Search = ({ searchProductByQuery, isSearchOpen, searchToggle }) => {
   );
 };
 
-const mapStateToProps = ({ sliderBoxesReducer: { isSearchOpen } }) => {
-  return { isSearchOpen };
+const mapStateToProps = ({
+  sliderBoxesReducer: { isSearchOpen },
+  productReducer: { products }
+}) => {
+  return { isSearchOpen, products };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -120,7 +186,8 @@ const mapDispatchToProps = dispatch => {
 Search.propTypes = {
   searchProductByQuery: PropTypes.func.isRequired,
   searchToggle: PropTypes.func,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  products: PropTypes.array
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

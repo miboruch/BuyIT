@@ -43,27 +43,16 @@ const StyledInput = styled.input`
   }
 `;
 
-const FormLine = ({
-  labelText,
-  onChange,
-  onBlur,
-  inputType,
-  name,
-  colorTheme = 'dark',
-  value,
-  step
-}) => {
+const FormLine = ({ labelText, onChange, onBlur, colorTheme = 'dark', inputType, ...rest }) => {
   return (
     <FormLineWrapper>
       <StyledInput
         onChange={onChange}
         onBlur={onBlur}
         type={inputType}
-        step={step}
-        name={name}
-        required
         colorTheme={colorTheme}
-        value={value}
+        required
+        {...rest}
       />
       {labelText ? <StyledLabel colorTheme={colorTheme}>{labelText}</StyledLabel> : null}
     </FormLineWrapper>
