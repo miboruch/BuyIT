@@ -24,7 +24,7 @@ const StyledTitleParagraph = styled.h1`
   margin-bottom: 1rem;
 `;
 
-const UserProducts = ({ products }) => {
+const UserProducts = ({ userProducts }) => {
   return (
     <StyledWrapper>
       <Link to='/my-account'>
@@ -33,9 +33,9 @@ const UserProducts = ({ products }) => {
         </CloseButtonWrapper>
       </Link>
       <StyledTitleParagraph>All user products</StyledTitleParagraph>
-      {products ? (
+      {userProducts ? (
         <>
-          {products.map(item => (
+          {userProducts.map(item => (
             <SingleProductSummary
               id={item._id}
               image={item.image}
@@ -50,16 +50,12 @@ const UserProducts = ({ products }) => {
   );
 };
 
-const mapStateToProps = ({
-  authenticationReducer: {
-    userInfo: { products }
-  }
-}) => {
-  return { products };
+const mapStateToProps = ({ productReducer: { userProducts } }) => {
+  return { userProducts };
 };
 
 UserProducts.propTypes = {
-  products: PropTypes.array
+  userProducts: PropTypes.array
 };
 
 export default connect(mapStateToProps)(UserProducts);

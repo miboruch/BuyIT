@@ -34,7 +34,7 @@ const Footer = ({ footerTheme }) => {
 };
 
 Footer.propTypes = {
-  footerTheme: PropTypes.oneOf(['dark, light'])
+  footerTheme: PropTypes.oneOf(['dark', 'light'])
 };
 
 export default Footer;

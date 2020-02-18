@@ -1,6 +1,7 @@
 export const FETCH_START = 'FETCH_START';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_SINGLE_SUCCESS = 'FETCH_SINGLE_SUCCESS';
+export const FETCH_USER_PRODUCTS_SUCCESS = 'FETCH_USER_PRODUCTS_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 export const LOAD_STOP = 'LOAD_STOP';
 export const CATEGORY_UPDATE = 'CATEGORY_UPDATE';
@@ -13,6 +14,7 @@ export const SET_TOTAL_PRODUCTS_COUNTER = 'SET_TOTAL_PRODUCTS_COUNTER';
 
 const initialState = {
   products: [],
+  userProducts: [],
   totalProductsCounter: undefined,
   singleProduct: {},
   loading: true,
@@ -41,6 +43,12 @@ export const productReducer = (state = initialState, action) => {
         singleProduct: action.payload,
         loading: false,
         error: null
+      };
+    case FETCH_USER_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        userProducts: action.payload,
+        loading: false
       };
     case FETCH_FAILURE:
       return {

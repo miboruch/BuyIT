@@ -46,7 +46,15 @@ const LogoutButtonWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading, allUserOrders }) => {
+const AuthContent = ({
+  isLoggedIn,
+  userLogout,
+  history,
+  userInfo,
+  loading,
+  allUserOrders,
+  userProducts
+}) => {
   return (
     <Toggle
       render={(isOpen, toggle) => (
@@ -67,7 +75,7 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading, allUs
                       </StyledTitleParagraph>
                       <Link to={'/user-products'}>
                         <StyledTitleParagraph>
-                          Your products in database: {userInfo.products.length}
+                          Your products in database: {userProducts.length}
                         </StyledTitleParagraph>
                       </Link>
                       <Link to={'/orders/userOrders'}>
@@ -123,9 +131,10 @@ const AuthContent = ({ isLoggedIn, userLogout, history, userInfo, loading, allUs
 
 const mapStateToProps = ({
   authenticationReducer: { isLoggedIn, userInfo, token, loading },
+  productReducer: { userProducts },
   orderReducer: { allUserOrders }
 }) => {
-  return { isLoggedIn, userInfo, token, loading, allUserOrders };
+  return { isLoggedIn, userInfo, token, loading, allUserOrders, userProducts };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -142,7 +151,8 @@ AuthContent.propTypes = {
   loading: PropTypes.bool,
   isOpen: PropTypes.bool,
   toggleEdit: PropTypes.func,
-  allUserOrders: PropTypes.array
+  allUserOrders: PropTypes.array,
+  userProducts: PropTypes.array
 };
 
 const AuthContentWithRouter = withRouter(AuthContent);

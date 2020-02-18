@@ -3,6 +3,7 @@ import {
   FETCH_START,
   FETCH_SUCCESS,
   FETCH_SINGLE_SUCCESS,
+  FETCH_USER_PRODUCTS_SUCCESS,
   FETCH_FAILURE,
   LOAD_STOP,
   CATEGORY_UPDATE,
@@ -34,6 +35,13 @@ const fetchSingleSuccess = product => {
   return {
     type: FETCH_SINGLE_SUCCESS,
     payload: product
+  };
+};
+
+const fetchUserProductsSuccess = data => {
+  return {
+    type: FETCH_USER_PRODUCTS_SUCCESS,
+    payload: data
   };
 };
 
@@ -105,13 +113,25 @@ export const updateCategory = category => {
   };
 };
 
+export const fetchAllUserProducts = token => async dispatch => {
+  dispatch(fetchStart());
+
+  try {
+    const products = await axios.get(`${API_URL}/product/getUserProducts`, {
+      headers: { 'auth-token': token }
+    });
+
+    dispatch(fetchUserProductsSuccess(products.data));
+  } catch (e) {
+    dispatch(loadStop());
+  }
+};
+
 /* Fix this on backend to return only first 10, then add pagination */
 export const fetchAllProducts = (category, page) => async dispatch => {
-  console.log(page);
   dispatch(fetchStart());
   try {
     const [currentCategory] = categories.filter(item => category.includes(item));
-    console.log(currentCategory);
 
     if (!currentCategory) {
       return new Error('Wrong category provided');

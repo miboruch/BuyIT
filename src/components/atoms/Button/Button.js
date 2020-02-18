@@ -66,7 +66,7 @@ const Button = ({ text, onClick, buttonTheme, type = 'button', disabled }) => {
 Button.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
-  buttonTheme: PropTypes.oneOf(['light, dark']),
+  buttonTheme: PropTypes.oneOf(['light', 'dark']),
   type: PropTypes.string,
   disabled: PropTypes.bool
 };

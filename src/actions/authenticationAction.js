@@ -12,7 +12,8 @@ import {
 } from '../reducers/authenticationReducer';
 import { API_URL } from '../utils/constants';
 import { resetCart } from './cartAction';
-import {fetchUserOrders} from "./orderAction";
+import { fetchUserOrders } from './orderAction';
+import { fetchAllUserProducts } from './productAction';
 
 const authStart = () => {
   return {
@@ -81,10 +82,8 @@ export const getUserInfo = token => async dispatch => {
     const result = await axios.get(`${API_URL}/user/information`, {
       headers: { 'auth-token': token }
     });
-    const products = await axios.get(`${API_URL}/product/getUserProducts`, {
-      headers: { 'auth-token': token }
-    });
-    dispatch(userInfoSuccess({ ...result.data, products: products.data }));
+
+    dispatch(userInfoSuccess(result.data));
   } catch (error) {
     dispatch(userInfoError(error));
   }
@@ -113,6 +112,7 @@ export const userLogin = (email, password, history) => async dispatch => {
     dispatch(authSuccess(result.data.token, result.data.id));
     dispatch(getUserInfo(result.data.token));
     dispatch(fetchUserOrders(result.data.token));
+    dispatch(fetchAllUserProducts(result.data.token));
     history.push('/');
     localStorage.setItem('token', result.data.token);
     localStorage.setItem('userID', result.data.id);
@@ -161,6 +161,7 @@ export const authenticationCheck = () => async dispatch => {
     dispatch(authSuccess(token, userID));
     dispatch(getUserInfo(token));
     dispatch(fetchUserOrders(token));
+    dispatch(fetchAllUserProducts(token));
   }
 };
 

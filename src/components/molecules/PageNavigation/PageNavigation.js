@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
+import { fetchAllProducts } from '../../../actions/productAction';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -12,6 +14,7 @@ const StyledWrapper = styled.div`
 `;
 
 const NavigationWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,32 +28,40 @@ const StyledParagraph = styled(Paragraph)`
 `;
 
 const StyledLinkPrevious = styled(Link)`
-  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: ${({ hide }) => (hide ? 'yellow' : '#fff')};
   font-size: 16px;
   padding: 0 2rem;
-  display: ${({ shouldHide }) => (shouldHide ? 'none' : 'block')};
+  display: ${({ hide }) => (hide ? 'none' : 'block')};
 `;
 
 const StyledLinkNext = styled(StyledLinkPrevious)`
-  display: ${({ shouldHide }) => (shouldHide ? 'none' : 'block')};
+  left: auto;
+  right: 0;
 `;
 
-const PageNavigation = ({ pageNumber, totalProductsCounter, category }) => {
-  const hidePrevious = pageNumber - 1 <= 0;
-  const hideNext = pageNumber + 1 > Math.ceil(totalProductsCounter / 10);
+const PageNavigation = ({ pageNumber, totalProductsCounter, category, getAllProducts }) => {
+  const [prevPage, setPrevPage] = useState(parseInt(pageNumber));
+  const hidePrevious = parseInt(pageNumber) - 1 <= 0;
+  const hideNext = parseInt(pageNumber) + 1 > Math.ceil(totalProductsCounter / 10);
+
+  if (prevPage !== parseInt(pageNumber)) {
+    getAllProducts(category, parseInt(pageNumber));
+    setPrevPage(parseInt(pageNumber));
+  }
+
   return (
     <StyledWrapper>
       <NavigationWrapper>
-        <StyledLinkPrevious
-          to={`/products/${category}/page=${pageNumber - 1}`}
-          shouldHide={hidePrevious}
-        >
+        <StyledLinkPrevious to={`/products/${category}?page=${pageNumber - 1}`} hide={hidePrevious}>
           PREV
         </StyledLinkPrevious>
         <StyledParagraph>
           {pageNumber} / {Math.ceil(totalProductsCounter / 10)}
         </StyledParagraph>
-        <StyledLinkNext to={`/products/${category}/page=${pageNumber + 1}`} shouldHide={hideNext}>
+        <StyledLinkNext to={`/products/${category}?page=${++pageNumber}`} hide={hideNext}>
           NEXT
         </StyledLinkNext>
       </NavigationWrapper>
@@ -62,10 +73,19 @@ const mapStateToProps = ({ productReducer: { totalProductsCounter } }) => {
   return { totalProductsCounter };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllProducts: (category, page) => dispatch(fetchAllProducts(category, page))
+  };
+};
+
 PageNavigation.propTypes = {
   pageNumber: PropTypes.number.isRequired,
   totalProductsCounter: PropTypes.number,
-  category: PropTypes.string.isRequired
+  category: PropTypes.string.isRequired,
+  getAllProducts: PropTypes.func
 };
 
-export default connect(mapStateToProps)(PageNavigation);
+const PageNavigationWithRouter = withRouter(PageNavigation);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageNavigationWithRouter);
