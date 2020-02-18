@@ -15,18 +15,18 @@ import Toggle from '../../../providers/Toggle';
 
 const StyledWrapper = styled.div`
   width: 100%;
+  height: 100vh;
   background: ${({ theme }) => theme.color.backgroundLight};
 
   ${({ theme }) => theme.mq.standard} {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     flex-direction: row;
   }
 `;
 
-const StyledContentWrapper = styled.div`
-  padding: 2rem;
-`;
+const DataWrapper = styled.div``;
 
 const StyledTitleParagraph = styled(Paragraph)`
   color: #000;
@@ -66,53 +66,59 @@ const AuthContent = ({
               {isLoggedIn ? (
                 <>
                   {userInfo ? (
-                    <StyledContentWrapper>
-                      <StyledTitle title>Your account: </StyledTitle>
-                      <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
-                      <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
-                      <StyledTitleParagraph>
-                        created date: {new Date(userInfo.createdDate).toLocaleString()}
-                      </StyledTitleParagraph>
-                      <Link to={'/user-products'}>
+                    <>
+                      <DataWrapper>
+                        <StyledTitle title>Your account: </StyledTitle>
+                        <StyledTitleParagraph>login: {userInfo.login}</StyledTitleParagraph>
+                        <StyledTitleParagraph>email: {userInfo.email}</StyledTitleParagraph>
                         <StyledTitleParagraph>
-                          Your products in database: {userProducts.length}
+                          created date: {new Date(userInfo.createdDate).toLocaleString()}
                         </StyledTitleParagraph>
-                      </Link>
-                      <Link to={'/orders/userOrders'}>
-                        <StyledTitleParagraph>Orders: {allUserOrders.length}</StyledTitleParagraph>
-                      </Link>
-                      <StyledTitle title>Personal data:</StyledTitle>
-                      {isOpen ? (
-                        <EditTemplate />
-                      ) : (
-                        <>
-                          <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
+                        <Link to={'/user-products'}>
                           <StyledTitleParagraph>
-                            last name: {userInfo.lastName}
+                            Your products in database: {userProducts.length}
                           </StyledTitleParagraph>
-                          <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
-                          <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
-                          <StyledTitleParagraph>country: {userInfo.country}</StyledTitleParagraph>
-                        </>
-                      )}
-                      <EditButtonWrapper>
-                        <Button
-                          text={isOpen ? 'close' : 'edit data'}
-                          buttonTheme='dark'
-                          onClick={() => toggle()}
-                        />
-                      </EditButtonWrapper>
-                      <LogoutButtonWrapper>
-                        <Button
-                          text='Logout'
-                          onClick={() => {
-                            userLogout();
-                            history.push('/');
-                          }}
-                          buttonTheme='dark'
-                        />
-                      </LogoutButtonWrapper>
-                    </StyledContentWrapper>
+                        </Link>
+                        <Link to={'/orders/userOrders'}>
+                          <StyledTitleParagraph>
+                            Orders: {allUserOrders.length}
+                          </StyledTitleParagraph>
+                        </Link>
+                        <LogoutButtonWrapper>
+                          <Button
+                            text='Logout'
+                            onClick={() => {
+                              userLogout();
+                              history.push('/');
+                            }}
+                            buttonTheme='dark'
+                          />
+                        </LogoutButtonWrapper>
+                      </DataWrapper>
+                      <DataWrapper>
+                        <StyledTitle title>Personal data:</StyledTitle>
+                        {isOpen ? (
+                          <EditTemplate />
+                        ) : (
+                          <>
+                            <StyledTitleParagraph>name: {userInfo.name}</StyledTitleParagraph>
+                            <StyledTitleParagraph>
+                              last name: {userInfo.lastName}
+                            </StyledTitleParagraph>
+                            <StyledTitleParagraph>address: {userInfo.address}</StyledTitleParagraph>
+                            <StyledTitleParagraph>city: {userInfo.city}</StyledTitleParagraph>
+                            <StyledTitleParagraph>country: {userInfo.country}</StyledTitleParagraph>
+                          </>
+                        )}
+                        <EditButtonWrapper>
+                          <Button
+                            text={isOpen ? 'close' : 'edit data'}
+                            buttonTheme='dark'
+                            onClick={() => toggle()}
+                          />
+                        </EditButtonWrapper>
+                      </DataWrapper>
+                    </>
                   ) : null}
                 </>
               ) : (

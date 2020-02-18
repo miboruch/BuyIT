@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import BackArrow from '../../atoms/BackArrow/BackArrow';
 import SingleProductSummary from '../../molecules/SingleProductSummary/SingleProductSummary';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -24,6 +25,29 @@ const StyledTitleParagraph = styled.h1`
   margin-bottom: 1rem;
 `;
 
+const StyledSmallParagraph = styled(Paragraph)`
+  color: #282c34;
+  margin-bottom: 1rem;
+`;
+
+const NoProductsBox = styled.section`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  font-family: Avanti;
+  letter-spacing: 4px;
+  font-size: 24px;
+  color: #282c34;
+  margin-bottom: 1rem;
+`;
+
 const UserProducts = ({ userProducts }) => {
   return (
     <StyledWrapper>
@@ -33,7 +57,8 @@ const UserProducts = ({ userProducts }) => {
         </CloseButtonWrapper>
       </Link>
       <StyledTitleParagraph>All user products</StyledTitleParagraph>
-      {userProducts ? (
+      <StyledSmallParagraph small>Total: {userProducts.length}</StyledSmallParagraph>
+      {userProducts.length !== 0 ? (
         <>
           {userProducts.map(item => (
             <SingleProductSummary
@@ -45,7 +70,14 @@ const UserProducts = ({ userProducts }) => {
             />
           ))}
         </>
-      ) : null}
+      ) : (
+        <NoProductsBox>
+          <StyledParagraph>You have no products in my database</StyledParagraph>
+          <Link to='/my-account'>
+            <StyledSmallParagraph small>GO BACK</StyledSmallParagraph>
+          </Link>
+        </NoProductsBox>
+      )}
     </StyledWrapper>
   );
 };

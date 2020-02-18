@@ -9,11 +9,18 @@ import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { addProductToCart } from '../../../actions/cartAction';
 import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
 import DeleteAcceptBox from '../DeleteAcceptBox/DeleteAcceptBox';
+import WarningInfo from '../../atoms/WarningInfo/WarningInfo';
 
 const StyledContentWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 2rem;
+
+  ${({ theme }) => theme.mq.standard} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const StyledTitle = styled(Paragraph)`
@@ -27,6 +34,11 @@ const StyledImage = styled.img`
   width: 100%;
   height: 300px;
   object-fit: cover;
+
+  ${({ theme }) => theme.mq.standard} {
+    height: 75vh;
+    width: 50%;
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`
@@ -35,6 +47,13 @@ const StyledParagraph = styled(Paragraph)`
 
 const ButtonWrapper = styled.div`
   display: ${({ isYourOwnProduct }) => (isYourOwnProduct ? 'none' : 'block')};
+`;
+
+const ContentWrapper = styled.div`
+  ${({ theme }) => theme.mq.standard} {
+    width: 50%;
+    margin-left: 5rem;
+  }
 `;
 
 const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart }) => {
@@ -49,30 +68,40 @@ const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart
   return (
     <>
       <StyledContentWrapper>
-        {loading ? <Spinner /> : <StyledTitle>{singleProduct.name}</StyledTitle>}
-        <StyledImage src={singleProduct.image} />
-        <StyledParagraph medium>{singleProduct.description}</StyledParagraph>
-        <StyledParagraph>{singleProduct.price}$</StyledParagraph>
-        {isYourOwnProduct ? (
+        {loading ? (
+          <Spinner />
+        ) : (
           <>
-            <StyledParagraph>This is your product. You can remove this one</StyledParagraph>
-            <Button
-              text='remove product'
-              onClick={() => {
-                setBoxState(true);
-                setProductId(singleProduct._id);
-                setProductName(singleProduct.name);
-              }}
-            />
+            <StyledImage src={singleProduct.image} />
+            <ContentWrapper>
+              {isYourOwnProduct ? (
+                <WarningInfo text='This is your product. You cannot add this product to cart' />
+              ) : null}
+              <StyledTitle>{singleProduct.name}</StyledTitle>
+              <StyledParagraph medium>{singleProduct.description}</StyledParagraph>
+              <StyledParagraph>{singleProduct.price}$</StyledParagraph>
+              {isYourOwnProduct ? (
+                <>
+                  <Button
+                    text='remove product'
+                    onClick={() => {
+                      setBoxState(true);
+                      setProductId(singleProduct._id);
+                      setProductName(singleProduct.name);
+                    }}
+                  />
+                </>
+              ) : null}
+              <ButtonWrapper isYourOwnProduct={isYourOwnProduct}>
+                {isAlreadyInCart.length !== 0 ? (
+                  <Button text='You have this product in cart' />
+                ) : (
+                  <Button text='add to cart' onClick={() => addProductToCart(singleProduct)} />
+                )}
+              </ButtonWrapper>
+            </ContentWrapper>
           </>
-        ) : null}
-        <ButtonWrapper isYourOwnProduct={isYourOwnProduct}>
-          {isAlreadyInCart.length !== 0 ? (
-            <Button text='You have this product in cart' />
-          ) : (
-            <Button text='add to cart' onClick={() => addProductToCart(singleProduct)} />
-          )}
-        </ButtonWrapper>
+        )}
       </StyledContentWrapper>
       <DeleteAcceptBox />
     </>

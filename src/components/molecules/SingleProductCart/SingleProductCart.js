@@ -43,6 +43,10 @@ const StyledImage = styled.img`
   height: 200px;
   object-fit: cover;
   border: 3px solid #000;
+
+  ${({ theme }) => theme.mq.standard} {
+    height: 400px;
+  }
 `;
 
 const StyledIcon = styled(ReactSVG)`

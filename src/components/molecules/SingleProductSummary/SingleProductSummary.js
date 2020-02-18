@@ -11,7 +11,11 @@ const ProductSummary = styled.section`
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
-  //padding: 0 2rem;
+
+  ${({ theme }) => theme.mq.tabletS} {
+    justify-content: flex-start;
+    width: auto;
+  }
 `;
 
 const StyledImage = styled.img`
@@ -25,6 +29,11 @@ const ProductTitle = styled(Paragraph)`
   font-weight: bold;
   color: #000;
   width: 90px;
+
+  ${({ theme }) => theme.mq.tabletS} {
+    width: auto;
+    margin: 0 2rem;
+  }
 `;
 
 const StyledPriceParagraph = styled(Paragraph)`

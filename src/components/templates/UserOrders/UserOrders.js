@@ -35,7 +35,6 @@ const StyledIDParagraph = styled(Paragraph)`
 `;
 
 const UserOrders = ({ allUserOrders }) => {
-  console.log(allUserOrders);
   return (
     <StyledWrapper>
       <Link to='/my-account'>
@@ -51,7 +50,6 @@ const UserOrders = ({ allUserOrders }) => {
             Date: {new Date(item.createdDate).toLocaleString()}
           </StyledIDParagraph>
           {item.cart.map(item => {
-            console.log(item.image);
             return (
               <SingleProductSummary
                 image={item.image}

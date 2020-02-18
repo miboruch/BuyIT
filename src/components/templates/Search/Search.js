@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -92,6 +92,11 @@ const StyledOptionButton = styled.button`
   font-family: ${({ theme }) => theme.font.family.futura};
   background: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background-color: #181011;
+    cursor: pointer;
+  }
 `;
 
 const Search = ({ searchProductByQuery, isSearchOpen, searchToggle, products }) => {

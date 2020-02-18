@@ -13,7 +13,7 @@ import Footer from '../components/molecules/Footer/Footer';
 
 const FooterWrapper = styled.div`
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
 `;
 

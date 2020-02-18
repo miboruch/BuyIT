@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Button from '../../atoms/Button/Button';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
-import PropTypes from 'prop-types';
 import CartProduct from '../../molecules/CartProduct/CartProduct';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { cartToggle } from '../../../actions/sliderBoxesAction';
-import { Link } from 'react-router-dom';
-import SingleProductSummary from '../../molecules/SingleProductSummary/SingleProductSummary';
 
 const StyledCartWrapper = styled.div`
   width: 100%;
@@ -76,8 +75,6 @@ const ProductsWrapper = styled.div`
 const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
   const isSomethingInCart =
     cart.length !== 0 || JSON.parse(localStorage.getItem('cart')).length !== 0;
-
-  console.log(isSomethingInCart);
 
   return (
     <>

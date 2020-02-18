@@ -19,6 +19,20 @@ const StyledWrapper = styled.div`
   z-index: 500;
   display: flex;
   align-items: center;
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 35%;
+  }
+`;
+
+const StyledBorderLine = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: ${({ isOpen }) => (isOpen ? '100vh' : '0')};
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: height 0.8s 0.5s ease;
 `;
 
 const StyledList = styled.ul`
@@ -54,6 +68,7 @@ const Menu = ({ isLoggedIn, isMenuOpen, menuToggle }) => {
 
   return (
     <StyledWrapper isOpen={isMenuOpen}>
+      <StyledBorderLine isOpen={isMenuOpen} />
       <StyledList>
         {menuTrail.map((props, index) => (
           <Link to={allMenuItems[index].link} key={index}>

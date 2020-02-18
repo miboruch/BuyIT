@@ -85,7 +85,6 @@ const StyledCartButton = styled(StyledSearchButton)`
     opacity: ${({ cartItemsCounter }) => (cartItemsCounter !== 0 ? 1 : 0)};
     transition: opacity 0.5s ease, visibility 0.5s ease, color 0.5s ease;
   }
-  
 `;
 
 const Header = ({

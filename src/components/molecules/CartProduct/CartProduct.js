@@ -11,7 +11,7 @@ import { cartToggle } from '../../../actions/sliderBoxesAction';
 const ButtonWrapper = styled.div`
   margin-top: 1rem;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 const ProductSummary = styled.section`
@@ -34,11 +34,11 @@ const ProductTitle = styled(Paragraph)`
   font-size: 16px;
   font-weight: bold;
   color: #000;
-  width: 90px;
+  width: 120px;
   text-align: center;
 
-  ${({ theme }) => theme.mq.standard} {
-    width: 200px;
+  ${({ theme }) => theme.mq.tabletS} {
+    width: auto;
   }
 `;
 

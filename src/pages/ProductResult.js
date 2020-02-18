@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
+import { useTrail } from 'react-spring';
+import { withRouter } from 'react-router-dom';
+import { fetchAllProducts, removeFromProducts, updateCategory } from '../actions/productAction';
 import ProductResultTemplate from '../components/templates/ProductResultTemplate/ProductResultTemplate';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import SingleProductCart from '../components/molecules/SingleProductCart/SingleProductCart';
 import Spinner from '../components/atoms/Spinner/Spinner';
-import { useTrail } from 'react-spring';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
-import { fetchAllProducts, removeFromProducts, updateCategory } from '../actions/productAction';
 import PageNavigation from '../components/molecules/PageNavigation/PageNavigation';
 
 const ProductWrapper = styled.div`

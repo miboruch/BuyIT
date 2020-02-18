@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '../components/atoms/Button/Button';
@@ -7,9 +8,15 @@ import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import { landingPageContent } from '../utils/contentArrays';
 import { updateCategory, fetchAllProducts } from '../actions/productAction';
+import Footer from '../components/molecules/Footer/Footer';
 
 const StyledWrapper = styled.div`
   width: 100%;
+  ${({ theme }) => theme.mq.standard} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const StyledBackgroundImage = styled.div`
@@ -42,6 +49,23 @@ const StyledBackgroundImage = styled.div`
     height: 300px;
     margin-top: 20px;
   }
+
+  ${({ theme }) => theme.mq.tabletS} {
+    height: 400px;
+    margin-top: 20px;
+  }
+
+  ${({ theme }) => theme.mq.standard} {
+    width: 50%;
+    height: 75vh;
+    margin-top: 20px;
+  }
+`;
+
+const ContentWrapper = styled.div`
+  ${({ theme }) => theme.mq.standard} {
+    width: 50%;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -59,6 +83,10 @@ const StyledList = styled.ul`
   list-style-type: none;
   width: 80%;
   padding: 0;
+
+  ${({ theme }) => theme.mq.standard} {
+    text-align: center;
+  }
 `;
 
 const StyledListItem = styled.li`
@@ -80,32 +108,44 @@ const StyledListItem = styled.li`
   }
 `;
 
-const LandingPage = ({ updateCategory, category, isLoggedIn, getAllProducts }) => {
+const FooterWrapper = styled.div`
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+`;
+
+const LandingPage = ({ isLoggedIn, getAllProducts }) => {
   return (
     <MainTemplate>
       <StyledWrapper>
         <StyledBackgroundImage />
-        <ButtonWrapper>
-          <Link to='/products/all?page=1'>
-            <Button
-              text='See all products'
-              onClick={() => {
-                getAllProducts('all', 1);
-              }}
-            />
-          </Link>
-        </ButtonWrapper>
-        <StyledList>
-          {landingPageContent.map((item, index) => (
-            <StyledListItem key={index}>{item}</StyledListItem>
-          ))}
-        </StyledList>
-        <ButtonWrapper>
-          <Link to='/my-account'>
-            {isLoggedIn ? <Button text='Account' /> : <Button text='Log in' />}
-          </Link>
-        </ButtonWrapper>
+        <ContentWrapper>
+          <ButtonWrapper>
+            <Link to='/products/all?page=1'>
+              <Button
+                text='See all products'
+                onClick={() => {
+                  getAllProducts('all', 1);
+                }}
+              />
+            </Link>
+          </ButtonWrapper>
+          <StyledList>
+            {landingPageContent.map((item, index) => (
+              <StyledListItem key={index}>{item}</StyledListItem>
+            ))}
+          </StyledList>
+          <ButtonWrapper>
+            <Link to='/my-account'>
+              {isLoggedIn ? <Button text='Account' /> : <Button text='Log in' />}
+            </Link>
+          </ButtonWrapper>
+        </ContentWrapper>
       </StyledWrapper>
+      <FooterWrapper>
+        <Footer footerTheme='light' />
+      </FooterWrapper>
     </MainTemplate>
   );
 };
@@ -122,6 +162,11 @@ const mapDispatchToProps = dispatch => {
     updateCategory: category => dispatch(updateCategory(category)),
     getAllProducts: (category, page) => dispatch(fetchAllProducts(category, page))
   };
+};
+
+LandingPage.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  getAllProducts: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
