@@ -21,15 +21,18 @@ export const RegisterSchema = Yup.object().shape({
       'Password must contain at least 1 number'
     ),
   name: Yup.string()
+    .strict()
     .min(2, 'Name too short - 2 chars minimum')
     .required('Name is required'),
   lastName: Yup.string()
+    .strict()
     .min(2, 'Last name too short - 2 chars minimum')
     .required('Last name is required'),
   address: Yup.string()
     .min(2, 'Address too short - 2 chars minimum')
     .required('Address is required'),
   city: Yup.string()
+    .strict()
     .min(2, 'City name too short - 2 chars minimum')
     .required('City is required'),
   country: Yup.string()
@@ -75,6 +78,7 @@ export const LoggedInOrderSchema = Yup.object().shape({
     .min(2, 'Address too short - 2 chars minimum')
     .required('Address is required'),
   city: Yup.string()
+    .strict()
     .min(2, 'City name too short - 2 chars minimum')
     .required('City is required'),
   country: Yup.string()

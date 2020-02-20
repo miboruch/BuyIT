@@ -46,7 +46,7 @@ const LogoutButtonWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthContent = ({
+export const AuthContent = ({
   isLoggedIn,
   userLogout,
   history,

@@ -46,7 +46,7 @@ const StyledForm = styled(Form)`
   width: 90%;
 `;
 
-const LoginBox = ({ userLogin, loginError, history, loading }) => {
+export const LoginBox = ({ userLogin, loginError, history, loading }) => {
   return (
     <StyledWrapper>
       {loading ? (
@@ -58,7 +58,7 @@ const LoginBox = ({ userLogin, loginError, history, loading }) => {
           validationSchema={LoginSchema}
         >
           {({ handleChange, handleBlur, errors }) => (
-            <StyledForm>
+            <StyledForm data-testid='login-form'>
               <StyledParagraph>LOG IN</StyledParagraph>
               <FormLine
                 labelText={errors.email ? errors.email : 'email'}
@@ -100,7 +100,7 @@ const mapDispatchToProps = dispatch => {
 
 LoginBox.propTypes = {
   loginError: PropTypes.string,
-  userLogin: PropTypes.func.isRequired
+  userLogin: PropTypes.func
 };
 
 const LoginBoxWithRouter = withRouter(LoginBox);

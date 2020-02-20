@@ -15,13 +15,13 @@ import { resetCart } from './cartAction';
 import { fetchUserOrders } from './orderAction';
 import { fetchAllUserProducts } from './productAction';
 
-const authStart = () => {
+export const authStart = () => {
   return {
     type: AUTH_START
   };
 };
 
-const authSuccess = (token, userID) => {
+export const authSuccess = (token, userID) => {
   return {
     type: AUTH_SUCCESS,
     payload: {
@@ -49,14 +49,14 @@ const authRegisterFailure = error => {
   };
 };
 
-const userInfoSuccess = userInfo => {
+export const userInfoSuccess = userInfo => {
   return {
     type: GET_USER_INFO,
     payload: userInfo
   };
 };
 
-const userInfoError = error => {
+export const userInfoError = error => {
   return {
     type: GET_USER_INFO_ERROR,
     payload: error

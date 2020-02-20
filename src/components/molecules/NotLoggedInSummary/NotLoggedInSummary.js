@@ -22,6 +22,10 @@ const StyledWrapper = styled.div`
 const StyledForm = styled(Form)`
   width: 100%;
   position: relative;
+
+  ${({ theme }) => theme.mq.tablet} {
+    width: 50%;
+  }
 `;
 
 const NotLoggedInSummary = ({ cart, totalPrice, createOrder, loading, history }) => {

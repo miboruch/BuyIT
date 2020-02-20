@@ -50,11 +50,15 @@ const StyledForm = styled(Form)`
   position: relative;
 `;
 
-const RegisterBox = ({ registerError, userRegister, history, loading }) => {
+const ButtonWrapper = styled.div`
+  margin-top: 2rem;
+`;
+
+export const RegisterBox = ({ registerError, userRegister, history, loading }) => {
   return (
     <StyledWrapper>
       {loading ? (
-        <Spinner />
+        <Spinner id='spinner' />
       ) : (
         <Formik
           initialValues={{
@@ -74,7 +78,7 @@ const RegisterBox = ({ registerError, userRegister, history, loading }) => {
           {({ handleChange, handleBlur, errors }) => {
             const registerInputData = registerInputArray(errors);
             return (
-              <StyledForm>
+              <StyledForm data-testid='register-form'>
                 <StyledParagraph>OR REGISTER</StyledParagraph>
                 {registerInputData.map(item => (
                   <FormLine
@@ -84,6 +88,7 @@ const RegisterBox = ({ registerError, userRegister, history, loading }) => {
                     inputType={item.inputType}
                     name={item.name}
                     key={item.name}
+                    id={item.name}
                   />
                 ))}
                 <CountrySelectMenu
@@ -91,7 +96,9 @@ const RegisterBox = ({ registerError, userRegister, history, loading }) => {
                   formFieldName='country'
                   colorTheme='dark'
                 />
-                <Button buttonTheme='light' text='Register' type='submit' />
+                <ButtonWrapper>
+                  <Button buttonTheme='light' text='Register' type='submit' />
+                </ButtonWrapper>
                 <StyledErrorParagraph>
                   {registerError ? 'Some data are invalid' : null}
                 </StyledErrorParagraph>
@@ -117,7 +124,7 @@ const mapDispatchToProps = dispatch => {
 
 RegisterBox.propTypes = {
   registerError: PropTypes.string,
-  userRegister: PropTypes.func.isRequired,
+  userRegister: PropTypes.func,
   loading: PropTypes.bool,
   history: PropTypes.object
 };
