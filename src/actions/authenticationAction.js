@@ -79,11 +79,11 @@ const updateFailure = error => {
 export const getUserInfo = token => async dispatch => {
   dispatch(authStart());
   try {
-    const result = await axios.get(`${API_URL}/user/information`, {
+    const { data } = await axios.get(`${API_URL}/user/information`, {
       headers: { 'auth-token': token }
     });
 
-    dispatch(userInfoSuccess(result.data));
+    dispatch(userInfoSuccess(data));
   } catch (error) {
     dispatch(userInfoError(error));
   }
@@ -108,14 +108,14 @@ export const userLogin = (email, password, history) => async dispatch => {
   dispatch(authStart());
 
   try {
-    const result = await axios.post(`${API_URL}/user/login`, { email, password });
-    dispatch(authSuccess(result.data.token, result.data.id));
-    dispatch(getUserInfo(result.data.token));
-    dispatch(fetchUserOrders(result.data.token));
-    dispatch(fetchAllUserProducts(result.data.token));
+    const { data } = await axios.post(`${API_URL}/user/login`, { email, password });
+    dispatch(authSuccess(data.token, data.id));
+    dispatch(getUserInfo(data.token));
+    dispatch(fetchUserOrders(data.token));
+    dispatch(fetchAllUserProducts(data.token));
     history.push('/');
-    localStorage.setItem('token', result.data.token);
-    localStorage.setItem('userID', result.data.id);
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userID', data.id);
   } catch (error) {
     dispatch(authLoginFailure(error));
   }
@@ -134,7 +134,7 @@ export const userRegister = (
   dispatch(authStart());
 
   try {
-    const result = await axios.post(`${API_URL}/user/register`, {
+    const { data } = await axios.post(`${API_URL}/user/register`, {
       email,
       password,
       name,
@@ -144,9 +144,9 @@ export const userRegister = (
       country
     });
 
-    dispatch(authSuccess(result.data.token, result.data._doc._id));
-    localStorage.setItem('token', result.data.token);
-    localStorage.setItem('userID', result.data._doc._id);
+    dispatch(authSuccess(data.token, data._doc._id));
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userID', data._doc._id);
     history.push('/');
   } catch (error) {
     dispatch(authRegisterFailure(error));

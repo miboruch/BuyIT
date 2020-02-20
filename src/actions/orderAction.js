@@ -67,7 +67,7 @@ export const createOrderWithoutAccount = (
 ) => dispatch => {
   dispatch(makeOrderStart());
   try {
-    const order = axios.post(`${API_URL}/order/createOrder`, {
+    axios.post(`${API_URL}/order/createOrder`, {
       cart,
       totalPrice,
       name,
@@ -93,7 +93,7 @@ export const createOrderWithAccount = (
 ) => dispatch => {
   dispatch(makeOrderStart());
   try {
-    const order = axios.post(`${API_URL}/order/createOrder`, {
+    axios.post(`${API_URL}/order/createOrder`, {
       cart,
       totalPrice,
       userID,
@@ -110,10 +110,10 @@ export const createOrderWithAccount = (
 export const fetchUserOrders = token => async dispatch => {
   dispatch(fetchOrdersStart());
   try {
-    const result = await axios.get(`${API_URL}/order/getUserOrders`, {
+    const { data } = await axios.get(`${API_URL}/order/getUserOrders`, {
       headers: { 'auth-token': token }
     });
-    dispatch(fetchOrdersSuccess(result.data.orders));
+    dispatch(fetchOrdersSuccess(data.orders));
   } catch (error) {
     dispatch(fetchOrdersError(error));
   }

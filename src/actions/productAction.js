@@ -117,11 +117,11 @@ export const fetchAllUserProducts = token => async dispatch => {
   dispatch(fetchStart());
 
   try {
-    const products = await axios.get(`${API_URL}/product/getUserProducts`, {
+    const { data } = await axios.get(`${API_URL}/product/getUserProducts`, {
       headers: { 'auth-token': token }
     });
 
-    dispatch(fetchUserProductsSuccess(products.data));
+    dispatch(fetchUserProductsSuccess(data));
   } catch (e) {
     dispatch(loadStop());
   }
@@ -136,14 +136,14 @@ export const fetchAllProducts = (category, page) => async dispatch => {
     if (!currentCategory) {
       return new Error('Wrong category provided');
     }
-    const result = await axios.get(
+    const { data } = await axios.get(
       currentCategory === 'all'
         ? `${API_URL}/product/getAll?page=${page}`
         : `${API_URL}/product/getAllCategoryProducts/${category}?page=${page}`
     );
 
-    dispatch(fetchSuccess(result.data.products));
-    dispatch(setProductTotalCounter(result.data.productsLength));
+    dispatch(fetchSuccess(data.products));
+    dispatch(setProductTotalCounter(data.productsLength));
   } catch (error) {
     dispatch(fetchFailure(error));
   }
@@ -152,9 +152,9 @@ export const fetchAllProducts = (category, page) => async dispatch => {
 export const fetchSingleProduct = id => async dispatch => {
   dispatch(fetchStart());
   try {
-    const result = await axios.get(`${API_URL}/product/getSpecificProduct/${id}`);
+    const { data } = await axios.get(`${API_URL}/product/getSpecificProduct/${id}`);
 
-    dispatch(fetchSingleSuccess(result.data));
+    dispatch(fetchSingleSuccess(data));
   } catch (error) {
     dispatch(fetchFailure(error));
   }
@@ -165,8 +165,8 @@ export const searchProductByQuery = query => async dispatch => {
   try {
     const queryResult = query.split(' ').join('_');
 
-    const result = await axios.get(`${API_URL}/product/search/${queryResult}`);
-    dispatch(fetchSuccess(result.data));
+    const { data } = await axios.get(`${API_URL}/product/search/${queryResult}`);
+    dispatch(fetchSuccess(data));
   } catch (error) {
     dispatch(fetchFailure(error));
   }
@@ -174,7 +174,7 @@ export const searchProductByQuery = query => async dispatch => {
 
 export const removeProduct = (token, productID) => async dispatch => {
   try {
-    const result = await axios.post(
+    await axios.post(
       `${API_URL}/product/removeProduct`,
       { id: productID },
       {

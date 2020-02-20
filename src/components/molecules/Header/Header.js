@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { ReactSVG } from 'react-svg';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Hamburger from '../../atoms/Hamburger/Hamburger';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import cartIcon from '../../../assets/icons/cart-icon.svg';
 import searchIcon from '../../../assets/icons/search.svg';
+import userIcon from '../../../assets/icons/user.svg';
 import { menuToggle, cartToggle, searchToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledHeader = styled.header`
@@ -33,17 +35,27 @@ const StyledParagraph = styled(Paragraph)`
   color: ${({ colorTheme }) => (colorTheme === 'light' ? '#000' : '#fff')};
 `;
 
-const StyledSearchButton = styled.button`
+const IconWrapper = styled.section`
+  height: 100%;
   position: absolute;
+  top: 50%;
+  right: 2rem;
+  display: flex;
+  padding-left: 2rem;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  transform: translateY(-50%);
+`;
+
+const StyledIconButton = styled.button`
   width: 20px;
   height: 20px;
-  top: 50%;
-  right: 1rem;
-  transform: translate(-50%, -50%);
-  padding: 0;
   background: transparent;
+  padding: 0;
   border: none;
   cursor: pointer;
+  margin-left: 1rem;
 
   &:focus {
     outline: none;
@@ -55,18 +67,7 @@ const StyledSearchButton = styled.button`
   }
 `;
 
-const StyledIcon = styled(ReactSVG)`
-  fill: ${({ iconTheme }) => (iconTheme === 'dark' ? '#000' : '#fff')};
-`;
-
-const StyledCartButton = styled(StyledSearchButton)`
-  right: ${({ search }) => (search ? '50px' : '1rem')};
-  left: auto;
-
-  ${({ theme }) => theme.mq.standard} {
-      right: ${({ search }) => (search ? '65px' : '1rem')};
-  }
-  
+const StyledCartButton = styled(StyledIconButton)`
   &::before{
     content: '${({ cartItemsCounter }) => cartItemsCounter}';
     color: ${({ isOpen }) => (isOpen ? '#000' : '#fff')};
@@ -86,6 +87,10 @@ const StyledCartButton = styled(StyledSearchButton)`
   }
 `;
 
+const StyledIcon = styled(ReactSVG)`
+  fill: ${({ iconTheme }) => (iconTheme === 'dark' ? '#000' : '#fff')};
+`;
+
 const Header = ({
   backgroundTheme,
   search,
@@ -95,7 +100,9 @@ const Header = ({
   searchToggle,
   isMenuOpen,
   isCartOpen,
-  isSearchOpen
+  isSearchOpen,
+  isLoggedIn,
+  history
 }) => {
   const isSearchOrCartOpen = isSearchOpen || isCartOpen || backgroundTheme === 'light';
   return (
@@ -110,23 +117,30 @@ const Header = ({
           buy<StyledSpan colorTheme={backgroundTheme}>IT</StyledSpan>
         </StyledParagraph>
       </Link>
-      {search ? (
-        <StyledSearchButton onClick={searchToggle} isOpen={isSearchOpen}>
-          <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
-        </StyledSearchButton>
-      ) : null}
-      <StyledCartButton
-        onClick={cartToggle}
-        isOpen={isCartOpen}
-        search={search}
-        cartItemsCounter={
-          localStorage.getItem('cart')
-            ? JSON.parse(localStorage.getItem('cart')).length
-            : cart.length
-        }
-      >
-        <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
-      </StyledCartButton>
+      <IconWrapper>
+        {isLoggedIn ? (
+          <StyledIconButton onClick={() => history.push('/my-account')}>
+            <StyledIcon src={userIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
+          </StyledIconButton>
+        ) : null}
+        {search ? (
+          <StyledIconButton onClick={searchToggle} isOpen={isSearchOpen}>
+            <StyledIcon src={searchIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
+          </StyledIconButton>
+        ) : null}
+        <StyledCartButton
+          onClick={cartToggle}
+          isOpen={isCartOpen}
+          search={search}
+          cartItemsCounter={
+            localStorage.getItem('cart')
+              ? JSON.parse(localStorage.getItem('cart')).length
+              : cart.length
+          }
+        >
+          <StyledIcon src={cartIcon} iconTheme={isSearchOrCartOpen ? 'dark' : 'light'} />
+        </StyledCartButton>
+      </IconWrapper>
     </StyledHeader>
   );
 };
@@ -140,14 +154,17 @@ Header.propTypes = {
   searchToggle: PropTypes.func,
   isCartOpen: PropTypes.bool,
   isMenuOpen: PropTypes.bool,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  history: PropTypes.object
 };
 
 const mapStateToProps = ({
+  authenticationReducer: { isLoggedIn },
   cartReducer: { cart },
   sliderBoxesReducer: { isMenuOpen, isCartOpen, isSearchOpen }
 }) => {
-  return { cart, isMenuOpen, isCartOpen, isSearchOpen };
+  return { cart, isMenuOpen, isCartOpen, isSearchOpen, isLoggedIn };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -158,4 +175,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+const HeaderWithRouter = withRouter(Header);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithRouter);
