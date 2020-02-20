@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,11 +10,14 @@ import { addProductToCart } from '../../../actions/cartAction';
 import { DeleteAcceptContext } from '../../../context/DeleteAcceptContext';
 import DeleteAcceptBox from '../DeleteAcceptBox/DeleteAcceptBox';
 import WarningInfo from '../../atoms/WarningInfo/WarningInfo';
+import Footer from '../Footer/Footer';
+import ImagePreview from '../ImagePreview/ImagePreview';
 
 const StyledContentWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   padding: 2rem;
+  position: relative;
 
   ${({ theme }) => theme.mq.standard} {
     display: flex;
@@ -27,13 +30,14 @@ const StyledTitle = styled(Paragraph)`
   letter-spacing: 2px;
   font-weight: bold;
   font-size: 30px;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 `;
 
 const StyledImage = styled.img`
   width: 100%;
   height: 300px;
   object-fit: cover;
+  cursor: pointer;
 
   ${({ theme }) => theme.mq.standard} {
     height: 75vh;
@@ -56,7 +60,15 @@ const ContentWrapper = styled.div`
   }
 `;
 
+const FooterWrapper = styled.div`
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+
 const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart }) => {
+  const [isPreviewOpen, setPreviewOpen] = useState(false);
   const isAlreadyInCart =
     cart !== []
       ? cart.filter(item => item._id === singleProduct._id)
@@ -72,7 +84,7 @@ const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart
           <Spinner />
         ) : (
           <>
-            <StyledImage src={singleProduct.image} />
+            <StyledImage src={singleProduct.image} onClick={() => setPreviewOpen(true)} />
             <ContentWrapper>
               {isYourOwnProduct ? (
                 <WarningInfo text='This is your product. You cannot add this product to cart' />
@@ -102,8 +114,12 @@ const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart
             </ContentWrapper>
           </>
         )}
+        <FooterWrapper>
+          <Footer footerTheme='light' />
+        </FooterWrapper>
       </StyledContentWrapper>
       <DeleteAcceptBox />
+      <ImagePreview isOpen={isPreviewOpen} imageUrl={singleProduct.image} toggle={setPreviewOpen} />
     </>
   );
 };

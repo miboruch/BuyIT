@@ -11,12 +11,6 @@ import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
 import ProductContent from '../components/molecules/ProductContent/ProductContent';
 import Footer from '../components/molecules/Footer/Footer';
 
-const FooterWrapper = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-`;
-
 const ProductPage = ({ match, fetchSingleProduct, loading }) => {
   useEffect(() => {
     fetchSingleProduct(match.params.id);
@@ -30,9 +24,6 @@ const ProductPage = ({ match, fetchSingleProduct, loading }) => {
         ) : (
           <>
             <ProductContent />
-            <FooterWrapper>
-              <Footer footerTheme='light' />
-            </FooterWrapper>
           </>
         )}
       </DeleteAcceptContextProvider>

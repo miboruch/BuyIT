@@ -24,7 +24,7 @@ const InnerButton = styled.div`
     content: '';
     width: 24px;
     height: 1px;
-    background: #000;
+    background: ${({ buttonTheme }) => (buttonTheme === 'dark' ? '#000' : '#fff')}
     position: absolute;
     left: 0;
     transition: all 0.5s ease;
@@ -38,16 +38,21 @@ const InnerButton = styled.div`
   }
 `;
 
-const CloseButton = ({ setBoxState }) => {
+const CloseButton = ({ setBoxState, buttonTheme }) => {
   return (
     <ButtonWrapper type='button' onClick={() => setBoxState(false)}>
-      <InnerButton />
+      <InnerButton buttonTheme={buttonTheme} />
     </ButtonWrapper>
   );
 };
 
 CloseButton.propTypes = {
-  setBoxState: PropTypes.func.isRequired
+  setBoxState: PropTypes.func.isRequired,
+  buttonTheme: PropTypes.oneOf(['light', 'dark'])
+};
+
+CloseButton.defaultProps = {
+  buttonTheme: 'dark'
 };
 
 export default CloseButton;
