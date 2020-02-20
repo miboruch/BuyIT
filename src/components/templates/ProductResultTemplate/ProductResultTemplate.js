@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { updateCategory } from '../../../actions/productAction';
 import Button from '../../atoms/Button/Button';

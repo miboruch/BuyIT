@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Hamburger from '../../atoms/Hamburger/Hamburger';
-import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { ReactSVG } from 'react-svg';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Hamburger from '../../atoms/Hamburger/Hamburger';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 import cartIcon from '../../../assets/icons/cart-icon.svg';
 import searchIcon from '../../../assets/icons/search.svg';
-import { useScrollPosition } from '../../../utils/customHooks';
 import { menuToggle, cartToggle, searchToggle } from '../../../actions/sliderBoxesAction';
-import { Link } from 'react-router-dom';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -98,11 +97,9 @@ const Header = ({
   isCartOpen,
   isSearchOpen
 }) => {
-  const isOnTop = useScrollPosition();
-
   const isSearchOrCartOpen = isSearchOpen || isCartOpen || backgroundTheme === 'light';
   return (
-    <StyledHeader isOnTop={isOnTop}>
+    <StyledHeader>
       <Hamburger
         isOpen={isMenuOpen}
         toggleMenu={menuToggle}

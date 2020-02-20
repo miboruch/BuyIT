@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from '../../atoms/Button/Button';
-import { searchProductByQuery } from '../../../actions/productAction';
-import FormLine from '../../molecules/FormLine/FormLine';
-import { SearchSchema } from '../../../utils/schemaValidation';
 import { Form, Formik } from 'formik';
+import Button from '../../atoms/Button/Button';
+import FormLine from '../../molecules/FormLine/FormLine';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import { searchToggle } from '../../../actions/sliderBoxesAction';
+import { searchProductByQuery } from '../../../actions/productAction';
+import { SearchSchema } from '../../../utils/schemaValidation';
 
 const StyledSearchWrapper = styled.div`
   width: 100%;

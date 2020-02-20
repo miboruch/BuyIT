@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchSingleProduct } from '../actions/productAction';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
 import Spinner from '../components/atoms/Spinner/Spinner';
-import { addProductToCart } from '../actions/cartAction';
 import DeleteAcceptContextProvider from '../context/DeleteAcceptContext';
 import ProductContent from '../components/molecules/ProductContent/ProductContent';
-import Footer from '../components/molecules/Footer/Footer';
+import { fetchSingleProduct } from '../actions/productAction';
+import { addProductToCart } from '../actions/cartAction';
 
 const ProductPage = ({ match, fetchSingleProduct, loading }) => {
   useEffect(() => {

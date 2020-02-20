@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { categories } from '../../../utils/constants';
-import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
-import { Link } from 'react-router-dom';
 import BackgroundWrapper from '../../atoms/BackgroundWrapper/BackgroundWrapper';
+import { fetchAllProducts, updateCategory } from '../../../actions/productAction';
 import { filterToggle, filterToggleFunction } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`

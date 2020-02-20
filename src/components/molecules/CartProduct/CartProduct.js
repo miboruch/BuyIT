@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removeProductFromCart } from '../../../actions/cartAction';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
+import { removeProductFromCart } from '../../../actions/cartAction';
 import { cartToggle } from '../../../actions/sliderBoxesAction';
 
 const ButtonWrapper = styled.div`

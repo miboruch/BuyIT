@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import FormLine from '../../molecules/FormLine/FormLine';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import FormLine from '../../molecules/FormLine/FormLine';
 import Button from '../../atoms/Button/Button';
 import { userUpdate } from '../../../actions/authenticationAction';
 import { UpdateSchema } from '../../../utils/schemaValidation';

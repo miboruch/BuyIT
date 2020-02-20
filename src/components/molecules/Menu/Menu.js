@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { useTrail, animated } from 'react-spring';
 import { menuItems } from '../../../utils/contentArrays';
-import { Link } from 'react-router-dom';
 import { menuToggle } from '../../../actions/sliderBoxesAction';
 
 const StyledWrapper = styled.div`

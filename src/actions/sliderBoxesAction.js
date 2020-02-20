@@ -3,8 +3,7 @@ import {
   CART_TOGGLE,
   FILTER_TOGGLE,
   FILTER_TOGGLE_FUNCTION,
-  MENU_TOGGLE,
-  MENU_TOGGLE_FUNCTION
+  MENU_TOGGLE
 } from '../reducers/sliderBoxesReducer';
 
 export const searchToggle = () => {
@@ -35,12 +34,5 @@ export const filterToggleFunction = bool => {
 export const menuToggle = () => {
   return {
     type: MENU_TOGGLE
-  };
-};
-
-export const menuToggleFunction = bool => {
-  return {
-    type: MENU_TOGGLE_FUNCTION,
-    payload: bool
   };
 };

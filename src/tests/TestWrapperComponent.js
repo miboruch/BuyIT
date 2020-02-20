@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
@@ -13,6 +14,10 @@ const TestWrapperComponent = ({ children }) => {
       </ThemeProvider>
     </Provider>
   );
+};
+
+TestWrapperComponent.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 
 export default TestWrapperComponent;

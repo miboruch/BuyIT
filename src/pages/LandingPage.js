@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import Button from '../components/atoms/Button/Button';
 import background from '../assets/images/hero-min.jpg';
 import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
+import Footer from '../components/molecules/Footer/Footer';
 import { landingPageContent } from '../utils/contentArrays';
 import { updateCategory, fetchAllProducts } from '../actions/productAction';
-import Footer from '../components/molecules/Footer/Footer';
 
 const StyledWrapper = styled.div`
   width: 100%;

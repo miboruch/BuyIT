@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { orderSuccessFinish } from '../../../actions/orderAction';
 import Paragraph from '../Paragraph/Paragraph';
+import { orderSuccessFinish } from '../../../actions/orderAction';
 
 const StyledBox = styled.div`
   width: 100%;

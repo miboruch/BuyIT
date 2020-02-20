@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BackArrow from '../components/atoms/BackArrow/BackArrow';
 import { Link, withRouter } from 'react-router-dom';
 import { Form, Formik } from 'formik';
+import BackArrow from '../components/atoms/BackArrow/BackArrow';
 import FormLine from '../components/molecules/FormLine/FormLine';
 import Button from '../components/atoms/Button/Button';
+import { addProduct } from '../actions/productAction';
 import { categories } from '../utils/constants';
 import { AddProductSchema } from '../utils/schemaValidation';
-import { addProduct } from '../actions/productAction';
 
 const StyledWrapper = styled.div`
   width: 100%;

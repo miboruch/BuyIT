@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { Link } from 'react-router-dom';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 import { fetchAllProducts } from '../../../actions/productAction';
 
 const StyledWrapper = styled.div`

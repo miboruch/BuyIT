@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Form, Formik } from 'formik';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
-import { Form, Formik } from 'formik';
 import { LoggedInOrderSchema } from '../../../utils/schemaValidation';
 import { orderEditAddress } from '../../../utils/contentArrays';
 import FormLine from '../FormLine/FormLine';
@@ -46,14 +46,7 @@ const StyledForm = styled(Form)`
   position: relative;
 `;
 
-const LoggedInSummary = ({
-  userInfo,
-  cart,
-  totalPrice,
-  createOrder,
-  loading,
-  history
-}) => {
+const LoggedInSummary = ({ userInfo, cart, totalPrice, createOrder, loading, history }) => {
   return (
     <Toggle
       render={(isOpen, toggle) => (
@@ -89,11 +82,7 @@ const LoggedInSummary = ({
                         </StyledDataParagraph>
                       ))}
                     </StyledContentWrapper>
-                    <Button
-                      text='Edit shipping data'
-                      buttonTheme='dark'
-                      onClick={() => toggle()}
-                    />
+                    <Button text='Edit shipping data' buttonTheme='dark' onClick={() => toggle()} />
                     {isOpen ? (
                       <>
                         <StyledTitleParagraph>Edit</StyledTitleParagraph>
