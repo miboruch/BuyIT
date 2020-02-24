@@ -26,7 +26,9 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const DataWrapper = styled.div``;
+const DataWrapper = styled.div`
+  padding: 2rem;
+`;
 
 const StyledTitleParagraph = styled(Paragraph)`
   color: #000;

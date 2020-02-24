@@ -39,7 +39,7 @@ const IconWrapper = styled.section`
   height: 100%;
   position: absolute;
   top: 50%;
-  right: 2rem;
+  right: 2.5rem;
   display: flex;
   padding-left: 2rem;
   flex-direction: row;
@@ -75,7 +75,7 @@ const StyledCartButton = styled(StyledIconButton)`
     position: absolute;
     font-size: 20px;
     font-family: ${({ theme }) => theme.font.family.futura};
-    left: -20px;
+    right: -17px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;

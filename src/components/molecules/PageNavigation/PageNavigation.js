@@ -80,7 +80,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 PageNavigation.propTypes = {
-  pageNumber: PropTypes.number.isRequired,
+  pageNumber: PropTypes.any.isRequired,
   totalProductsCounter: PropTypes.number,
   category: PropTypes.string.isRequired,
   getAllProducts: PropTypes.func

@@ -15,7 +15,7 @@ import ImagePreview from '../ImagePreview/ImagePreview';
 
 const StyledContentWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   padding: 2rem;
   position: relative;
 
@@ -90,7 +90,7 @@ const ProductContent = ({ singleProduct, loading, cart, userID, addProductToCart
                 <WarningInfo text='This is your product. You cannot add this product to cart' />
               ) : null}
               <StyledTitle>{singleProduct.name}</StyledTitle>
-              <StyledParagraph medium>{singleProduct.description}</StyledParagraph>
+              <StyledParagraph medium='true'>{singleProduct.description}</StyledParagraph>
               <StyledParagraph>{singleProduct.price}$</StyledParagraph>
               {isYourOwnProduct ? (
                 <>

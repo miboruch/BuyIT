@@ -34,6 +34,29 @@ const StyledIDParagraph = styled(Paragraph)`
   margin-bottom: 1rem;
 `;
 
+const StyledSmallParagraph = styled(Paragraph)`
+  color: #282c34;
+  margin-bottom: 1rem;
+`;
+
+const NoProductsBox = styled.section`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  font-family: Avanti;
+  letter-spacing: 4px;
+  font-size: 24px;
+  color: #282c34;
+  margin-bottom: 1rem;
+`;
+
 const UserOrders = ({ allUserOrders }) => {
   return (
     <StyledWrapper>
@@ -43,24 +66,35 @@ const UserOrders = ({ allUserOrders }) => {
         </CloseButtonWrapper>
       </Link>
       <StyledTitleParagraph>All user orders</StyledTitleParagraph>
-      {allUserOrders.map(item => (
-        <ResultWrapper key={item._id}>
-          <StyledIDParagraph small>Order ID: {item._id}</StyledIDParagraph>
-          <StyledIDParagraph small>
-            Date: {new Date(item.createdDate).toLocaleString()}
-          </StyledIDParagraph>
-          {item.cart.map(item => {
-            return (
-              <SingleProductSummary
-                image={item.image}
-                price={item.price}
-                name={item.name}
-                key={item._id}
-              />
-            );
-          })}
-        </ResultWrapper>
-      ))}
+      {allUserOrders.length !== 0 ? (
+        <>
+          {allUserOrders.map(item => (
+            <ResultWrapper key={item._id}>
+              <StyledIDParagraph small>Order ID: {item._id}</StyledIDParagraph>
+              <StyledIDParagraph small>
+                Date: {new Date(item.createdDate).toLocaleString()}
+              </StyledIDParagraph>
+              {item.cart.map(item => {
+                return (
+                  <SingleProductSummary
+                    image={item.image}
+                    price={item.price}
+                    name={item.name}
+                    key={item._id}
+                  />
+                );
+              })}
+            </ResultWrapper>
+          ))}
+        </>
+      ) : (
+        <NoProductsBox>
+          <StyledParagraph>You have no orders yet</StyledParagraph>
+          <Link to='/my-account'>
+            <StyledSmallParagraph small>GO BACK</StyledSmallParagraph>
+          </Link>
+        </NoProductsBox>
+      )}
     </StyledWrapper>
   );
 };

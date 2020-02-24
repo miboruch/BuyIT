@@ -112,10 +112,10 @@ const DeleteAcceptBox = ({ token, removeProduct }) => {
             setBoxState(false);
           }}
         >
-          <StyledTitle title>YES</StyledTitle>
+          <StyledTitle title='true'>YES</StyledTitle>
         </LeftBoxSide>
         <RightBoxSide onClick={() => setBoxState(false)}>
-          <StyledTitle title>NO</StyledTitle>
+          <StyledTitle title='true'>NO</StyledTitle>
         </RightBoxSide>
         <StyledLine />
       </StyledBox>
@@ -133,7 +133,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-DeleteAcceptContext.propTypes = {
+DeleteAcceptBox.propTypes = {
   token: PropTypes.string,
   removeProduct: PropTypes.func
 };
