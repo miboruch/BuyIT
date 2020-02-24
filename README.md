@@ -32,7 +32,7 @@ Icons provided by: [Flaticon.com](https://www.flaticon.com/)
 - AWS S3 `to store images`
 
 <p align="center">
-<img src="screenshots/buyIT_main.png" width="275" height="596">
+<img src="screenshots/buyIT_main.png">
 </p>
 
 <p align="center">
