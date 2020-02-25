@@ -101,7 +101,7 @@ const Filter = ({
         </CloseButtonWrapper>
         <ContentWrapper>
           <StyledHeading>Filter</StyledHeading>
-          <StyledParagraphTitle medium>By category:</StyledParagraphTitle>
+          <StyledParagraphTitle medium='true'>By category:</StyledParagraphTitle>
           {categories.map(item => {
             return (
               <Link to={`/products/${item}?page=1`} key={item}>

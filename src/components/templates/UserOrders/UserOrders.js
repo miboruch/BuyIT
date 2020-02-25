@@ -70,8 +70,8 @@ const UserOrders = ({ allUserOrders }) => {
         <>
           {allUserOrders.map(item => (
             <ResultWrapper key={item._id}>
-              <StyledIDParagraph small>Order ID: {item._id}</StyledIDParagraph>
-              <StyledIDParagraph small>
+              <StyledIDParagraph small='true'>Order ID: {item._id}</StyledIDParagraph>
+              <StyledIDParagraph small='true'>
                 Date: {new Date(item.createdDate).toLocaleString()}
               </StyledIDParagraph>
               {item.cart.map(item => {
@@ -91,7 +91,7 @@ const UserOrders = ({ allUserOrders }) => {
         <NoProductsBox>
           <StyledParagraph>You have no orders yet</StyledParagraph>
           <Link to='/my-account'>
-            <StyledSmallParagraph small>GO BACK</StyledSmallParagraph>
+            <StyledSmallParagraph small='true'>GO BACK</StyledSmallParagraph>
           </Link>
         </NoProductsBox>
       )}

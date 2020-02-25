@@ -57,7 +57,7 @@ const UserProducts = ({ userProducts }) => {
         </CloseButtonWrapper>
       </Link>
       <StyledTitleParagraph>All user products</StyledTitleParagraph>
-      <StyledSmallParagraph small>Total: {userProducts.length}</StyledSmallParagraph>
+      <StyledSmallParagraph small='true'>Total: {userProducts.length}</StyledSmallParagraph>
       {userProducts.length !== 0 ? (
         <>
           {userProducts.map(item => (
@@ -74,7 +74,7 @@ const UserProducts = ({ userProducts }) => {
         <NoProductsBox>
           <StyledParagraph>You have no products in my database</StyledParagraph>
           <Link to='/my-account'>
-            <StyledSmallParagraph small>GO BACK</StyledSmallParagraph>
+            <StyledSmallParagraph small='true'>GO BACK</StyledSmallParagraph>
           </Link>
         </NoProductsBox>
       )}

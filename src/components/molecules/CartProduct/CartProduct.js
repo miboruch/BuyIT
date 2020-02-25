@@ -65,7 +65,7 @@ const CartProduct = ({ product, removeFromCart, cartToggle }) => {
         <StyledPriceParagraph>{price} $</StyledPriceParagraph>
       </ProductSummary>
       {expire ? (
-        <StyledParagraph small>
+        <StyledParagraph small='true'>
           Product will be removed from your cart at {new Date(expire).toLocaleTimeString()}
         </StyledParagraph>
       ) : null}
