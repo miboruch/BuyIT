@@ -172,7 +172,8 @@ export const searchProductByQuery = query => async dispatch => {
   }
 };
 
-export const removeProduct = (token, productID) => async dispatch => {
+export const removeProduct = (token, productID, history) => async dispatch => {
+  /* history as an argument to change location after the product is being removed */
   try {
     await axios.post(
       `${API_URL}/product/removeProduct`,
@@ -181,6 +182,8 @@ export const removeProduct = (token, productID) => async dispatch => {
         headers: { 'auth-token': token }
       }
     );
+    dispatch(fetchAllUserProducts(token));
+    history.push('/products/all?page=1');
   } catch (error) {
     dispatch(removeFailure(error));
   }
@@ -205,6 +208,7 @@ export const addProduct = (image, name, description, price, category, token) => 
 
     dispatch(loadStop());
     dispatch(getUserInfo(token));
+    dispatch(fetchAllUserProducts(token));
   } catch (error) {
     dispatch(fetchFailure(error));
   }

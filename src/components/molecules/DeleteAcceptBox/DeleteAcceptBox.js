@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
 import { removeProduct } from '../../../actions/productAction';
@@ -94,7 +95,7 @@ const CloseButtonWrapper = styled.div`
   z-index: 500;
 `;
 
-const DeleteAcceptBox = ({ token, removeProduct }) => {
+const DeleteAcceptBox = ({ token, removeProduct, history }) => {
   const { isBoxOpen, setBoxState, productId, productName } = useContext(DeleteAcceptContext);
 
   return (
@@ -108,7 +109,7 @@ const DeleteAcceptBox = ({ token, removeProduct }) => {
         </StyledBoxParagraph>
         <LeftBoxSide
           onClick={() => {
-            removeProduct(token, productId);
+            removeProduct(token, productId, history);
             setBoxState(false);
           }}
         >
@@ -129,13 +130,16 @@ const mapStateToProps = ({ authenticationReducer: { token } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeProduct: (token, productID) => dispatch(removeProduct(token, productID))
+    removeProduct: (token, productID, history) => dispatch(removeProduct(token, productID, history))
   };
 };
 
 DeleteAcceptBox.propTypes = {
   token: PropTypes.string,
-  removeProduct: PropTypes.func
+  removeProduct: PropTypes.func,
+  history: PropTypes.object
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteAcceptBox);
+const DeleteAcceptBoxWithRouter = withRouter(DeleteAcceptBox);
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteAcceptBoxWithRouter);
