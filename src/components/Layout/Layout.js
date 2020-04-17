@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  backgroundTheme: PropTypes.oneOfType(['light, dark'])
+  backgroundTheme: PropTypes.oneOf(['light', 'dark'])
 };
 
 export default Layout;

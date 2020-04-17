@@ -7,7 +7,7 @@ import Spinner from '../components/atoms/Spinner/Spinner';
 
 const AuthPage = ({ loading }) => {
   return (
-    <MainTemplate backgroundTheme='light'>{loading ? <Spinner /> : <AuthContent />}</MainTemplate>
+    <MainTemplate backgroundTheme='light'>{loading ? <Spinner /> : <AuthContent/> }</MainTemplate>
   );
 };
 

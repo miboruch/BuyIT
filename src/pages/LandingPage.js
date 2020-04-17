@@ -33,7 +33,7 @@ const StyledBackgroundImage = styled.div`
   box-shadow: 4px 21px 14px 0px rgba(0, 0, 0, 0.75);
 
   &::before {
-    content: 'My personal shopping experience';
+    content: 'Our personal shopping experience';
     position: absolute;
     text-transform: uppercase;
     width: 60%;

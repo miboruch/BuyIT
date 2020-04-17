@@ -22,7 +22,7 @@ const MainTemplate = ({ children, backgroundTheme, search }) => {
 
 MainTemplate.propTypes = {
   children: PropTypes.node.isRequired,
-  backgroundTheme: PropTypes.oneOfType(['light, dark']),
+  backgroundTheme: PropTypes.oneOf(['light', 'dark']),
   search: PropTypes.bool
 };
 

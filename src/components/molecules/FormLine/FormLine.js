@@ -13,11 +13,10 @@ const StyledLabel = styled.label`
   position: absolute;
   top: 12px;
   left: 0;
-  color: ${({ colorTheme }) =>
-    colorTheme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0,0,0,0.7)'};
   font-size: 13px;
   transition: transform 0.5s ease;
   transform-origin: left;
+  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#777' : '#222')};
 `;
 
 const StyledInput = styled.input`
@@ -26,10 +25,10 @@ const StyledInput = styled.input`
   background: transparent;
   border: none;
   border-bottom: ${({ colorTheme }) =>
-    colorTheme === 'dark' ? '1px solid #fff' : '1px solid #000'};
+    colorTheme === 'dark' ? '1px solid #777' : '1px solid #222'};
   font-family: ${({ theme }) => theme.font.family.futura};
   font-size: 16px;
-  color: ${({ colorTheme }) => (colorTheme === 'dark' ? '#fff' : '#000')};
+  color: #222;
 
   &:focus {
     outline: none;

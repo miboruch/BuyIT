@@ -66,7 +66,7 @@ export const LoginBox = ({ userLogin, loginError, history, loading }) => {
                 onBlur={handleBlur}
                 inputType='text'
                 name='email'
-                colorTheme='light'
+                colorTheme='dark'
               />
               <FormLine
                 labelText={errors.password ? errors.password : 'password'}
@@ -74,7 +74,7 @@ export const LoginBox = ({ userLogin, loginError, history, loading }) => {
                 onBlur={handleBlur}
                 inputType='password'
                 name='password'
-                colorTheme='light'
+                colorTheme='dark'
               />
               <Button buttonTheme='dark' text='Log in' type='submit' />
               <StyledErrorParagraph>
