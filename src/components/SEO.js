@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 
 const SEO = () => (
   <Helmet>
-    <title>buyit</title>
+    <title>buy it e-commerce project</title>
     <html lang='en' />
   </Helmet>
 );
