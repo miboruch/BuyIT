@@ -95,7 +95,7 @@ const Cart = ({ cart, totalPrice, cartToggle, isCartOpen }) => {
         <ButtonWrapper>
           {isSomethingInCart ? (
             <Link to={'/order/information'}>
-              <Button text='checkout' buttonTheme='dark' onClick={() => cartToggle()} disabled={true} />
+              <Button text='checkout' buttonTheme='dark' onClick={() => cartToggle()} />
             </Link>
           ) : (
             <Button text='empty' buttonTheme='dark' />
